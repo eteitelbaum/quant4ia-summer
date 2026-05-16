@@ -1,10 +1,93 @@
 ---
 title: "Getting Started"
+subtitle: "Before We Begin"
 format: html
-execute: 
+execute:
   echo: true
   message: false
   warning: false
+---
+
+## Before the First Class {#sec-before-class}
+
+Please complete the setup steps below **before the first class session**. Both setups are required — Posit Cloud for in-class work, and a local installation for labs and homework. If you run into any issues, email me at [ejt@gwu.edu](mailto:ejt@gwu.edu) so we can sort it out before class starts.
+
+### Option 1: Posit Cloud (Required for In-Class Work)
+
+We will use [Posit Cloud](https://posit.cloud) for all in-class activities. It runs R and RStudio directly in your browser — no installation needed, and everyone works in the same environment.
+
+**Step 1:** Go to [posit.cloud](https://posit.cloud) and sign up for a free account if you don't already have one.
+
+**Step 2:** Subscribe to the **Cloud Student** plan ($5/month). You can cancel at the end of the semester. To subscribe:
+
+1. Click your name in the upper right corner
+2. Select **Subscription**
+3. Choose the **Cloud Student** plan and enter your payment information
+
+**Step 3:** Click the link below to join our course Space on Posit Cloud. You will need to be logged in and subscribed before the link will work.
+
+::: {.callout-important}
+**Course Space Link:** [Click here to join the course Space on Posit Cloud](https://posit.cloud/spaces/787651/join?access_code=5XMPcLPUUmYp9h7YBC-IXpFnfdT50Yuy8IoQW1xh)
+:::
+
+Once you click the link and join, you will see the course workspace with all project files pre-loaded. This is where we will work during class sessions.
+
+**Step 4:** Open any project in the course Space and run the following in the R console to confirm everything is working:
+
+```r
+library(tidyverse)
+print("Setup complete!")
+```
+
+If you see `[1] "Setup complete!"` with no errors, you are good to go.
+
+---
+
+### Option 2: Local Installation (Required for Labs and Homework)
+
+For labs and homework assignments you will work locally on your own computer. Posit Cloud can be used as a fallback if needed, but local installation is strongly preferred.
+
+**Step 1:** Download and install R from [CRAN](https://cran.r-project.org). Choose the version for your operating system (Windows, Mac, or Linux).
+
+**Step 2:** Download and install [RStudio Desktop](https://posit.co/download/rstudio-desktop/) (the free version). RStudio is the IDE we will use to write and run R code throughout the course.
+
+**Step 3:** Quarto comes bundled with recent versions of RStudio, but if you need to install it separately, download it from [quarto.org](https://quarto.org/docs/get-started/).
+
+**Step 4:** Open RStudio and run the following in the console to install the packages we will use throughout the course:
+
+```r
+install.packages(c(
+  "tidyverse",
+  "tidymodels",
+  "vdemdata",
+  "modelsummary",
+  "marginaleffects",
+  "broom",
+  "performance",
+  "peacesciencer"
+))
+```
+
+::: {.callout-note}
+## Installing vdemdata
+
+`vdemdata` is not on CRAN and must be installed from GitHub. If the command above fails for `vdemdata`, run:
+
+```r
+install.packages("pak")
+pak::pak("vdeminstitute/vdemdata")
+```
+:::
+
+**Step 5:** Create a new Quarto document (File → New File → Quarto Document), add a code chunk, and run:
+
+```r
+library(tidyverse)
+ggplot(mpg, aes(x = displ, y = hwy)) + geom_point()
+```
+
+If you see a scatter plot, your local setup is complete.
+
 ---
 
 ## R and RStudio {#sec-rstudio-setup}
@@ -15,19 +98,19 @@ All of our work for this course will be done in the R language and we will be wo
 
 It is a good idea to periodically update R and RStudio. RStudio will prompt you when it is time to update and you can follow the same process of downloading and installing from the Posit website that we just did here. For R, there are a number of ways to do it, but the easiest is to use packages like [installr](https://www.r-project.org/nosvn/pandoc/installr.html) for Windows and [updateR](https://github.com/AndreaCirilloAC/updateR) for Mac. Here is a good [blog post](https://www.linkedin.com/pulse/3-methods-update-r-rstudio-windows-mac-woratana-ngarmtrakulchol/) that walks you through the steps of how to update R using these packages. I usually update R once a semester.
 
-We are going to be using a number of R packages throughout the course. One essential set of packages are those that comprise the [Tidyverse](https://www.tidyverse.org/), but especially `readr`, `dplyr`, `ggplot2` and `tidyr`. You can install the entire Tidyverse collection of packages by typing `install.packages("tidyverse")` in your console. We will talk about these packages in detail as we go through the course, but have a look at this [basic description](https://www.tidyverse.org/packages/#import) now to gain some basic familiarity. 
+We are going to be using a number of R packages throughout the course. One essential set of packages are those that comprise the [Tidyverse](https://www.tidyverse.org/), but especially `readr`, `dplyr`, `ggplot2` and `tidyr`. You can install the entire Tidyverse collection of packages by typing `install.packages("tidyverse")` in your console. We will talk about these packages in detail as we go through the course, but have a look at this [basic description](https://www.tidyverse.org/packages/#import) now to gain some basic familiarity.
 
-Another thing that you really want to do is to make sure that you have the native pipe operator (`|>`) enabled. In RStudio, go to Tools>Global Options, then go to Code and select "Use native pipe operator." 
+Another thing that you really want to do is to make sure that you have the native pipe operator (`|>`) enabled. In RStudio, go to Tools>Global Options, then go to Code and select "Use native pipe operator."
 
-While you are here, you can also go to Appearance to select a different editor theme or to Pane Layout to change how the four panes in R Studio are organized. Next, familiarize yourself with how to expand and minimize the four windows. The most important window that I want to highlight here is the source window. This is where we are going to be working most of the time in this course. And if I tell you to send your source code, I mean to send the file that you are working on in this window. This could be a Quarto document, an R script or an `app.R` file for a Shiny app. 
+While you are here, you can also go to Appearance to select a different editor theme or to Pane Layout to change how the four panes in R Studio are organized. Next, familiarize yourself with how to expand and minimize the four windows. The most important window that I want to highlight here is the source window. This is where we are going to be working most of the time in this course. And if I tell you to send your source code, I mean to send the file that you are working on in this window. This could be a Quarto document, an R script or an `app.R` file for a Shiny app.
 
-The next window is the Console and there we also see tabs for Terminal and Background Jobs. The console is where you can run R code one line at a time. The terminal is relevant for more advanced users and we will make some use of it when we talk about publishing Quarto documents. Background Jobs is going to be helpful when we want troubleshoot a Quarto document that is not rendering properly.  
+The next window is the Console and there we also see tabs for Terminal and Background Jobs. The console is where you can run R code one line at a time. The terminal is relevant for more advanced users and we will make some use of it when we talk about publishing Quarto documents. Background Jobs is going to be helpful when we want troubleshoot a Quarto document that is not rendering properly.
 
-From there, the next pane we want to explore is Environment, History, etc. Environment tells us what files are currently available to us. The other important tab here is Git which will be where we push things to GitHub. You will be using this a lot in the course. 
+From there, the next pane we want to explore is Environment, History, etc. Environment tells us what files are currently available to us. The other important tab here is Git which will be where we push things to GitHub. You will be using this a lot in the course.
 
-Finally, we see a pane with Files, Plots, Packages etc. Files tells us what files are in our project folder and enables us to copy, and delete files associated with our project. Plots is a window for viewing our visualizations. And Packages shows us what packages are available and loaded into our environment.  
+Finally, we see a pane with Files, Plots, Packages etc. Files tells us what files are in our project folder and enables us to copy, and delete files associated with our project. Plots is a window for viewing our visualizations. And Packages shows us what packages are available and loaded into our environment.
 
-Before you move on to the next section, take some time to familiarize yourself with the various user-friendly buttons and shortcuts available to you like the drop down menu for the pane layout, a spell checker, a button for inserting a code chunk and other features that you can play around with. 
+Before you move on to the next section, take some time to familiarize yourself with the various user-friendly buttons and shortcuts available to you like the drop down menu for the pane layout, a spell checker, a button for inserting a code chunk and other features that you can play around with.
 
 ## Quarto
 
@@ -37,27 +120,27 @@ Once you have R, R Studio and Quarto installed, you are ready to start integrati
 
 RStudio comes with a version of Quarto already installed, but it can be useful to install the most recent version separately and because doing so will allow you to use Quarto with another IDE like VS Code. You can install the most recent version of Quarto by visiting [this page](https://quarto.org/docs/get-started/) and selecting the version for your operating system.
 
-Now take a little time to create a Quarto project in R Studio and make sure everything is working properly. But before you get started, create a new folder(directory) for this course on your computer somewhere. Once that is done, go to File > New Project. Then select Quarto Project and name the project something like "test-project" in the Directory name field. Next, select Browse and navigate to the folder that you created for this course. Select Create Project. 
+Now take a little time to create a Quarto project in R Studio and make sure everything is working properly. But before you get started, create a new folder(directory) for this course on your computer somewhere. Once that is done, go to File > New Project. Then select Quarto Project and name the project something like "test-project" in the Directory name field. Next, select Browse and navigate to the folder that you created for this course. Select Create Project.
 
 You will notice that in your new project folder there is a file with an .Rproj extension. The .Rproj file is what tells RStudio which files are associated with the project and it obviates the need to set the working directory. It also makes it possible to share the folder with anyone who is running R and RStudio and have them run your code without having to set a working directory. This is what we refer to as a [project-based workflow](https://www.tidyverse.org/blog/2017/12/workflow-vs-script/) and we will use it for every assignment in this class.
 
-Now try rendering the document with the Render toggle button. By default, Quarto renders an .html file that it will open in a browser and save to your project folder. 
+Now try rendering the document with the Render toggle button. By default, Quarto renders an .html file that it will open in a browser and save to your project folder.
 
-Next we want to try rendering a .pdf document. To do this, we have to install [tinytex](https://yihui.org/tinytex/), a lightweight version of LaTeX.  To do this, go to the Terminal and type `quarto install tinytex`. Now, change the format from `html` to `pdf` by inserting `format: pdf` in the YAML header. Then render the document again. A .pdf document should open up. 
+Next we want to try rendering a .pdf document. To do this, we have to install [tinytex](https://yihui.org/tinytex/), a lightweight version of LaTeX.  To do this, go to the Terminal and type `quarto install tinytex`. Now, change the format from `html` to `pdf` by inserting `format: pdf` in the YAML header. Then render the document again. A .pdf document should open up.
 
 Now take a few minutes and try changing more of the code in the YAML header. You can try changing the title, adding a subtitle (`subtitle:`) or changing the [execution options](https://quarto.org/docs/computations/execution-options.html). By default, Quarto uses the [visual editor](https://quarto.org/docs/visual-editor/) but behind the scenes it is using Markdown. Try and edit some text using the toggle buttons available in the visual editor and then switch to Source to view the underlying Markdown code. Play with the R code chunks embedded in the document or try adding new code chunks.
 
-You may already have some experience writing in Markdown, which is a lightweight markup language that enables you to format plaintext files. If you have not used Markdown, or if your memory is hazy, don't worry: it is really easy to learn. Have a look at this Markdown [cheat sheet](https://www.markdownguide.org/cheat-sheet/) and try to familiarize yourself with its basic syntax. 
-Finally, take some time to get familiar with the [Guide](https://quarto.org/docs/guide/) and [Reference](https://quarto.org/docs/reference/) sections of the Quarto website. Then take a look at the [gallery](https://quarto.org/docs/gallery/) so that you can get an idea of the kinds of things you can produce with Quarto. 
+You may already have some experience writing in Markdown, which is a lightweight markup language that enables you to format plaintext files. If you have not used Markdown, or if your memory is hazy, don't worry: it is really easy to learn. Have a look at this Markdown [cheat sheet](https://www.markdownguide.org/cheat-sheet/) and try to familiarize yourself with its basic syntax.
+Finally, take some time to get familiar with the [Guide](https://quarto.org/docs/guide/) and [Reference](https://quarto.org/docs/reference/) sections of the Quarto website. Then take a look at the [gallery](https://quarto.org/docs/gallery/) so that you can get an idea of the kinds of things you can produce with Quarto.
 
 ## Running and Modifying Code
 
-Next we are going to get our hands dirty by running and modifying some code. 
+Next we are going to get our hands dirty by running and modifying some code.
 Create a folder for this class somewhere on your machine. Next, create a sub-folder called `classwork`. Next, follow [this link](https://www.dropbox.com/scl/fo/k6q8n5lbwbff6j0h5vvs1/AK9Ibhnd8t3rxV5FneYf8AU?rlkey=zo2rejko587tfvoq8tterd44r&dl=0). Take the `getting-started` in that folder and transfer it to your the `classwork` folder that you just make,.
 
-Now open the project in RStudio by opening the folder and clicking on the .Rproj file. Then open the week1-classwork.qmd file in RStudio, which has code for 3 data viz activities: map making; democracy over time; and UN voting patterns. 
+Now open the project in RStudio by opening the folder and clicking on the .Rproj file. Then open the week1-classwork.qmd file in RStudio, which has code for 3 data viz activities: map making; democracy over time; and UN voting patterns.
 
-Follow the instructions in the .qmd file to update the code. Click Render to update your HTML output and examine. Complete as much as you can. 
+Follow the instructions in the .qmd file to update the code. Click Render to update your HTML output and examine. Complete as much as you can.
 
 Alternatively, you can create your own .qmd file and copy and paste the code below into your file (but you will have to install the relevant packages first).
 
@@ -68,9 +151,9 @@ Alternatively, you can create your own .qmd file and copy and paste the code bel
 
 library(leaflet)
 
-leaflet() |> 
+leaflet() |>
   addTiles() |>   # Add default OpenStreetMap map tiles
-  addMarkers(lat = 38.90243843683386, lng =  -77.0443814477152, 
+  addMarkers(lat = 38.90243843683386, lng =  -77.0443814477152,
              label = "Elliott School of International Affairs")
 ```
 
@@ -91,7 +174,7 @@ vdem |>
   # and then we are going to filter out and only use France and India
   filter(country_name == "France" | country_name == "India") |>
   # and then we are going to only use years since 1850
-  filter(year > 1849) |> 
+  filter(year > 1849) |>
     # and then we are going to use this filtered data to make a plot
     #with democracy on the y axis and year on the x
     # we want this plot to use different colors for each country
@@ -147,4 +230,3 @@ unvotes |>
     color = "Country"
   )
 ```
-
