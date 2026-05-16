@@ -21,10 +21,139 @@ execute:
 
 ```{r}
 #| label: setup
+#| include: false
 
 library(tidyverse)
-library(tidymodels)
 library(peacesciencer)
+library(broom)
+library(marginaleffects)
+
+conflict_df <- create_stateyears(system = 'gw') |>
+  filter(year %in% c(1946:1999)) |>
+  add_ucdp_acd(type = c("intrastate"), only_wars = FALSE) |>
+  add_democracy() |>
+  add_creg_fractionalization() |>
+  add_sdp_gdp() |>
+  add_rugged_terrain()
+
+bivariate_model <- glm(ucdponset ~ wbgdppc2011est,
+                       data = conflict_df, family = "binomial")
+```
+
+# Interpreting Logistic Regression
+
+## The Model Equation
+
+<br>
+
+$$\log\left(\frac{p}{1-p}\right) = -1.16 - 0.33 \times \text{logGDPpc}$$
+
+## What Are Log-Odds?
+
+<br>
+
+::: {.incremental}
+- Logistic regression coefficients are on the **log-odds** scale
+- The **direction** of the effect is easy to read: positive = more likely, negative = less likely
+- But the **magnitude** is hard to interpret directly
+- We need to transform the coefficients into something more intuitive
+:::
+
+## Odds Ratios
+
+<br>
+
+- **Exponentiate** the coefficient to get the **odds ratio**
+- For each one-unit increase in the predictor, the odds of the outcome are **multiplied** by the odds ratio
+
+$$OR = e^b$$
+
+## Interpreting the Odds Ratio {.smaller}
+
+<br>
+
+$$\log\left(\frac{p}{1-p}\right) = -1.16 - 0.33 \times \text{logGDPpc}$$
+
+<br>
+
+$e^{-0.33} \approx 0.72$
+
+<br>
+
+For each one-unit increase in log GDP per capita, the odds of conflict onset are **multiplied by 0.72** — a **28% decrease** in the odds of conflict onset.
+
+## Calculating Odds Ratios in R {.smaller}
+
+<br>
+
+```{r}
+#| label: odds_ratios
+#| echo: true
+
+tidy(bivariate_model, exponentiate = TRUE) |>
+  select(term, estimate, p.value)
+```
+
+## Predicted Probabilities by Hand
+
+<br>
+
+Probability of conflict onset for a country with log GDP per capita of 9 (~$8,000):
+
+$$\log\left(\frac{p}{1-p}\right) = -1.16 - 0.33 \times 9 = -4.13$$
+
+$$\frac{p}{1-p} = e^{-4.13} = 0.016 \quad \Rightarrow \quad p = \frac{0.016}{1.016} \approx 0.016$$
+
+## Predicted Probabilities with `marginaleffects`
+
+```{r}
+#| label: pred_probs
+#| echo: true
+#| code-fold: true
+
+prediction_data <- data.frame(wbgdppc2011est = c(6, 7, 8, 9, 10))
+pred_results <- predictions(bivariate_model, newdata = prediction_data)
+
+tidy(pred_results) |>
+  select(wbgdppc2011est, estimate, conf.low, conf.high) |>
+  mutate(GDP_approx = paste0("~$", round(exp(wbgdppc2011est))))
+```
+
+## Visualizing Predicted Probabilities
+
+```{r}
+#| label: plot_predictions
+#| echo: true
+#| code-fold: true
+#| code-summary: "Show the code"
+
+plot_predictions(bivariate_model, condition = "wbgdppc2011est") +
+  labs(
+    title = "Predicted Probability of Conflict Onset",
+    x = "Log GDP per capita",
+    y = "Pr(Conflict Onset)"
+  ) +
+  theme_minimal()
+```
+
+## Your Turn! {.smaller}
+
+<br>
+
+- Run a bivariate logistic regression with a different predictor (`v2x_polyarchy`, `ethfrac`)
+- Use `tidy(..., exponentiate = TRUE)` to get the odds ratio
+- Is the effect positive or negative?
+- How much do the odds of conflict onset change per unit increase?
+
+```{r}
+#| label: timer-odds
+
+library(countdown)
+
+countdown(minutes = 10, id = "timer-odds", bottom = "5%", right = "10%",
+          color_border = "#fff", color_text = "#fff",
+          color_running_background = "#42affa", color_running_text = "black",
+          color_finished_background = "#E5D19D", color_finished_text = "#00264A")
 ```
 
 # Multiple Logistic Regression
@@ -37,7 +166,7 @@ library(peacesciencer)
 - Just as with linear models, we can also run multiple logistic regressions
 - We can include multiple predictors in the model
 - Usually we want to include our main predictor of interest and control variables
-- The interpetation of the coefficients is the same as in the bivariate models
+- The interpretation of the coefficients is the same as in the bivariate models
 :::
 
 ## 
@@ -89,13 +218,10 @@ summary(conflict_model)
 #| code-fold: true
 #| code-summary: "Show the code"
 
-# load the 
-library(marginaleffects)
-
-# seledct some countries for a given year
+# select some countries for a given year
 selected_countries <- conflict_df |>
   filter(
-    statename %in% c("United States of America", "Venezuela", "Rwanda"),
+    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
     year == 1999)
 
 # calculate margins for the subset
@@ -105,7 +231,7 @@ marg_effects <- predictions(conflict_model, newdata = selected_countries)
 library(broom)
 
 tidy(marg_effects) |>
-  select(statename, estimate, p.value, conf.low, conf.high) 
+  select(gw_name, estimate, p.value, conf.low, conf.high) 
 ```
 
 ## Your Turn! 
@@ -115,7 +241,7 @@ tidy(marg_effects) |>
 - Run a multivariate logistic model using conflict onset as the outcome variable
 - Select alternative variables and/or alternative measures of the same variables
 - Interpret some of the coefficients 
-- Calculate the precicted probability in a handful of country-years based on your analysis
+- Calculate the predicted probability in a handful of country-years based on your analysis
 
 ```{r}
 #| label: time1
@@ -223,7 +349,7 @@ modelsummary(models,                      # display the table
 
 <br>
 
-- Got to the [peacesciencer](https://svmiller.com/peacesciencer/reference/index.html) documentation
+- Go to the [peacesciencer](https://svmiller.com/peacesciencer/reference/index.html) documentation
 - How close are our data to F&L's?
 - Could we change something to better approximate their results? 
 - Run multiple models using different predictors

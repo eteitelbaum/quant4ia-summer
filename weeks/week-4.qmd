@@ -12,8 +12,8 @@ source("../helper.R")
 ```
 
 ::: {.callout-important}
-- Quiz 4 due by 11:59pm on `r advdate2(fri, 3)`
-- Homework Assignment 2 due by 11:59pm on `r advdate2(mon, 4)`
+- Lab 4 due by 11:59pm on `r advdate2(fri, 3)`
+- Homework 2 due by 11:59pm on `r advdate2(mon, 4)`
 :::
 
 ## Readings
@@ -24,10 +24,10 @@ source("../helper.R")
 
 ## Videos
 
-| 🖥 [Hypothesis Testing](https://youtu.be/cn4S3QqEBRg?si=F7XBZ9V2Q1Gm8K3l)
-| 🖥 [Permutation Hypothesis Testing](https://youtu.be/rJ3AZCQuiLw?si=kDzhu_8rKmfDOOUH)
+| 🖥 [Hypothesis Testing](https://www.youtube.com/watch?v=cn4S3QqEBRg)
+| 🖥 [Permutation Hypothesis Testing](https://youtu.be/rJ3AZCQuiLw?si=ouSZSRXxn-OD9isj)
 
 ## Assignments
 
-| 📘 [Module 4 Quiz](https://blackboard.gwu.edu/ultra/courses/_403120_1/outline/assessment/test/_13850331_1?courseId=_403120_1&gradeitemView=details)
+| 🧪 [Lab 4](/labs/lab-4/lab4.html)
 | 🧮 [Homework 2](../assignments/homework-2.qmd)

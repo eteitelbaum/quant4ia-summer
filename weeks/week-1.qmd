@@ -12,15 +12,15 @@ source("../helper.R")
 ```
 
 ::: {.callout-important}
-Quiz 1 due by 11:59pm on `r advdate2(fri, 0)`
+Lab 1 due by 11:59pm on `r advdate2(fri, 0)`
 :::
 
 ## Readings
 
 | 📖 [r4ds, chap. 7](https://r4ds.hadley.nz/data-import)
-| 📖 [r4ds, chap. 1](https://r4ds.hadley.nz/data-visualize.html)
-| 📖 [r4ds, chap. 9](https://r4ds.hadley.nz/layers.html)
-| 📖 [r4ds, chap. 11](https://r4ds.hadley.nz/communication.html)
+| 📖 [r4ds, chap. 2](https://r4ds.hadley.nz/data-visualize.html)
+| 📖 [r4ds, chap. 10](https://r4ds.hadley.nz/layers.html)
+| 📖 [r4ds, chap. 12](https://r4ds.hadley.nz/communication.html)
 
 ## Videos
 
@@ -31,6 +31,4 @@ Quiz 1 due by 11:59pm on `r advdate2(fri, 0)`
 
 ## Assignments
 
-| 📘 [Module 1 Quiz](https://blackboard.gwu.edu/ultra/courses/_403120_1/outline/assessment/test/_13850328_1?courseId=_403120_1&gradeitemView=details)
-
-
+| 🧪 [Lab 1](/labs/lab-1/lab1.html)

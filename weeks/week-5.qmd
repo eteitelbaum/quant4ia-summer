@@ -12,7 +12,7 @@ source("../helper.R")
 ```
 
 ::: {.callout-important}
-Quiz 5 due by 11:59pm on `r advdate2(fri, 4)`
+Lab 5 due by 11:59pm on `r advdate2(fri, 4)`
 :::
 
 ## Readings
@@ -22,9 +22,10 @@ Quiz 5 due by 11:59pm on `r advdate2(fri, 4)`
 
 ## Videos
 
-| 🖥 [Linear Regressin with One Variable](https://youtu.be/dLc-lfEEYss?si=CtjssYXoz4tzCMxM)
-| 🖥 [Linear Regression with Multiple Variables](https://youtu.be/jXg0vU0y1ak?si=aq6DdZcDbGBxNPbw)
+| 🖥 [Linear Regression with One Variable](https://youtu.be/dLc-lfEEYss?si=-Zelb-HBAP-MPvnF)
+| 🖥 [Understanding Regression Coefficients](https://youtu.be/KWULpBYzIYk?si=z_-wmdYlyrdpN4ys)
+| 🖥 [Linear Regression with Multiple Variables](https://youtu.be/jXg0vU0y1ak?si=rhQ9uWhuhVqnI-Ox)
 
 ## Assignments
 
-| 📘 [Module 5 Quiz](https://blackboard.gwu.edu/ultra/courses/_403120_1/outline/assessment/test/_13850332_1?courseId=_403120_1&gradeitemView=details)
+| 🧪 [Lab 5](/labs/lab-5/lab5.html)

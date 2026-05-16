@@ -9,7 +9,7 @@ format:
 ## Course Information
 
 | **Location**: Online
-| **Time**: TR 5:10 - 6:30 p.m.
+| **Time**: MW 5:10 - 6:30 p.m.
 
 | **Instructor**: Prof. Emmanuel Teitelbaum
 | Email: [ejt@gwu.edu](mailto:ejt@gwu.edu)
@@ -40,17 +40,17 @@ I care about your learning and also about this subject matter, and I am here to 
 
 **Overview:**
 
-The use of ChatGPT can be a valuable tool for students in this course, but it is important to use it ethically and appropriately. By following the guidelines and expectations outlined in this syllabus policy, students can maximize the benefits of using ChatGPT while also demonstrating their own critical thinking, research, and programming skills.
+AI tools (such as ChatGPT, Claude, Gemini, Copilot, and others) can be genuinely useful companions for learning to code and analyze data. This course takes a permissive approach: you may use AI tools to support your learning. Think of them as a tutor available around the clock, one you can ask to explain a concept, clarify an error message, walk through how a function works, or suggest how to debug a piece of code.
 
-As part of this course, students will have the option to use ChatGPT, a large language model trained by OpenAI, to assist in the writing of their R scripts for specific course assignments. ChatGPT can provide students with a starting point for their code but often the code is incomplete or error-prone. It is important to recognize that ChatGPT is a tool and not a substitute for critical thinking, research, or programming skills. Therefore, this syllabus policy outlines the guidelines and expectations for using ChatGPT in this course.
+That said, there is an important distinction between using AI *to learn* and using AI *instead of learning*. The goal of this course is for you to develop real skills in R, data analysis, and statistical reasoning. If you simply paste an assignment into an AI and copy the output, you will pass the assignment but miss the course. More practically: you will struggle in future courses, in job interviews, and on the job itself, where these skills will be expected of you.
 
 **Guidelines:**
 
-Use ChatGPT ethically and honestly. Do not use ChatGPT to plagiarize or take credit for work that is not your own. Any use of ChatGPT must be properly cited and referenced in accordance with the university's code of academic integrity.
+Use AI as a tutor, not a ghostwriter. Asking an AI "why does this give me an error?" or "can you explain what a confidence interval means?" is exactly the kind of use that supports your learning. Asking it to complete your lab or homework for you is not.
 
-Recognize the limitations of ChatGPT. ChatGPT is a machine learning model and may not always provide the most accurate or relevant information. Therefore, it is important to critically evaluate the information and verify it with other sources.
+Critically evaluate AI output. AI tools make mistakes: they hallucinate functions, write syntactically incorrect code, and sometimes give confidently wrong answers. You are responsible for understanding and verifying whatever you submit.
 
-Use ChatGPT appropriately. ChatGPT should only be used to assist in writing boilerplate syntax for this course. It's a starting point. It should not be used to attempt to complete other assignments or assessments in this course or in other courses.
+Cite your use where relevant. If AI-generated code or explanation materially shaped your work, note it briefly (e.g., "drafted with Claude, revised and verified by me"). This is good practice and honest scholarship.
 
 ## Office Hours
 
@@ -128,11 +128,11 @@ I've designed the following instructional components to support your learning an
 
 The following assessments help you gauge and demonstrate your progress in the course and support you in meeting course learning objectives.
 
--   **Weekly quizzes:** In this course, you will have opportunities to assess your own knowledge. You are expected to complete weekly quizzes that provide immediate feedback and support ongoing learning.
+-   **Attendance and participation:** Regular attendance and active participation in class activities are expected. Each class session involves hands-on work, and engagement with that work is an important part of your learning.
 
--   **3 Homework Assignments (15 percent each)**: You will develop various skills through three assignments that ask you to apply the data analysis tools we are learning in the course. Thoughtfully and thoroughly completing these assignments helps you meet course objectives.
+-   **Weekly labs:** In this course, you will have opportunities to practice and apply your skills. You are expected to complete weekly labs that reinforce the concepts covered in each session.
 
--   **Group Project:** In your final project, you will work in teams to apply your new data analysis skills in an international affairs project.
+-   **3 Homework Assignments**: You will develop various skills through three assignments that ask you to apply the data analysis tools we are learning in the course. Thoughtfully and thoroughly completing these assignments helps you meet course objectives.
 
 You'll find support for Blackboard and other tools used for course activities and assignments under the **Technology Support** link in the left navigation menu in our course on Blackboard.
 
@@ -150,21 +150,19 @@ Academic dishonesty is defined as cheating of any kind, including misrepresentin
 
 ## Assignments
 
-1.  Quizzes (20%)
-2.  3 Homework assignments (15% each = 45%)
-3.  Final project (35%)
+1.  Attendance and participation (10%)
+2.  Labs (5% each × 6 = 30%)
+3.  Homework 1 (20%)
+4.  Homework 2 (20%)
+5.  Homework 3 (20%)
 
-### Quizzes
+### Labs
 
-Students will complete 12 graded quizzes. These exercises will be oriented towards strengthening the student's ability to use the tools we will be learning in the course. The quizzes will help to ensure that you keep up with the material consistently throughout the semester.
+Students will complete 6 graded labs. These exercises are oriented towards strengthening the student's ability to use the tools we will be learning in the course. The labs will help to ensure that you keep up with the material consistently throughout the semester.
 
 ### Coding Homework Assignments
 
 Students will complete three coding homework assignments. These assignments are designed to provide students with the opportunity to apply their newly-acquired skills to an international affairs related question or problem.
-
-### Final Group Project
-
-Each student will complete a final project that will be developed throughout the semester. We will provide more detail and time for you to work with your group in class.
 
 ## Course Grading
 

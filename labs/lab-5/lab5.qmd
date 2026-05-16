@@ -1,0 +1,410 @@
+---
+title: "Lab 5"
+subtitle: "Linear Regression"
+author: "YOUR NAME HERE"
+format: html
+params:
+  completed: false
+---
+
+::: {.callout-tip title="How to complete this lab"}
+Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
+:::
+
+## Overview
+
+In this lab, you will practice fitting and interpreting linear regression models using V-Dem democracy data. You will:
+
+1. Wrangle V-Dem data and visualize a bivariate relationship with a regression line
+2. Fit a simple linear regression model and interpret the output
+3. Extend to multiple regression with two continuous predictors and a categorical predictor
+4. Identify and assess the influence of outliers on your model
+
+You are encouraged to have Modules 5.1 and 5.2 open while completing this lab.
+
+## Getting Started
+
+```{r}
+#| label: setup
+#| message: false
+#| warning: false
+
+library(tidyverse)
+library(vdemdata)
+library(broom)
+run <- isTRUE(params$completed)
+```
+
+::: {.callout-note}
+## Installing vdemdata locally
+
+If you are working on your own computer and don't have `vdemdata` installed, you can install it from GitHub. First install the `pak` package, then use it to install `vdemdata`:
+
+```r
+install.packages("pak")
+pak::pak("vdeminstitute/vdemdata")
+```
+:::
+
+## The Data
+
+You will work with cross-national data from the V-Dem project for the year 2019. Parts 1 and 2 focus on a simple research question: **Are more democratic countries less corrupt?**
+
+The key variables are:
+
+- `lib_dem` — Liberal Democracy Index (0–1, higher = more democratic)
+- `corruption` — Political Corruption Index (0–1, higher = more corrupt)
+
+## Part 1: Wrangle and Visualize (30 points)
+
+### Step 1: Wrangle the data (10 pts)
+
+Fill in the `???` to filter V-Dem to the year 2019 and select the relevant variables.
+
+```{r}
+#| label: wrangle
+#| eval: !expr run
+
+model_data <- vdem |>
+  filter(year == ???) |>
+  select(
+    country = country_name,
+    lib_dem = v2x_libdem,
+    corruption = v2x_corr
+  )
+
+glimpse(model_data)
+```
+
+**Question:** How many rows does `model_data` have? What does each row represent?
+
+YOUR ANSWER HERE
+
+### Step 2: Visualize the relationship (20 pts)
+
+Create a scatter plot with `lib_dem` on the x-axis and `corruption` on the y-axis. Add a linear regression line using `geom_smooth()`. Include a title and axis labels, and use `theme_bw()`.
+
+```{r}
+#| label: scatterplot
+
+# Write your plot code here
+
+```
+
+**Question:** Describe the relationship. Is it positive or negative? Does it look roughly linear?
+
+YOUR ANSWER HERE
+
+## Part 2: Simple Linear Regression (50 points)
+
+### Step 1: Fit the model (10 pts)
+
+Use `lm()` to fit a simple linear regression predicting `corruption` from `lib_dem`. Store the result in an object called `model1` and view the output with `summary()`.
+
+```{r}
+#| label: fit-model
+#| eval: !expr run
+
+model1 <- lm(??? ~ ???, data = model_data)
+
+summary(model1)
+```
+
+### Step 2: Write out the equation (10 pts)
+
+Using the `Estimate` column from the output, write out the estimated regression equation below (round coefficients to two decimal places):
+
+$$\widehat{Corruption}_i = a + b \times Democracy_i$$
+
+YOUR EQUATION HERE
+
+### Step 3: Interpret the intercept (10 pts)
+
+**Question:** What is the value of the intercept, and what does it represent in the context of this model?
+
+YOUR ANSWER HERE
+
+### Step 4: Interpret the slope (15 pts)
+
+**Question:** What is the value of the slope, and what does it tell us about the relationship between democracy and corruption? Be specific about direction and magnitude.
+
+YOUR ANSWER HERE
+
+### Step 5: Statistical significance (5 pts)
+
+**Question:** Is the slope statistically significant at the 0.05 level? How do you know from the `summary()` output?
+
+YOUR ANSWER HERE
+
+## Part 3: Multiple Regression (50 points)
+
+Now we extend the analysis. The new research question is: **What predicts a country's level of liberal democracy?**
+
+The key variables are:
+
+- `lib_dem` — Liberal Democracy Index (0–1, higher = more democratic)
+- `wealth` — GDP per capita (in thousands of USD)
+- `log_wealth` — log-transformed GDP per capita
+- `polarization` — Political polarization index (higher = more polarized)
+- `region` — World region (6 categories)
+
+### Step 1: Wrangle the data (10 pts)
+
+Fill in the `???` to filter V-Dem to the year 2019 and select the relevant variables.
+
+```{r}
+#| label: wrangle-multi
+#| eval: !expr run
+
+model_data2 <- vdem |>
+  filter(year == ???) |>
+  select(
+    country = country_name,
+    lib_dem = v2x_libdem,
+    wealth  = e_gdppc,
+    polarization = v2cacamps,
+    region = e_regionpol_6C
+  ) |>
+  mutate(
+    log_wealth = log(wealth),
+    region = factor(region,
+      labels = c("Eastern Europe", "Latin America", "MENA",
+                 "Sub-Saharan Africa", "Western Europe & N. America",
+                 "Asia and Pacific"))
+  ) |>
+  filter(!is.na(lib_dem), !is.na(wealth))
+
+glimpse(model_data2)
+```
+
+**Question:** How many countries are in the dataset after filtering out missing values?
+
+YOUR ANSWER HERE
+
+### Step 2: Fit a model with two predictors (20 pts)
+
+Fit a multiple regression model predicting `lib_dem` from `log_wealth` and `polarization`. Store the result as `model2` and view the output with `summary()`.
+
+```{r}
+#| label: model2
+#| eval: !expr run
+
+model2 <- lm(??? ~ ??? + ???, data = model_data2)
+
+summary(model2)
+```
+
+**Question:** Write out the estimated regression equation using the coefficients from the output (round to two decimal places).
+
+$$\widehat{LibDem}_i = a + b_1 \times LogWealth + b_2 \times Polarization$$
+
+YOUR EQUATION HERE
+
+**Question:** Interpret the coefficient on `log_wealth`. What does "holding polarization constant" mean in plain language?
+
+YOUR ANSWER HERE
+
+**Question:** Interpret the coefficient on `polarization`. Is the direction of the relationship what you would expect? Why or why not?
+
+YOUR ANSWER HERE
+
+### Step 3: Add a categorical predictor (20 pts)
+
+Now add `region` as a third predictor. Store this as `model3` and view the summary.
+
+```{r}
+#| label: model3
+#| eval: !expr run
+
+model3 <- lm(lib_dem ~ log_wealth + polarization + region, data = model_data2)
+
+summary(model3)
+```
+
+**Question:** What is the baseline (reference) region in this model? How do you know?
+
+YOUR ANSWER HERE
+
+**Question:** Pick one region coefficient and interpret it in a sentence. What does it tell us about democracy in that region compared to the baseline?
+
+YOUR ANSWER HERE
+
+## Part 4: Outliers and Influential Observations (30 points)
+
+### Step 1: Identify influential points (15 pts)
+
+Use `broom::augment()` to compute regression diagnostics for `model2`. Then flag observations that are high-leverage, high-residual, or highly influential.
+
+```{r}
+#| label: diagnostics
+#| eval: !expr run
+
+model_diagnostics <- augment(model2, data = model_data2) |>
+  mutate(
+    high_leverage  = .hat > 2 * mean(.hat),
+    high_residual  = abs(.std.resid) > 2,
+    high_influence = .cooksd > 4 / nrow(model_data2)
+  )
+
+model_diagnostics |>
+  filter(high_leverage | high_residual | high_influence) |>
+  select(country, wealth, lib_dem, high_leverage, high_residual, high_influence)
+```
+
+**Question:** How many countries are flagged as influential? Name two that stand out and explain why they might be outliers in this model.
+
+YOUR ANSWER HERE
+
+### Step 2: Compare models with and without influential points (15 pts)
+
+Remove the influential observations and re-fit the model. Compare the coefficients and R-squared between the two versions.
+
+```{r}
+#| label: compare-models
+#| eval: !expr run
+
+model_full <- lm(lib_dem ~ log_wealth + polarization, data = model_data2)
+
+model_clean <- model_diagnostics |>
+  filter(!high_leverage & !high_residual & !high_influence) |>
+  lm(lib_dem ~ log_wealth + polarization, data = _)
+
+tibble(
+  model        = c("Full model", "Outliers removed"),
+  intercept    = c(coef(model_full)[1],    coef(model_clean)[1]),
+  log_wealth   = c(coef(model_full)[2],    coef(model_clean)[2]),
+  polarization = c(coef(model_full)[3],    coef(model_clean)[3]),
+  r_squared    = c(glance(model_full)$r.squared, glance(model_clean)$r.squared)
+)
+```
+
+**Question:** How much do the coefficients change after removing influential points? Does this suggest the outliers were having a large or small effect on the results? What does this tell you about the robustness of the findings?
+
+YOUR ANSWER HERE
+
+## Render as PDF and Submit Your Work
+
+1. Replace "YOUR NAME HERE" at the top with your actual name
+2. Make sure all code chunks run without errors
+3. Click "Render" to create your PDF
+4. Submit the PDF to Blackboard
+
+---
+
+## Bonus A: Build Your Own Model (up to 10 points)
+
+Choose a different outcome variable and predictor from V-Dem that you find theoretically interesting. Wrangle the data, create a scatter plot with a regression line, fit the model, and interpret the slope and intercept.
+
+```{r}
+#| label: your-model
+
+# Write your code here
+
+```
+
+**Question:** What variables did you choose and why? Interpret the slope and intercept, and describe whether the results matched your expectations.
+
+YOUR ANSWER HERE
+
+---
+
+## Bonus B: Checking Model Assumptions (up to 10 points)
+
+*This section uses the `performance` package to run automated diagnostics.*
+
+```{r}
+#| label: check-model
+#| message: false
+#| eval: !expr run
+
+library(performance)
+
+check_model(model3)
+```
+
+**Question:** Look at the **Linearity** panel. Does the smoother line stay close to zero across fitted values, or does it show a curve? What would a curve indicate?
+
+YOUR ANSWER HERE
+
+**Question:** Look at the **Homogeneity of Variance** panel. Does the spread of residuals look roughly constant, or does it fan out? What would a funnel shape indicate?
+
+YOUR ANSWER HERE
+
+**Question:** Look at the **Normality of Residuals** panel. Do the points follow the diagonal line closely? Are there any systematic departures in the tails?
+
+YOUR ANSWER HERE
+
+---
+
+## Hints
+
+*Only look at these if you're stuck!*
+
+**Hint 1 — Filtering to one year:**
+
+```
+filter(year == 2019)
+```
+
+**Hint 2 — Scatter plot with regression line:**
+
+```r
+ggplot(model_data, aes(x = lib_dem, y = corruption)) +
+  geom_point() +
+  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
+  labs(
+    title = "Democracy and Corruption, 2019",
+    x = "Liberal Democracy Index",
+    y = "Corruption Index"
+  ) +
+  theme_bw()
+```
+
+**Hint 3 — Fitting a simple linear model:**
+
+```r
+model1 <- lm(corruption ~ lib_dem, data = model_data)
+summary(model1)
+```
+
+**Hint 4 — Reading the summary output:**
+
+The `Estimate` column gives the intercept and slope. The `Pr(>|t|)` column gives the p-value — values below 0.05 are statistically significant at the 5% level.
+
+**Hint 5 — Fitting a multiple regression model:**
+
+```r
+model2 <- lm(lib_dem ~ log_wealth + polarization, data = model_data2)
+summary(model2)
+```
+
+**Hint 6 — Including a factor variable as a predictor:**
+
+```r
+model3 <- lm(lib_dem ~ log_wealth + polarization + region, data = model_data2)
+```
+
+R automatically creates dummy variables for each level of `region`, leaving the first level as the reference category.
+
+**Hint 7 — Running regression diagnostics:**
+
+```r
+model_diagnostics <- augment(model2, data = model_data2) |>
+  mutate(
+    high_leverage  = .hat > 2 * mean(.hat),
+    high_residual  = abs(.std.resid) > 2,
+    high_influence = .cooksd > 4 / nrow(model_data2)
+  )
+```
+
+**Hint 8 — Removing outliers and re-fitting:**
+
+```r
+model_clean <- model_diagnostics |>
+  filter(!high_leverage & !high_residual & !high_influence) |>
+  lm(lib_dem ~ log_wealth + polarization, data = _)
+```
+
+**Hint 9 — Comparing coefficients with `glance()` and `coef()`:**
+
+`coef(model)` extracts the coefficients as a named vector. `glance(model)$r.squared` extracts R-squared from the `broom` package.

@@ -2,10 +2,10 @@ project:
   type: website
 website:
   page-navigation: true
-  title: "IAFF 6501--Spring 2024 Schedule"
+  title: "IAFF 6501 -- Summer 2026"
   description: "Homepage for IAFF 6501, George Washington University."
-  site-url: "https://dataviz-gwu.rocks"
-  repo-url: "https://github.com/eteitelbaum/dataviz-summer-2023"
+  site-url: "https://quant4ia-summer.netlify.app"
+  repo-url: "https://github.com/eteitelbaum/quant4ia-summer"
   repo-actions: [edit, issue]
   open-graph: true
   favicon: "images/iaff6501-logo.png"
@@ -70,12 +70,20 @@ website:
             text: "Homework 2"
           - href: assignments/homework-3.qmd
             text: "Homework 3"
-      - section: "Final Project"
+      - section: "Labs"
         contents:
-          - href: project/project-description.qmd
-            text: "Final Project"
-          - href: project/project-datasets.qmd
-            text: "Datasets"
+          - href: labs/lab-1/lab1.qmd
+            text: "Lab 1"
+          - href: labs/lab-2/lab2.qmd
+            text: "Lab 2"
+          - href: labs/lab-3/lab3.qmd
+            text: "Lab 3"
+          - href: labs/lab-4/lab4.qmd
+            text: "Lab 4"
+          - href: labs/lab-5/lab5.qmd
+            text: "Lab 5"
+          - href: labs/lab-6/lab6.qmd
+            text: "Lab 6"
       - section: "Course Modules"
         contents:
           - href: modules/getting-started.qmd

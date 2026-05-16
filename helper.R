@@ -1,6 +1,6 @@
 library(lubridate)
 
-mon <- as_date("2024-05-20")
+mon <- as_date("2026-05-18")
 tues <- mon + days(1)
 wed <- mon + days(2)
 thurs <- mon + days(3)

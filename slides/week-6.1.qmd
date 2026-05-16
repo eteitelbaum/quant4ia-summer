@@ -20,10 +20,12 @@ execute:
 ---
 
 
-```{r packages, echo = FALSE, message=FALSE, warning=FALSE}
+```{r}
+#| label: packages
+#| include: false
 library(tidyverse)
-library(tidymodels)
 library(peacesciencer)
+library(broom)
 ```
 
 # Binary Outcomes
@@ -97,6 +99,70 @@ $$\eta = \beta_0 + \beta_1 X_1 + \cdots + \beta_k X_k$$
 - A link function that relates the linear model to the parameter of the outcome distribution
 :::
   
+## Why Not Linear Regression?
+
+<br>
+
+::: {.incremental}
+- With a binary outcome (0/1), OLS can predict values **outside [0, 1]**
+- Predicted probabilities below 0 or above 1 are meaningless
+- The relationship between a predictor and a probability is rarely linear across the full range
+- We need a model that constrains predictions to [0, 1]
+:::
+
+## Why Not Linear Regression?
+
+```{r}
+#| label: lpm-problem
+
+set.seed(42)
+n <- 200
+x <- rnorm(n, mean = 0, sd = 2)
+p_true <- plogis(0.8 * x)
+y <- rbinom(n, 1, p_true)
+df_lpm <- tibble(x = x, y = y)
+
+lpm_fit <- lm(y ~ x, data = df_lpm)
+df_lpm <- df_lpm |> mutate(y_hat = predict(lpm_fit))
+
+ggplot(df_lpm, aes(x = x, y = y)) +
+  geom_point(alpha = 0.3) +
+  geom_line(aes(y = y_hat), color = "firebrick", linewidth = 1) +
+  geom_hline(yintercept = c(0, 1), linetype = "dashed", color = "gray50") +
+  labs(title = "Linear Probability Model",
+       subtitle = "Predicted values can fall outside [0, 1]",
+       x = "Predictor", y = "Outcome (0/1)") +
+  theme_minimal()
+```
+
+## The Sigmoid Function
+
+<br>
+
+- The **logistic (sigmoid) function** maps any real number to (0, 1):
+
+$$p = \frac{\exp(\eta)}{1 + \exp(\eta)}$$
+
+- As $\eta \to -\infty$, $p \to 0$; as $\eta \to +\infty$, $p \to 1$
+- This S-shaped curve is the inverse of the logit function
+
+## The Sigmoid Function
+
+```{r}
+#| label: sigmoid
+
+tibble(eta = seq(-6, 6, length.out = 300)) |>
+  mutate(p = exp(eta) / (1 + exp(eta))) |>
+  ggplot(aes(x = eta, y = p)) +
+  geom_line(color = "steelblue", linewidth = 1.2) +
+  geom_hline(yintercept = c(0, 1), linetype = "dashed", color = "gray60") +
+  geom_hline(yintercept = 0.5, linetype = "dotted", color = "gray40") +
+  labs(title = "The Sigmoid (Logistic) Function",
+       x = expression(eta ~ "= linear predictor"),
+       y = expression(p ~ "= probability")) +
+  theme_minimal()
+```
+
 ## Logistic Regression
 
 <br>
@@ -113,7 +179,7 @@ $$logit(p) = \log\left(\frac{p}{1-p}\right)$$
 ```{r}
 #| label: logit_function
 
-d <- tibble(p = seq(0.001, 0.999, length.out = 1000)) %>%
+d <- tibble(p = seq(0.001, 0.999, length.out = 1000)) |>
   mutate(logit_p = log(p/(1-p)))
 
 ggplot(d, aes(x = p, y = logit_p)) + 
@@ -162,9 +228,6 @@ $$p_i = \frac{\exp(\beta_0+\beta_1 x_{1,i} + \cdots + \beta_k x_{k,i})}{1+\exp(\
 #| label: use_peacesciencer
 #| echo: true
 
-library(peacesciencer)
-library(tidymodels)
-
 conflict_df <- create_stateyears(system = 'gw') |>
   filter(year %in% c(1946:1999)) |>
   add_ucdp_acd(type=c("intrastate"), only_wars = FALSE) |>
@@ -180,11 +243,9 @@ glimpse(conflict_df)
 
 <br>
 
-- Implementation is not very different from a linear model
-- We just need to update our code to run a GLM
-    - specify the model with `logistic_reg()`
-    - use `"glm"` instead of `"lm"` as the engine     
-    - define `family = "binomial"` for the link function to be used in the model
+- Implementation is similar to `lm()` for linear regression
+- We use `glm()` with `family = "binomial"` to fit a logistic model
+- The `~` formula syntax is the same as in `lm()`
 
 ## Bivariate Logistic Regression
 
@@ -285,23 +346,19 @@ $$p = 0.0158$$
 #| echo: true
 #| eval: false
 
-# load the marginaleffects library
 library(marginaleffects)
 
 # select some countries for a given year
 selected_countries <- conflict_df |>
   filter(
-    statename %in% c("United States of America", "Venezuela", "Rwanda"),
+    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
     year == 1999)
 
 # calculate margins for the subset
 marg_effects <- predictions(conflict_model, newdata = selected_countries)
 
-# view the results
-library(broom)
-
 tidy(marg_effects) |>
-  select(statename, estimate, p.value, conf.low, conf.high)
+  select(gw_name, estimate, p.value, conf.low, conf.high)
 ```
 
 ## Using `marginaleffects`
@@ -311,21 +368,17 @@ tidy(marg_effects) |>
 ```{r}
 #| label: marginal_effects2
 
-# load the 
 library(marginaleffects)
 
-# seledct some countries for a given year
 selected_countries <- conflict_df |>
   filter(
-    statename %in% c("United States of America", "Venezuela", "Rwanda"),
+    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
     year == 1999)
 
-# calculate margins for the subset
 marg_effects <- predictions(conflict_model, newdata = selected_countries)
 
-# view the results
 tidy(marg_effects) |>
-  select(statename, estimate, p.value, conf.low, conf.high)
+  select(gw_name, estimate, p.value, conf.low, conf.high)
 ```
 
 
@@ -334,8 +387,8 @@ tidy(marg_effects) |>
 <br>
 
 - Select your favorite three countries and a recent year
-- Calculate the predicted proability of conflict onset for that year using the marginal effects package
-- If you have time, try to do the calcualation by hand as well
+- Calculate the predicted probability of conflict onset for that year using the marginal effects package
+- If you have time, try to do the calculation by hand as well
 
 ```{r}
 #| label: time2

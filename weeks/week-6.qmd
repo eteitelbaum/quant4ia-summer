@@ -12,24 +12,25 @@ source("../helper.R")
 ```
 
 ::: {.callout-important}
-- Quiz 6 due by 11:59pm on `r advdate2(fri, 5)`
-- Homework Assignment 3 due by 11:59pm on `r advdate2(sat, 5)`
-- Final Project due by 11:59pm on `r advdate2(sat, 5)`
+- Lab 6 due by 11:59pm on `r advdate2(fri, 5)`
+- Homework 3 due by 11:59pm on `r advdate2(mon, 6)`
 :::
 
 ## Readings
 
 | 📖 [IMS, chap. 9](https://openintro-ims.netlify.app/model-logistic)
+| 📖 [Blair et al., Predicting Violent Conflict](https://journals.sagepub.com/doi/10.1177/0022343316684009)
 
 ## Videos
 
-| 🖥 [Logistic Regression](https://youtu.be/xuTiAW0OR40?si=tSYvPmJKR-cvNtAX)
+| 🖥 [Introduction to Logistic Regression](https://youtu.be/p-ltr1C7u2o?si=TLb3y75pSaJ067ue)
+| 🖥 [Logistic Regression in R](https://youtu.be/xuTiAW0OR40?si=sUoIr5pzHwHEpazO)
+| 🖥 [Interpreting Logistic Regression](https://youtu.be/oIR8YOSXudM?si=aEALe2ifW71lsJJG)
 | 🖥 [Display Regression Results with Broom](https://youtu.be/upn8dlhvbns)
-| 🖥 [Make a Regression Table with Model Summary](https://youtu.be/My6_X6x5TZw)
+| 🖥 [Make a Regression Table with modelsummary](https://youtu.be/My6_X6x5TZw)
 | 🖥 [Make a Coefficient Plot](https://youtu.be/gif_wkqyub8)
 
 ## Assignments
 
-| 📘 [Module 6 Quiz](https://blackboard.gwu.edu/ultra/courses/_403120_1/outline/assessment/test/_13850333_1?courseId=_403120_1&gradeitemView=details)
+| 🧪 [Lab 6](/labs/lab-6/lab6.html)
 | 🧮 [Homework 3](../assignments/homework-3.qmd)
-| 🖋️ [Final Project](../project/project-description.qmd)

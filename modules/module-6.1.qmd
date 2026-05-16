@@ -1,7 +1,7 @@
 ---
 title: "Module 6.1"
 subtitle: "Logistic Regression"
-format: 
+format:
   html:
     code-link: true
 highlight-style: atom-one
@@ -11,74 +11,133 @@ execute:
   warning: false
 ---
 
+::: {.callout-tip}
+## Prework
+
+Install the `peacesciencer` package and have a look at its [documentation](https://svmiller.com/peacesciencer/) to familiarize yourself with its contents and basic functions:
+
+```r
+install.packages("peacesciencer")
+```
+:::
+
 ## Overview
 
-In this module, we will learn about logistic regression, which is a type of regression analysis used to model binary outcomes. Logistic regression is used when the dependent variable is a binary variable (0/1, Yes/No, True/False). Logistic regression is a type of generalized linear model (GLM) that uses the logistic function to model the relationship between the dependent variable and one or more independent variables. Logistic regression is widely used in many fields, including epidemiology, economics, and political science, to model binary outcomes.
+So far, we have modeled continuous outcomes like democracy scores and GDP per capita. But many of the most interesting questions in research involve **binary outcomes** — yes or no, conflict or no conflict, voted or didn't vote. Logistic regression is the standard tool for modeling these binary outcomes, and it is one of the most widely used methods in the social sciences.
 
-Here is a great video by Andrew Ng to get you started with the basic intuition behind logistic regression:
-
-{{< video https://youtu.be/xuTiAW0OR40?si=sUoIr5pzHwHEpazO title='Multiple Linear Regression' >}}
-
+{{< video https://youtu.be/p-ltr1C7u2o?si=TLb3y75pSaJ067ue title='Classification: Motivation' >}}
 
 ## Binary Outcomes
 
-So far, we have looked at continuous or numerical outcomes (response variables). We are often also interested in outcome variables that are binary (Yes/No, or 1/0). For example, did violence happen, or not? Does a country have judicial review? Did a country vote for a particular resolution in the UN? 
+A **binary outcome** (or binary response variable) is a variable that takes on exactly two possible values, typically coded as 0 and 1. Examples include:
 
-In order to model binary outcomes, we need to use a different type of regression model called **logistic regression**. Logistic regression is used to model the probability of a certain class or event existing such as pass/fail, win/lose, alive/dead or healthy/sick. Sometimes you will see analysts using OLS to model binary outcomes, but this is not usually the most appropriate choice. For a number of reasons, logistic regression is a better choice, including the fact that the predicted values are probabilities (which are always between 0 and 1) and the model is more robust to violations of the assumptions of OLS regression.
+- Did civil conflict begin in this country this year? (0 = No, 1 = Yes)
+- Did a country vote for this UN resolution? (0 = No, 1 = Yes)
+- Did a voter turn out in the election? (0 = No, 1 = Yes)
+- Does a country have judicial review? (0 = No, 1 = Yes)
 
-When modeling binary outcomes, we can think of the outcome as a **Bernoulli trial**. A Bernoulli trial is a random experiment with exactly two possible outcomes, "success" and "failure", in which the probability of success is the same every time the experiment is conducted. Success is usually coded as 1, failure as 0. So, ironically, something like conflict onset is a "success" in this context.
+For each observation, we are interested in modeling the **probability** that the outcome equals 1. This is fundamentally different from predicting a continuous outcome.
 
-Each Bernoulli trial can have a separate probability of success
+## Why Not Linear Regression?
 
-$$ y_i ∼ Bern(p) $$
+You might wonder: why not just use the linear regression we already know? The problem is that linear regression can produce **impossible predictions**. Probabilities must be between 0 and 1, but a linear model can predict values like −0.3 or 1.7 — which are mathematically meaningless as probabilities.
 
-We can then use the predictor variables to model that probability of success, $p_i$. This is a very general way of addressing many problems in regression and the resulting models are called **generalized linear models (GLMs)**. Logistic regression is a very common example of GLMS but there are others, like probit and Poisson regression, which we will not cover in this course.
+Logistic regression solves this by using a mathematical transformation that ensures all predicted values remain between 0 and 1, no matter what the predictor values are.
 
-All GLMs have the following three characteristics: a probability distribution describing a generative model for the outcome variable; a linear model; and a link function that relates the linear model to the parameter of the outcome distribution.
+## Bernoulli Trials and Probability Modeling
 
-The linear model can be written as follows: 
+The right framework for binary outcomes is the **Bernoulli trial**: a random experiment with exactly two possible outcomes (success and failure), where success is coded as 1. When we model civil conflict onset, each country-year is a separate Bernoulli trial:
 
-$$\eta = \beta_0 + \beta_1 X_1 + \cdots + \beta_k X_k$$
-As was mentioned previously, logistic regression is a common GLM used to model a binary categorical outcome (0 or 1). In logistic regression, the link function that connects $\eta_i$ to $p_i$ is the **logit function** which can be written as follows. For $0\le p \le 1$:
+$$y_i \sim \text{Bernoulli}(p_i)$$
 
-$$logit(p) = \log\left(\frac{p}{1-p}\right)$$
-Here is what that function looks like when we plot it:
+Each observation has its own probability $p_i$ of "success" (conflict onset in this case — the term is statistical, not normative). Our goal is to model how predictor variables influence this probability.
+
+## Generalized Linear Models
+
+Logistic regression belongs to a broader family of models called **Generalized Linear Models (GLMs)**. All GLMs share three characteristics:
+
+1. **A probability distribution** describing the outcome (Bernoulli for binary data)
+2. **A linear predictor**: $\eta_i = \beta_0 + \beta_1 X_{1i} + \cdots + \beta_k X_{ki}$
+3. **A link function** that connects the linear predictor to the outcome probability
+
+The link function is the key innovation: it translates between the unconstrained linear predictor (which can range from −∞ to +∞) and the probability (which must stay between 0 and 1).
+
+## The Logistic Regression Model
+
+{{< video https://youtu.be/xuTiAW0OR40?si=sUoIr5pzHwHEpazO title='Logistic Regression' >}}
+
+### The Sigmoid Function
+
+The **sigmoid function** (also called the logistic function) takes any real number and converts it to a probability between 0 and 1:
+
+$$\sigma(z) = \frac{1}{1 + e^{-z}}$$
 
 ```{r}
-#| label: logit_function
+#| label: sigmoid-function
 #| echo: false
 
 library(tidyverse)
 
-d <- tibble(p = seq(0.001, 0.999, length.out = 1000)) %>%
-  mutate(logit_p = log(p/(1-p)))
+sigmoid_data <- tibble(z = seq(-6, 6, length.out = 1000)) |>
+  mutate(sigma_z = 1 / (1 + exp(-z)))
 
-ggplot(d, aes(x = p, y = logit_p)) + 
-  geom_line() + 
-  xlim(0,1) + 
-  ylab("logit(p)") +
-  labs(title = "logit(p) vs. p")
+ggplot(sigmoid_data, aes(x = z, y = sigma_z)) +
+  geom_line(linewidth = 1, color = "steelblue") +
+  ylim(0, 1) +
+  xlab("z (linear predictor)") +
+  ylab("σ(z) = probability") +
+  geom_hline(yintercept = 0.5, linetype = "dashed", alpha = 0.5) +
+  geom_vline(xintercept = 0, linetype = "dashed", alpha = 0.5) +
+  labs(title = "The Sigmoid Function",
+       subtitle = "Converts any real number to a probability between 0 and 1") +
+  theme_minimal()
 ```
 
+The characteristic S-shape guarantees the output stays between 0 and 1. When the linear predictor is 0, the probability is exactly 0.5.
 
-This plot shows that the logit function is a transformation of the probability $p$ that maps it to the real line. The logit function is useful because it maps the probability of success to the real line, which is necessary for the linear model.
+### The Logit Link Function
 
-## Analyzing conflict onset
+The logistic regression model uses the **logit** as its link function. For $0 \leq p \leq 1$:
 
-We can use logit models to analyze conflict onset. In this example, we will use the `peacesciencer` package to analyze the onset of conflict. The `peacesciencer` package provides a number of datasets and functions for analyzing conflict and peace. It provides data from a number of important datasets in the field of conflict studies, e.g. the Correlates of War (CoW) project, the Uppsala Conflict Data Program (UCDP), and the Militarized Interstate Dispute (MID) dataset. It also provides functions for analyzing conflict and adding control variables to the dataset.
+$$\text{logit}(p) = \log\left(\frac{p}{1-p}\right)$$
 
-Let's go ahead and load the `peacesciencer` package and create a dataset that we can use to analyze conflict onset. We will use the `create_stateyears()` function to create a dataset with state-years, and then add some control variables to the dataset. We will add the UCDP/PRIO Armed Conflict Dataset (ACD) to the dataset, which provides information on the onset of armed conflict. We will also add the Polity IV dataset, which provides information on the level of democracy in each country-year. We will add the CREG fractionalization index, which provides information
+The logit is the log of the **odds** ($p$ divided by $1-p$). It maps probabilities from [0, 1] to the entire real line, which is exactly what we need to model them with a linear predictor:
 
 ```{r}
-#| label: use_peacesciencer
-#| echo: true
+#| label: logit-function
+#| echo: false
+
+logit_data <- tibble(p = seq(0.001, 0.999, length.out = 1000)) |>
+  mutate(logit_p = log(p / (1 - p)))
+
+ggplot(logit_data, aes(x = p, y = logit_p)) +
+  geom_line(linewidth = 1, color = "coral") +
+  xlim(0, 1) +
+  ylab("logit(p)") +
+  xlab("p (probability)") +
+  labs(title = "The Logit Function",
+       subtitle = "Converts probabilities to an unconstrained scale") +
+  theme_minimal()
+```
+
+Putting it all together, logistic regression models:
+
+$$\text{logit}(p_i) = \beta_0 + \beta_1 X_{1i} + \cdots + \beta_k X_{ki}$$
+
+To get predicted probabilities, we apply the sigmoid function to the linear predictor.
+
+## Analyzing Conflict Onset
+
+We will use the `peacesciencer` package to examine what factors are associated with civil conflict onset. The package provides convenient functions to build a dataset of country-years and add various predictors. We replicate part of Fearon and Laitin's (2003) influential study of civil war.
+
+```{r}
+#| label: conflict-data
 
 library(peacesciencer)
-library(tidymodels)
 
 conflict_df <- create_stateyears(system = 'gw') |>
   filter(year %in% c(1946:1999)) |>
-  add_ucdp_acd(type=c("intrastate"), only_wars = FALSE) |>
+  add_ucdp_acd(type = c("intrastate"), only_wars = FALSE) |>
   add_democracy() |>
   add_creg_fractionalization() |>
   add_sdp_gdp() |>
@@ -87,58 +146,73 @@ conflict_df <- create_stateyears(system = 'gw') |>
 glimpse(conflict_df)
 ```
 
-Now we can use these data to analyze conflict onset using logistic regression. We will use the `glm()` function to fit a very basic binary logistic regression model where we predict conflict onset with GDP per capita. 
+Each row represents one country in one year. The variable `ucdponset` is our binary outcome — it equals 1 if a civil conflict began in that country in that year, and 0 otherwise.
 
-The `glm()` function is used to fit generalized linear models, which include logistic regression models. Note that we have to specify the `family` argument as `"binomial"` to identify logit as the link function. 
+### Running a Logistic Regression
 
-We will use the `ucdponset` variable as the outcome variable, which indicates whether an armed conflict onset occurred in a given year and country. We will use the `wbgdppc2011est` variable as the predictor variable, which indicates the GDP per capita of the country in a given year. Finally we will use the `summary()` function to summarize the results of the logistic regression model.
+The syntax for logistic regression is nearly identical to linear regression — we switch from `lm()` to `glm()` and add `family = "binomial"` to specify the logit link:
 
 ```{r}
-#| label: bivariate_model
-#| echo: true
+#| label: bivariate-model
 
-conflict_model <- glm(ucdponset ~ wbgdppc2011est, 
-                      data= conflict_df,
+conflict_model <- glm(ucdponset ~ wbgdppc2011est,
+                      data = conflict_df,
                       family = "binomial")
 
 summary(conflict_model)
 ```
 
-To interpret the results of the model there are few things we can do. First, we can just look at the direction and significance of the coefficients, just like we would in a linear regression model. Second, we can exponentiate the coefficients to get the odds ratios. The odds ratio is the ratio of the odds of the outcome occurring in one group to the odds of the outcome occurring in another group. In this case, the odds ratio is the ratio of the odds of conflict onset occurring in one group to the odds of conflict onset occurring in another group. Finally, we can use the coefficients to calculate the probability of the outcome occurring for different values of the predictor variable.
+### Interpreting the Coefficients
 
-Let's start by looking at the coefficients of the model, namely the coefficient for log GPD per capita. Here we see that the coefficient is -0.33. 
+The model equation on the log-odds scale is:
 
+$$\log\left(\frac{p}{1-p}\right) = -1.16 - 0.33 \times \text{log GDP per capita}$$
 
-$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}$$
+The coefficient for log GDP per capita is negative and significant — wealthier countries have lower odds of conflict onset. But interpreting the magnitude on the log-odds scale is not intuitive, so we convert to **odds ratios** by exponentiating the coefficient.
 
-This tells us that the relationship between GDP and conflict onset is negative - as GDP per capita increases, the odds of conflict onset decrease. But we cannot interpret the magnitude of the effect directly. For this, we need to exponentiate the coefficient to get the odds ratio. The odds ratio is the ratio of the odds of the outcome occurring in one group to the odds of the outcome occurring in another group. 
+### Odds Ratios
 
-If we exponentiate the coefficient, we get an odds ratio of 0.718. This means that for each one unit increase in log GDP per capita, the odds of the outcome occurring are multiplied by approximately 0.718, assuming other variables in the model are held constant.
-
-This means that an increase in GDP per capita is associated with a **decrease** in the odds of the outcome occurring. The odds of the outcome decrease by about 28.2% for each unit increase in GDP per capita (on average).
-
-Another thing we can do is calculate the probability of conflict onset for different values of GDP per capita. We can do this by calculating the predicted probabilities for different values of GDP per capita. One way to do this is to use the `marginaleffects` package, which calculates the marginal effects of a model for different values of the predictor variable.
-
-Below, we calculate the predicted probability of conflict onset for different countries with very different levels of GDP--the United States, Venezuela and Rwanda. We start by selecting the data for these countries in 1999, and then we calculate the marginal effects of the model for these countries by calling the `predictions()` function from the `marginaleffects` package. Finally, we clean up the results with the `tidy()` function from the `broom` package to make them easier to interpret.
+{{< video https://youtu.be/oIR8YOSXudM?si=aEALe2ifW71lsJJG title='Understanding Odds Ratios' >}}
 
 ```{r}
-#| label: marginal_effects
+#| label: odds-ratios
 
-# load the marginaleffects library
-library(marginaleffects)
-
-# select some countries for a given year
-selected_countries <- conflict_df |>
-  filter(
-    statename %in% c("United States of America", "Venezuela", "Rwanda"),
-    year == 1999)
-
-# calculate margins for the subset
-marg_effects <- predictions(conflict_model, newdata = selected_countries)
-
-# tidy the results
-tidy(marg_effects) |>
-  select(estimate, p.value, conf.low, conf.high, statename)
+exp(coef(conflict_model))
 ```
 
-The results show that the predicted probability of conflict onset is highest for Rwanda, followed by Venezuela, and lowest for the United States. This is consistent with the idea that GDP per capita is negatively associated with conflict onset.
+The odds ratio for log GDP per capita is approximately 0.718. This means that for each one-unit increase in log GDP per capita, the **odds** of conflict onset are multiplied by 0.718 — a decrease of about 28%. An odds ratio less than 1 indicates a negative association; greater than 1 indicates a positive association.
+
+## Predicted Probabilities
+
+Odds ratios tell us about relative effects, but for concrete interpretation we want **predicted probabilities**: what is the probability of conflict onset for a country with a given level of GDP?
+
+We can use the `marginaleffects` package to calculate these for specific cases. Let's predict conflict onset for the United States, Venezuela, and Rwanda in 1999:
+
+```{r}
+#| label: marginal-effects
+
+library(marginaleffects)
+
+selected_countries <- conflict_df |>
+  filter(
+    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
+    year == 1999
+  )
+
+marg_effects <- predictions(conflict_model, newdata = selected_countries)
+
+tidy(marg_effects) |>
+  select(estimate, p.value, conf.low, conf.high, gw_name)
+```
+
+The predicted probability of conflict onset is highest for Rwanda, followed by Venezuela, and lowest for the United States — consistent with the negative relationship between wealth and conflict onset.
+
+::: {.callout-warning icon=false}
+## Your Turn
+
+Using the `conflict_df` dataset, try running a logistic regression with `ucdponset` as the outcome and `v2x_polyarchy` (the V-Dem democracy measure) as the predictor.
+
+- Is the coefficient positive or negative? What does this suggest about the relationship between democracy and conflict onset?
+- Exponentiate the coefficient to get the odds ratio and interpret it.
+- Use `predictions()` from `marginaleffects` to calculate the predicted probability of conflict onset for three countries with different democracy levels.
+:::
