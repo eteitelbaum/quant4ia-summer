@@ -2,8 +2,12 @@
 title: "Lab 1"
 subtitle: "Your First Data Visualizations"
 author: "YOUR NAME HERE"
-format: pdf
+format: html
 ---
+
+::: {.callout-tip title="How to complete this lab"}
+Write your code in each empty code chunk and answer the questions below. When you are done, render to HTML to preview your work. For your final submission, change `format: html` to `format: pdf` in the YAML header above and render to PDF.
+:::
 
 ## Overview
 
@@ -129,8 +133,9 @@ YOUR INTERPRETATION HERE
 
 1.  Replace "YOUR NAME HERE" at the top with your actual name
 2.  Make sure all your code chunks run without errors
-3.  Click "Render" to create your PDF
-4.  Submit the PDF to Blackboard
+3.  Change `format: html` to `format: pdf` in the YAML header
+4.  Click "Render" to create your PDF
+5.  Submit the PDF to Blackboard
 
 ## Hints
 
