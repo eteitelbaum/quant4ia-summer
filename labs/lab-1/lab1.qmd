@@ -5,6 +5,12 @@ author: "YOUR NAME HERE"
 format: html
 ---
 
+::: {.callout-note}
+## Getting the Lab Files
+
+Open the Lab 1 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651) to get started.
+:::
+
 ::: {.callout-tip title="How to complete this lab"}
 Write your code in each empty code chunk and answer the questions below. When you are done, render to HTML to preview your work. For your final submission, change `format: html` to `format: pdf` in the YAML header above and render to PDF.
 :::

@@ -2424,7 +2424,7 @@
     "href": "assignments/homework-2.html",
     "title": "Homework 2",
     "section": "",
-    "text": "Getting the Assignment Files\n\n\n\nYou can access the assignment files in one of two ways:\n\nPosit Cloud: Open the course space on Posit Cloud and navigate to the Homework 2 assignment.\nGitHub: Download the .qmd file directly from the course repository and save it to your project folder.",
+    "text": "Getting the Assignment Files\n\n\n\nOpen the Homework 2 project in the course space on Posit Cloud to get started.",
     "crumbs": [
       "Homework",
       "Homework 2"
@@ -2541,7 +2541,7 @@
     "href": "labs/lab-3/lab3.html",
     "title": "Lab 3",
     "section": "",
-    "text": "How to complete this lab\n\n\n\nFill in each ??? with the correct code. Once all placeholders are filled in, change completed: false to completed: true in the YAML header above and render to HTML. For your final submission, change format: html to format: pdf.",
+    "text": "Getting the Lab Files\n\n\n\nOpen the Lab 3 project in the course space on Posit Cloud to get started.",
     "crumbs": [
       "Labs",
       "Lab 3"
@@ -2629,7 +2629,7 @@
     "href": "labs/lab-5/lab5.html",
     "title": "Lab 5",
     "section": "",
-    "text": "How to complete this lab\n\n\n\nFill in each ??? with the correct code. Once all placeholders are filled in, change completed: false to completed: true in the YAML header above and render to HTML. For your final submission, change format: html to format: pdf.",
+    "text": "Getting the Lab Files\n\n\n\nOpen the Lab 5 project in the course space on Posit Cloud to get started.",
     "crumbs": [
       "Labs",
       "Lab 5"
@@ -2761,7 +2761,7 @@
     "href": "labs/lab-1/lab1.html",
     "title": "Lab 1",
     "section": "",
-    "text": "How to complete this lab\n\n\n\nWrite your code in each empty code chunk and answer the questions below. When you are done, render to HTML to preview your work. For your final submission, change format: html to format: pdf in the YAML header above and render to PDF.",
+    "text": "Getting the Lab Files\n\n\n\nOpen the Lab 1 project in the course space on Posit Cloud to get started.",
     "crumbs": [
       "Labs",
       "Lab 1"
@@ -2849,7 +2849,7 @@
     "href": "labs/lab-6/lab6.html",
     "title": "Lab 6",
     "section": "",
-    "text": "How to complete this lab\n\n\n\nFill in each ??? with the correct code. Once all placeholders are filled in, change completed: false to completed: true in the YAML header above and render to HTML. For your final submission, change format: html to format: pdf.",
+    "text": "Getting the Lab Files\n\n\n\nOpen the Lab 6 project in the course space on Posit Cloud to get started.",
     "crumbs": [
       "Labs",
       "Lab 6"
@@ -2937,7 +2937,7 @@
     "href": "labs/lab-2/lab2.html",
     "title": "Lab 2",
     "section": "",
-    "text": "How to complete this lab\n\n\n\nFill in each ??? with the correct code. Once all placeholders are filled in, change completed: false to completed: true in the YAML header above and render to HTML. For your final submission, change format: html to format: pdf.",
+    "text": "Getting the Lab Files\n\n\n\nOpen the Lab 2 project in the course space on Posit Cloud to get started.",
     "crumbs": [
       "Labs",
       "Lab 2"
@@ -3036,7 +3036,7 @@
     "href": "labs/lab-4/lab4.html",
     "title": "Lab 4",
     "section": "",
-    "text": "How to complete this lab\n\n\n\nFill in each ??? with the correct code. Once all placeholders are filled in, change completed: false to completed: true in the YAML header above and render to HTML. For your final submission, change format: html to format: pdf.",
+    "text": "Getting the Lab Files\n\n\n\nOpen the Lab 4 project in the course space on Posit Cloud to get started.",
     "crumbs": [
       "Labs",
       "Lab 4"
@@ -3146,7 +3146,7 @@
     "href": "assignments/homework-1.html",
     "title": "Homework 1",
     "section": "",
-    "text": "Getting the Assignment Files\n\n\n\nYou can access the assignment files in one of two ways:\n\nPosit Cloud: Open the course space on Posit Cloud and navigate to the Homework 1 assignment.\nGitHub: Download the .qmd file directly from the course repository and save it to your project folder.",
+    "text": "Getting the Assignment Files\n\n\n\nOpen the Homework 1 project in the course space on Posit Cloud to get started.",
     "crumbs": [
       "Homework",
       "Homework 1"

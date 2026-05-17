@@ -7,6 +7,12 @@ params:
   completed: false
 ---
 
+::: {.callout-note}
+## Getting the Lab Files
+
+Open the Lab 4 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651) to get started.
+:::
+
 ::: {.callout-tip title="How to complete this lab"}
 Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
 :::

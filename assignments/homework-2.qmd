@@ -14,10 +14,7 @@ bibliography: references.bib
 ::: {.callout-note}
 ## Getting the Assignment Files
 
-You can access the assignment files in one of two ways:
-
-- **Posit Cloud**: Open the [course space on Posit Cloud](https://posit.cloud/spaces/787651) and navigate to the Homework 2 assignment.
-- **GitHub**: [Download the `.qmd` file](https://raw.githubusercontent.com/eteitelbaum/quant4ia-summer/main/assignments/homework-2.qmd) directly from the course repository and save it to your project folder.
+Open the Homework 2 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651) to get started.
 :::
 
 ## Overview

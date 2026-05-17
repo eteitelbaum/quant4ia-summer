@@ -15,10 +15,7 @@ This is the most challenging assignment of the course and is due on the last day
 ::: {.callout-note}
 ## Getting the Assignment Files
 
-You can access the assignment files in one of two ways:
-
-- **Posit Cloud**: Open the [course space on Posit Cloud](https://posit.cloud/spaces/787651) and navigate to the Homework 3 assignment.
-- **GitHub**: [Download the `.qmd` file](https://raw.githubusercontent.com/eteitelbaum/quant4ia-summer/main/assignments/homework-3.qmd) directly from the course repository and save it to your project folder.
+Open the Homework 3 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651) to get started.
 :::
 
 In this homework assignment, we are going to be exploring the hugely influential article by Fearon and Laitin (2003) on civil war onset. Click [here](https://www-jstor-org.proxygw.wrlc.org/stable/3118222?seq=11) to view the original article and see Table 1 for the model that we will be replicating.
