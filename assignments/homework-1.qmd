@@ -1,10 +1,23 @@
 ---
 title: "Homework 1"
+subtitle: "Evaluating Modernization Theory"
+# author: "Your Name"
+# date: today
+format: html
 ---
+
+::: {.callout-note}
+## Getting the Assignment Files
+
+You can access the assignment files in one of two ways:
+
+- **Posit Cloud**: Open the [course space on Posit Cloud](https://posit.cloud/spaces/787651) and navigate to the Homework 1 assignment.
+- **GitHub**: [Download the `.qmd` file](https://raw.githubusercontent.com/eteitelbaum/quant4ia-summer/main/assignments/homework-1.qmd) directly from the course repository and save it to your project folder.
+:::
 
 ## Overview
 
-For this assignment, you are going to evaluate modernization theory as laid out in Seymour Martin Lipset's [classic article](https://www-jstor-org.proxygw.wrlc.org/stable/1951731?seq=8) entitled "Some Social Requisites of Democracy: Economic Development and Political Legitimacy." How classic is this article? According to Google Scholar, this piece has been cited more than 11.5 thousand times! 
+For this assignment, you are going to evaluate modernization theory as laid out in Seymour Martin Lipset's [classic article](https://www-jstor-org.proxygw.wrlc.org/stable/1951731?seq=8) entitled "Some Social Requisites of Democracy: Economic Development and Political Legitimacy." How classic is this article? According to Google Scholar, this piece has been cited more than 11.5 thousand times!
 
 We are going to use data from V-Dem and modern data viz tools to explore Lipset's hypothesis that economic modernization is highly correlated with democracy. We have already done this to some extent by looking at the relationship between wealth and the polyarchy score. But we are going to broaden things out by looking at other measures of modernization and democracy contained in the V-Dem dataset.
 
@@ -12,7 +25,7 @@ Before starting on this assignment, you will want to have a look at the V-Dem [c
 
 Now have a look at "Some Social Requisites of Democracy" and in particular pay attention to the indicators in Table II and the discussion surrounding them. Think of each indicator (e.g. urbanization, education, etc.) as a sub-hypothesis of his theory. Which of these sub-hypotheses about modernization do you think is most compelling? Which would you like to test?
 
-Finally, go ahead and download the Homework 1 assignment from the IAFF 6501 [classwork folder](https://www.dropbox.com/scl/fo/g4tdpdwcij78nyydvr4bp/h?rlkey=hctskhle6222csnwre5ir9gz3&dl=0). 
+You have the option of doing this assignment in Posit Cloud or working locally. Either way you must submit your zipped project folder with the rendered HTML file included (see submission instructions at the end of the document) to Blackboard.
 
 ## Step 1: Gather your data (20 pts)
 
@@ -20,7 +33,7 @@ Finally, go ahead and download the Homework 1 assignment from the IAFF 6501 [cla
 
 ## Step 2: Make a line chart showing country trends (20 pts)
 
-*a) Insert a code chunk below this paragraph and label it. Filter your `dem_data` to include three or four countries at various levels of economic development and create a line chart of your democracy indicator. See the [World Bank country classifications](https://blogs.worldbank.org/opendata/new-world-bank-country-classifications-income-level-2022-2023) by income level to make your selections. Save the data as a new data frame called `dem_data_line`.* 
+*a) Insert a code chunk below this paragraph and label it. Filter your `dem_data` to include three or four countries at various levels of economic development and create a line chart of your democracy indicator. See the [World Bank country classifications](https://blogs.worldbank.org/en/opendata/understanding-country-income--world-bank-group-income-classifica) by income level to make your selections. Save the data as a new data frame called `dem_data_line`.*
 
 **Note: From here on out I will expect you to know to add a code chunk and label it. So I won't keep repeating that portion of the instructions.**
 
@@ -30,15 +43,15 @@ Finally, go ahead and download the Homework 1 assignment from the IAFF 6501 [cla
 
 ## Step 3: Make a bar chart comparing regional levels (20 pts)
 
-*a) Going back to your original `dem_data` data frame, filter the data for a single year and then group by region and summarize your democracy indicator by mean. Save the new data in an object called `bar_chart_data`.* 
+*a) Going back to your original `dem_data` data frame, filter the data for a single year and then group by region and summarize your democracy indicator by mean. Save the new data in an object called `bar_chart_data`.*
 
-*b) Use `ggplot()` and `geom_col()` to create a bar chart showing levels of democracy across the regions with `bar_chart_data`. Make sure to add appropriate axis labels, a title and a caption. Change the fill color and add a theme to spruce it up a bit.* 
+*b) Use `ggplot()` and `geom_col()` to create a bar chart showing levels of democracy across the regions with `bar_chart_data`. Make sure to add appropriate axis labels, a title and a caption. Change the fill color and add a theme to spruce it up a bit.*
 
 *c) Interpret your bar chart. Do you see evidence that more developed regions have higher levels of democracy?*
 
 ## Step 4: Make a scatter plot to show  (20 pts)
 
-*a) Start with the `dem_data` data frame again, Now filter by year to select either a single year or take an average of multiple years using `group_by()` and `summarize()` to analyze. If you choose a recent period, make sure that the data are available. Some of the background variables in V-Dem are not entirely up to date. You can check the availability of the data by looking at the V-Dem codebook or using `glimpse()` or `View()` to look at your data. Save your your data in a new object called `dem_data_scatter`.*
+*a) Start with the `dem_data` data frame again. Now take an average of multiple years using `group_by()` and `summarize()` to analyze. If you choose a recent period, make sure that the data are available. Some of the background variables in V-Dem are not entirely up to date. You can check the availability of the data by looking at the V-Dem codebook or using `glimpse()` or `View()` to look at your data. Save your data in a new object called `dem_data_scatter`.*
 
 *b) Now build a scatter plot with `ggplot2`. Put your modernization-related variable (background variable) on the x-axis and your measure of democracy on the y-axis and color the points by region. Add a trend line with `geom_smooth()`. Add appropriate labels and a `viridis` color map. Change the theme to `theme_minimal`.*
 
@@ -56,14 +69,13 @@ Finally, go ahead and download the Homework 1 assignment from the IAFF 6501 [cla
 
 *d) Add annotation to your plot using hline() or vline() to highlight a significant point in your data, like the mean or some other significant value.*
 
-*e) Upload your rendered HTML file to Quarto Pub and share the link with the class on Discord.*
-
 ::: {.callout-important}
 ## Submission Instructions
 
-Head over to Blackboard and go to the Homework 1 assignment. There you will find a that you can lose to upload your **project folder**. Take a screen shot of the confirmation message ("Finished Uploading") and store it on your computer. 
+Please upload your zipped project folder with rendered HTML file and all supporting files, including your Quarto (QMD) markdown file. To compress your project folder, right-click the folder and choose Compress (Mac) or Send to → Compressed (zipped) folder (Windows). Then upload the resulting .zip file to the Homework 1 assignment on Blackboard.
 
-Next, click "Create Sumbission" and write a statement saying that you have submitted the assignment and that all of the work is your own. If you have uploaded your document to Quarto Pub, then you can include the link to that as well. 
+In the submission text box, please write a brief statement addressing the following:
 
-Then, upload the screenshot you saved in the first step. Now submit the assignment.  
+1. All of the work submitted is your own.
+2. Whether you have used AI tools in completing this assignment and, to the extent that you have done so, that your use of these tools has been in an advisory (and not a purely generative) context.
 :::

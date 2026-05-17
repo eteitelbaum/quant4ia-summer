@@ -587,14 +587,21 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<div class="callout callout-style-simple callout-note no-icon">
-<div class="callout-body d-flex">
+<div class="callout callout-style-default callout-note callout-titled">
+<div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
-<i class="callout-icon no-icon"></i>
+<i class="callout-icon"></i>
 </div>
-<div class="callout-body-container">
-<p><a href="https://raw.githubusercontent.com/eteitelbaum/quant4ia-summer/main/assignments/homework-1.qmd">Download the <code>.qmd</code> file for this assignment</a></p>
+<div class="callout-title-container flex-fill">
+Getting the Assignment Files
 </div>
+</div>
+<div class="callout-body-container callout-body">
+<p>You can access the assignment files in one of two ways:</p>
+<ul>
+<li><strong>Posit Cloud</strong>: Open the <a href="https://posit.cloud/spaces/787651">course space on Posit Cloud</a> and navigate to the Homework 1 assignment.</li>
+<li><strong>GitHub</strong>: <a href="https://raw.githubusercontent.com/eteitelbaum/quant4ia-summer/main/assignments/homework-1.qmd">Download the <code>.qmd</code> file</a> directly from the course repository and save it to your project folder.</li>
+</ul>
 </div>
 </div>
 <section id="overview" class="level2">
@@ -603,7 +610,7 @@ ul.task-list li input[type="checkbox"] {
 <p>We are going to use data from V-Dem and modern data viz tools to explore Lipset’s hypothesis that economic modernization is highly correlated with democracy. We have already done this to some extent by looking at the relationship between wealth and the polyarchy score. But we are going to broaden things out by looking at other measures of modernization and democracy contained in the V-Dem dataset.</p>
 <p>Before starting on this assignment, you will want to have a look at the V-Dem <a href="https://www.v-dem.net/static/website/img/refs/codebookv111.pdf">codebook</a>. Look through the sections titled “V-Dem Democracy Indices” (section 2 of the codebook) and “Background Factors (E).” There are five democracy indicators, one of which is the polyarchy index. There are a number of background factors, many of which pertain to economic modernization. We are going to be looking at the relationship between these two sets of variables. In the code book, you will also find a list of country names and codes, which will be useful for downloading and filtering the data.</p>
 <p>Now have a look at “Some Social Requisites of Democracy” and in particular pay attention to the indicators in Table II and the discussion surrounding them. Think of each indicator (e.g.&nbsp;urbanization, education, etc.) as a sub-hypothesis of his theory. Which of these sub-hypotheses about modernization do you think is most compelling? Which would you like to test?</p>
-<p>You have the option of doing this assignment in Posit Cloud or downloading the project folder and working locally. Either way you must submit your zipped project folder with the rendered HTML file included (see submission instructions at the end of the document) to Blackboard.</p>
+<p>You have the option of doing this assignment in Posit Cloud or working locally. Either way you must submit your zipped project folder with the rendered HTML file included (see submission instructions at the end of the document) to Blackboard.</p>
 </section>
 <section id="step-1-gather-your-data-20-pts" class="level2">
 <h2 class="anchored" data-anchor-id="step-1-gather-your-data-20-pts">Step 1: Gather your data (20 pts)</h2>
@@ -637,7 +644,6 @@ ul.task-list li input[type="checkbox"] {
 <p><em>b) Remove the <code>facet_wrap()</code> call and display the relationship for one region and use <code>geom_text()</code> to label your points.</em></p>
 <p><em>c) Remove the text labels and make your scatter plot interactive using <code>ggplotly()</code>. Make sure that your tooltip includes the information that you want to display to the user.</em></p>
 <p><em>d) Add annotation to your plot using hline() or vline() to highlight a significant point in your data, like the mean or some other significant value.</em></p>
-<p><em>e) Upload your rendered HTML file to Quarto Pub and share the link with your submission.</em></p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
@@ -648,9 +654,12 @@ Submission Instructions
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>Head over to Blackboard and go to the Homework 1 assignment. Click “Create Submission” and write a brief statement saying that you have submitted the assignment and that all of the work is your own.</p>
-<p>From there you have upload a compressed (zipped) version of your project folder including the <strong>rendered</strong> HTML file. To compress your project folder, right-click the project folder and choose Compress (Mac) or Send to → Compressed (zipped) folder (Windows). Then, upload the resulting .zip file.</p>
-<p>If you like, you can also upload your rendered HTML as a webpage to Quarto Pub and share the link below your submission statement.</p>
+<p>Please upload your zipped project folder with rendered HTML file and all supporting files, including your Quarto (QMD) markdown file. To compress your project folder, right-click the folder and choose Compress (Mac) or Send to → Compressed (zipped) folder (Windows). Then upload the resulting .zip file to the Homework 1 assignment on Blackboard.</p>
+<p>In the submission text box, please write a brief statement addressing the following:</p>
+<ol type="1">
+<li>All of the work submitted is your own.</li>
+<li>Whether you have used AI tools in completing this assignment and, to the extent that you have done so, that your use of these tools has been in an advisory (and not a purely generative) context.</li>
+</ol>
 </div>
 </div>
 
