@@ -12,7 +12,7 @@ source("../helper.R")
 ```
 
 ::: {.callout-warning}
-**`r advdate2(sat, 5)` is the last day of the Summer 1 session.** Plan your time accordingly — both Lab 6 and Homework 3 must be submitted by 11:59pm that day.
+**`r advdate2(sat, 5)` is the last day of the Summer 1 session.** Plan accordingly as Homework 3 is due one day earlier than previous assignments and will take some time to complete.
 :::
 
 ::: {.callout-important}
