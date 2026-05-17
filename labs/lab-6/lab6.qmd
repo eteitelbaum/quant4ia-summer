@@ -158,12 +158,14 @@ tidy(marg_effects) |>
 
 YOUR ANSWER HERE
 
+::: {.callout-important}
 ## Render as PDF and Submit Your Work
 
 1. Replace "YOUR NAME HERE" at the top with your actual name
 2. Make sure all code chunks run without errors
 3. Click "Render" to create your PDF
 4. Submit the PDF to Blackboard
+:::
 
 ---
 

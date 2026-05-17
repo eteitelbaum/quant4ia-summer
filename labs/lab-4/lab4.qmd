@@ -198,12 +198,14 @@ Using $\alpha = 0.05$, state whether you reject or do not reject $H_0$, then exp
 
 YOUR CONCLUSION HERE
 
+::: {.callout-important}
 ## Submission (20 points)
 
 1. Replace "YOUR NAME HERE" with your name
 2. Make sure all code chunks run without errors
 3. Render to PDF
 4. Submit the PDF to Blackboard
+:::
 
 ## Hints (Short Version)
 

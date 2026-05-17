@@ -188,12 +188,14 @@ Write 2-3 sentences describing what you see. Which region has the highest level 
 
 YOUR INTERPRETATION HERE
 
+::: {.callout-important}
 ## Submission (Completion)
 
 1.  Replace "YOUR NAME HERE" at the top with your actual name
 2.  Make sure all your code chunks run without errors
 3.  Click "Render" to create your PDF
 4.  Submit the PDF to Blackboard
+:::
 
 ## Hints
 

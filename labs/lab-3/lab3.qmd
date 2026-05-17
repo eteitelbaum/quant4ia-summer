@@ -167,12 +167,14 @@ In 3-4 sentences, describe what you learned from your spread statistics and box 
 
 YOUR INTERPRETATION HERE
 
+::: {.callout-important}
 ## Render as PDF and Submit Your Work (20 pts)
 
 1. Replace "YOUR NAME HERE" at the top with your actual name
 2. Make sure all your code chunks run without errors
 3. Click "Render" to create your PDF
 4. Submit the PDF to Blackboard
+:::
 
 ## Hints
 

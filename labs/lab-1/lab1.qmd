@@ -129,6 +129,7 @@ Write 2-3 sentences about what you see. Is life expectancy spread evenly across 
 
 YOUR INTERPRETATION HERE
 
+::: {.callout-important}
 ## Render as PDF and Submit Your Work (20 pts)
 
 1.  Replace "YOUR NAME HERE" at the top with your actual name
@@ -136,6 +137,7 @@ YOUR INTERPRETATION HERE
 3.  Change `format: html` to `format: pdf` in the YAML header
 4.  Click "Render" to create your PDF
 5.  Submit the PDF to Blackboard
+:::
 
 ## Hints
 
