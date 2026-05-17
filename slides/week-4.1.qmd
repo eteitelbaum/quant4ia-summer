@@ -80,7 +80,7 @@ tail(jobs_program)
 Now let's visualize it with a bar chart.
 
 ```{r}
-jobs_program %>%
+jobs_program |>
   ggplot(aes(x = outcome)) +
   geom_bar(fill = "steelblue") + theme_bw()
 ```
@@ -162,6 +162,20 @@ Is it possible to assess this hypothetical organization's claim using the data a
 - A critical value ($\alpha$) is the threshold at which we will reject the null hypothesis
 - If the p-value is less than $\alpha$, we reject the null hypothesis
 - A standard threshold for $\alpha$ is 0.05
+:::
+
+## One-Sided vs. Two-Sided Tests
+
+<br>
+
+::: incremental
+- A **one-sided test** asks whether the parameter is *greater than* or *less than* the null value
+  - Use when theory predicts a specific direction (e.g., the program *reduces* unemployment)
+  - `direction = "less"` or `direction = "greater"`
+- A **two-sided test** asks whether the parameter is *different from* the null value (either direction)
+  - Use when you have no strong directional prediction
+  - `direction = "two-sided"`
+- In our example, we predict the program *reduces* unemployment — so we use a one-sided test
 :::
 
 ## The Null Distribution
@@ -328,12 +342,14 @@ null_dist |>
 
 ## Visualizing the p-value
 
-```{r echo=FALSE, out.width="50%"}
+```{r}
+#| echo: false
+#| out-width: "50%"
 ggplot(data = null_dist, mapping = aes(x = stat)) +
   geom_histogram(binwidth = 0.05, fill = "steelblue4") +
-  labs(title = "Null distribution") +     
-  geom_vline(xintercept = .25, linetype="dotted", 
-                color = "black", size=1) + theme_bw()
+  labs(title = "Null distribution") +
+  geom_vline(xintercept = .25, linetype = "dotted",
+                color = "black", linewidth = 1) + theme_bw()
 ```
 
 ## p-value using `infer`
@@ -369,7 +385,7 @@ visualize(null_dist) +
 <br>
 
 ::: incremental
-- Conventionally, people use a p-value of *0.05* as a cutoff ("signifigance level") for determining "statistical significance"
+- Conventionally, people use a p-value of *0.05* as a cutoff ("significance level") for determining "statistical significance"
     - That is, whether the null hypothesis should be rejected
     - That is, whether the data we gathered is very unlikely to have been generated due to chance
 - Always remember that this is a convention
@@ -392,7 +408,8 @@ visualize(null_dist) +
 
 ## Your Turn!
 
-- What if the unemployment rate for the program was only 10%?     - Would you reject the null hypothesis in this case?
+- What if the unemployment rate for the program was only 10%?
+    - Would you reject the null hypothesis in this case?
     - Demonstrate by calculating the p-value
 - Try changing the true unemployment rate in the null distribution to 0.50 (50%)
   - Simulate the null distribution

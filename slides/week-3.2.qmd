@@ -194,7 +194,7 @@ library(scales)
 catalan <- tibble(
   response = c("No", "Yes", "No answer"),
   rate     = c(45.3, 44.5, 10.2)
-) %>%
+) |>
   mutate(response = fct_relevel(response, "No", "Yes", "No answer"))
 ```
 
@@ -217,7 +217,7 @@ ggplot(catalan, aes(y = fct_rev(response), x = rate, fill = response)) +
 The probability of the tiny difference between the 'No' and 'Yes' being just due to random chance is very high.^[Alberto Cairo. ["Uncertainty and Graphicacy"](https://ec.europa.eu/eurostat/cros/powerfromstatistics/OR/PfS-OutlookReport-Cairo.pdf), 2017.]
 
 ```{r}
-catalan <- catalan %>%
+catalan <- catalan |>
   mutate(
     low = rate - 2.95,
     high = rate + 2.95
@@ -522,7 +522,7 @@ Visualize with a histogram
 
 ggplot(data = boot_dist, mapping = aes(x = stat)) +
   geom_histogram(binwidth =.01, fill = "steelblue4") +
-  geom_vline(xintercept = c(lower_bound, upper_bound), color = "darkgrey", size = 1, linetype = "dashed") +
+  geom_vline(xintercept = c(lower_bound, upper_bound), color = "darkgrey", linewidth = 1, linetype = "dashed") +
   labs(title = "Bootstrap distribution of means",
        subtitle = "and 95% confidence interval",
        x = "Estimate",
@@ -537,7 +537,7 @@ ggplot(data = boot_dist, mapping = aes(x = stat)) +
 ```{r}
 ggplot(data = boot_dist, mapping = aes(x = stat)) +
   geom_histogram(binwidth =.01, fill = "steelblue4") +
-  geom_vline(xintercept = c(lower_bound, upper_bound), color = "darkgrey", size = 1, linetype = "dashed") +
+  geom_vline(xintercept = c(lower_bound, upper_bound), color = "darkgrey", linewidth = 1, linetype = "dashed") +
   labs(title = "Bootstrap distribution of means",
        subtitle = "and 95% confidence interval",
        x = "Estimate",
@@ -613,6 +613,14 @@ The 95% confidence interval was calculated as (`lower_bound`, `upper_bound`). Wh
 
 - Change the `reps` argument in the `generate()` function to something way smaller, like 100. What happens to your estimates?
 - Try progressively higher numbers. What happens to your estimates as the number of reps increases?
+
+## Bias vs Precision
+
+- A procedure is *unbiased* if it generates the "right" answer, on average
+- Precision refers to variability: procedures with less sampling variability will be more precise
+    - all else equal, a greater sample size will increase precision
+- When we increase the sample size (number of reps), we increase precision
+- As a result our confidence interval will be narrower
 
 ## Why did we do these simulations?
 

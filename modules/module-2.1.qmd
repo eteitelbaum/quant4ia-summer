@@ -1,7 +1,7 @@
 ---
 title: "Module 2.1"
-subtitle: "Working with Data"
-format: 
+subtitle: "Working with and Summarizing Data"
+format:
   html:
     code-link: true
 highlight-style: atom-one
@@ -14,68 +14,114 @@ execute:
 ::: {.callout-tip}
 ## Prework
 
-- Install the `devtools` package. Type `install.packages("devtools")` in your console. You will need this to install the `vdemdata` package because it is not on the CRAN Network. 
-- Install the `vdemdata` package from GitHub. Type `devtools::install_github("vdeminstitute/vdemdata")` in your console. 
-- Generate a quarto document named "module-1.2.qmd" in your modules project folder so that you can code along with me
+Generate a Quarto document named `module-2.1.qmd` in your modules project folder so that you can code along with the lesson.
 :::
 
-## Overview 
+## Overview
 
-In this module working, we are going to be working with data from an [API](https://en.wikipedia.org/wiki/API). We are going to be working with the `vdemdata` in this lesson and some others later in the course. 
-
-Along the way, we are going to continue to extend our data wrangling skills. We will learn some new functions in `dplyr` that will help us get our data into a usable form for analysis. We are also going to cover in depth some common data science workflows, including filtering observations, selecting variables, summarizing data for different groups, and sorting data based on column values. 
+In this module we learn how to download, wrangle, and summarize data. We will work with the [V-Dem Dataset](https://www.v-dem.net/data/the-v-dem-dataset/), a rich source of democracy-related indicators covering countries from 1789 to the present. Along the way we cover the core `dplyr` verbs for data manipulation: `filter()`, `select()`, `mutate()`, `group_by()`, `summarize()`, and `arrange()`.
 
 ## Downloading and Transforming Data
 
 {{< video https://youtu.be/ScQD47eJeAE title='Downloading Data from V-Dem' >}}
 
-The first thing we want to talk about is how to filter observations and to select variables for analysis. We will also delve into the topic of how to create new variables. To illustrate these concepts, we are going to be working with the [V-Dem Dataset](https://www.v-dem.net/data/the-v-dem-dataset/). The V-Dem offers an R package for downloading its data called [vdemdata](https://github.com/vdeminstitute/vdemdata). 
-
-`vdemdata` is perfect for illustrating the `filter()` and `select()` verbs because its main function for downloading the data (`vdem`) does not take any arguments (it simply downloads the whole dataset). So you have to use R functions to narrow down the variables and years you want to work with. 
-
-While V-Dem has wealth of indicators related to democracy, we are going to focus on the most famous one called the "polyarchy" score. We are also going to download data on per capita GDP and create some indicator variables for region that we will use later on when we summarize the data. Along with those variables, we also want to retain `country_name`, `year` and `country_id` for the purposes of merging these data with our World Bank data. 
+The `vdemdata` package gives us direct access to the V-Dem dataset in R. Its main object, `vdem`, contains the entire dataset — over 4,000 variables and nearly 30,000 country-year observations. Because it downloads everything at once, we rely on `dplyr` functions to narrow it down to just what we need.
 
 ::: {.callout-note}
-While V-Dem has a variable look-up tool (`find_var`), it does not provide very much information on the variables that the search function returns. Therefore, if you want to use this package for your own research, I highly recommend just going to the [V-Dem codebook](https://www.v-dem.net/documents/24/codebook_v13.pdf) and manually grabbing the codes for the indicators that you want to use in your analysis. 
+V-Dem has a variable look-up tool (`find_var`), but for details on each indicator it is best to consult the [V-Dem codebook](https://www.v-dem.net/documents/24/codebook_v13.pdf) directly.
 :::
 
-In addition to filtering out years and selecting variables, let's also create a `region` coding to facilitate our analysis later on. We will do this by piping in a `mutate()` call where we use the [case_match()](https://dplyr.tidyverse.org/reference/case_match.html) function to change the `region` from a numeric variable to a string. This will come in handy when we go to visualize the data in future lessons.  
+We will focus on four variables: the polyarchy score (`v2x_polyarchy`), GDP per capita (`e_gdppc`), region (`e_regionpol_6C`), and the women's empowerment index (`v2x_gender`). We also keep `country_name`, `country_id`, and `year` for identification.
 
-We will store our new data as an object called `democracy`.  
+The `filter()` verb keeps only the rows we want. The `select()` verb keeps only the columns we want — and lets us rename them at the same time. Finally, `mutate()` with `case_match()` recodes the numeric region codes into readable labels.
 
 ```{r}
 #| label: democracy
 
-# Load packages
-library(dplyr)
-library(vdemdata) # to download V-Dem data
+library(tidyverse)
+library(vdemdata)
 
-# Download the data
-democracy <- vdem |> # download the V-Dem dataset
-  filter(year >= 1990)  |> # filter out years less than 1990
-  select(                  # select (and rename) these variables
-    country = country_name,     # the name before the = sign is the new name  
-    vdem_ctry_id = country_id,  # the name after the = sign is the old name
-    year, 
-    polyarchy = v2x_polyarchy, 
-    gdp_pc = e_gdppc, 
+democracy <- vdem |>
+  filter(year >= 1990) |>
+  select(
+    country = country_name,
+    vdem_ctry_id = country_id,
+    year,
+    polyarchy = v2x_polyarchy,
+    gdp_pc = e_gdppc,
+    women_emp = v2x_gender,
     region = e_regionpol_6C
-    ) |>
+  ) |>
   mutate(
-    region = case_match(region, # replace the values in region with names
-                     1 ~ "Eastern Europe", 
-                     2 ~ "Latin America",  
-                     3 ~ "Middle East",   
-                     4 ~ "Africa", 
-                     5 ~ "The West", 
-                     6 ~ "Asia")
-                    # number on the left of the ~ is the V-Dem region code
-                    # we are changing the number to the country name on the right
-                    # of the equals sign
+    region = case_match(region,
+      1 ~ "Eastern Europe",
+      2 ~ "Latin America",
+      3 ~ "Middle East",
+      4 ~ "Africa",
+      5 ~ "The West",
+      6 ~ "Asia")
   )
 
-# View the data
 glimpse(democracy)
 ```
 
+::: {.callout-warning icon=false}
+## Your Turn
 
+- Change the start year from 1990 to a year of your choosing.
+- Add one more V-Dem variable to the `select()` call. Look up a variable code in the codebook that interests you and give it a clean name.
+- Run `glimpse()` on your new data frame. How many rows and columns does it have?
+:::
+
+## Summarizing Data
+
+{{< video https://youtu.be/mgBwVzMV-v8 title='Group, Summarize and Arrange' >}}
+
+A common workflow in data science is **group → summarize → arrange**. We group the data by a categorical variable, calculate summary statistics for each group, and then sort the results.
+
+We will illustrate this with `dem_women.csv`, a pre-processed dataset combining V-Dem democracy indicators with economic and gender representation variables.
+
+```{r}
+#| label: dem-women
+
+dem_women <- read_csv("data/dem_women.csv")
+
+glimpse(dem_women)
+```
+
+Now let's calculate regional averages for all four variables and sort by polyarchy score in descending order:
+
+```{r}
+#| label: dem-summary
+
+dem_summary <- dem_women |>
+  group_by(region) |>
+  summarize(
+    polyarchy   = mean(polyarchy, na.rm = TRUE),
+    gdp_pc      = mean(gdp_pc, na.rm = TRUE),
+    flfp        = mean(flfp, na.rm = TRUE),
+    women_rep   = mean(women_rep, na.rm = TRUE)
+  ) |>
+  arrange(desc(polyarchy))
+
+dem_summary
+```
+
+`group_by()` splits the data into groups before the summarize step. `summarize()` collapses each group down to one row. `arrange()` sorts the result — `desc()` reverses the default ascending order.
+
+We can export the summary for later use:
+
+```{r}
+#| label: export
+#| eval: false
+
+write_csv(dem_summary, "data/dem_summary.csv")
+```
+
+::: {.callout-warning icon=false}
+## Your Turn
+
+- Summarize the `dem_women` data by region using `median()` instead of `mean()`. Do the rankings change?
+- Add a new summary statistic: the standard deviation of `polyarchy` using `sd()`. Which region has the most variation in democracy scores?
+- Try `arrange(polyarchy)` (without `desc()`). What changes?
+:::

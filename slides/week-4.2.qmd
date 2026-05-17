@@ -1,6 +1,6 @@
 ---
 title: "Hypothesis Testing 2"
-subtitle: "Reletionship Between Two Variables"
+subtitle: "Relationship Between Two Variables"
 date: today
 date-format: long
 footer: "[IAFF 6501 Website](https://quant4ia.rocks/)"

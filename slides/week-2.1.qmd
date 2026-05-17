@@ -101,7 +101,7 @@ flowchart LR
     Server-->id1[(API)]
 ```
 
-- For IA, we coulduse APIs to download social science data
+- For IA, we could use APIs to download social science data
 
 ## APIs for IA
 
@@ -409,7 +409,19 @@ democracy <- vdem |>
   )
 ```
 
-## Visualize It! 
+## Save It!
+
+<br>
+
+```{r}
+#| label: save-it
+#| eval: false
+#| echo: true
+
+write_csv(democracy, "democracy.csv")
+```
+
+## Visualize It!
 
 ```{r}
 #| label: scatterplot1

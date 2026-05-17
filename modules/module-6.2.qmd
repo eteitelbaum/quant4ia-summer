@@ -11,12 +11,19 @@ execute:
   warning: false
 ---
 
-::: callout-tip
+::: {.callout-tip}
 ## Prework
 
--   Install [peacesciencer](http://svmiller.com/peacesciencer/), [broom](https://cran.r-project.org/web/packages/broom/vignettes/broom.html) and [modelsummary](https://vincentarelbundock.github.io/modelsummary/articles/modelsummary.html). Familiarize yourself with the basic purpose and usage of these packages,
+Install the following packages and familiarize yourself with the basic purpose and documentation of each:
 
-`install.packages(c("peacesciencer", "broom", "modelsummary"))`
+- [peacesciencer](http://svmiller.com/peacesciencer/) — conflict data tools
+- [broom](https://broom.tidymodels.org/) — tidying model output
+- [modelsummary](https://modelsummary.com/) — publication-ready tables
+- [marginaleffects](https://marginaleffects.com/) — predicted probabilities and marginal effects
+
+```r
+install.packages(c("peacesciencer", "broom", "modelsummary", "marginaleffects"))
+```
 :::
 
 ## Overview
@@ -170,13 +177,47 @@ Third we can customize various things. We can specify the color of the points an
 library(ggplot2)
 
 
-modelplot(conflict_model, 
+modelplot(conflict_model,
           coef_map = rev(coef_map), # rev() reverses list order
-          coef_omit = "Intercept", 
+          coef_omit = "Intercept",
           color = "blue") + # use plus to add customizations like any ggplot object
   geom_vline(xintercept = 0, color = "red", linetype = "dashed", linewidth = .75) + # red 0 line
   labs(
     title = "Figure 1: Predictors of Conflict Onset",
     caption = "See appendix for data sources."
-  ) 
+  )
 ```
+
+## Visualizing Predicted Probabilities
+
+Coefficient plots show effect sizes and uncertainty, but they work on the **log-odds scale**, which is difficult to interpret in practical terms. A more intuitive complement is a **predicted probability plot**, which shows how the probability of the outcome changes across a range of values for a key predictor.
+
+The `plot_predictions()` function from `marginaleffects` makes this straightforward. Let's show how predicted conflict probability varies with GDP per capita:
+
+```{r}
+library(marginaleffects)
+
+plot_predictions(conflict_model,
+                 condition = "wbgdppc2011est") +
+  labs(
+    title = "Predicted Probability of Conflict Onset by GDP per Capita",
+    x = "GDP per Capita (log scale)",
+    y = "Predicted Probability of Conflict Onset",
+    caption = "Shaded area represents 95% confidence interval."
+  ) +
+  theme_minimal()
+```
+
+This translates the abstract coefficient into a concrete story: countries with very low GDP per capita face substantially higher predicted conflict probabilities than wealthier countries. The confidence interval (shaded area) shows our uncertainty around these predictions.
+
+::: {.callout-warning icon=false}
+## Your Turn
+
+Recreate the regression table or coefficient plot, but this time try an alternative specification:
+
+1. Replace `v2x_polyarchy` with `ethfrac` (ethnic fractionalization) or `relfrac` (religious fractionalization) in one of the models.
+2. Re-run `modelsummary()` to compare the new specification side by side with the others.
+3. Use `plot_predictions()` to visualize how conflict probability varies with your chosen variable.
+
+What do you find? Do ethnic or religious fractionalization predict conflict onset after controlling for GDP and population?
+:::

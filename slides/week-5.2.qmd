@@ -22,13 +22,13 @@ execute:
 
 <br>
 
-```{r} 
+```{r}
 #| label: packages
 #| echo: true
 
 library(tidyverse)
-library(tidymodels)
 library(vdemdata)
+library(broom)
 ```
 
 
@@ -79,7 +79,7 @@ vdem |>
   filter(country_name == "United States of America") |>
   filter(year > 1900) |> 
   ggplot(aes(y= v2cacamps, x = year)) +
-  geom_line(color = "dodgerblue", size = 1) +
+  geom_line(color = "dodgerblue", linewidth = 1) +
   labs(title = "Polarization in the USA", 
        y = "Polarization", x = "Year") +
   theme_minimal()
@@ -87,7 +87,8 @@ vdem |>
 
 ## Polarization and Democracy in 2006
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 ggplot(modelData, aes(x = polarization, y = libdem)) +
   geom_point() +
   geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
@@ -205,6 +206,29 @@ $$\hat{Y_i} = a + -.05*Polarization + .13*GDPpc + .00004*OilRents$$
 
 | $b_3$ is the impact of a 1-unit change in oil revenues per capita on the predicted level of Y, **holding polarization and GDP fixed** (all else equal)
 
+## Making Predictions
+
+<br>
+
+Use `predict()` to get predicted values for specific cases:
+
+```{r}
+#| label: predict
+#| echo: true
+
+# predict democracy for three hypothetical countries
+new_data <- tibble(
+  polarization = c(-1, 0, 1),
+  log_wealth   = c(7, 9, 11)
+)
+
+predict(model2, newdata = new_data)
+```
+
+<br>
+
+Each value is the predicted liberal democracy score for a country with those characteristics, holding other factors at the specified values.
+
 ## Your Turn! {.smaller}
 
 <br>
@@ -212,10 +236,10 @@ $$\hat{Y_i} = a + -.05*Polarization + .13*GDPpc + .00004*OilRents$$
 - In the last session, you examined levels of democracy and corruption
 - Now, let's fit a multiple regression model predicting corruption with two predictors: democracy (libdem) and polarization (polarization)
 - Then, interpret the coefficients
-- Estimate a second multiple regression model that adds in GDP per capita (lg_gdppc)
+- Estimate a second multiple regression model that adds in GDP per capita (log_wealth)
 - Interpret the coefficients
 - What happens to the coefficients of the other variables when we add GDP per capita to the model?
-- Try additional predicotrs if there is time
+- Try additional predictors if there is time
 
 ```{r}
 #| label: time1
@@ -277,7 +301,7 @@ summary(corruption2)
 ggplot(modelData, aes(x = log_wealth, y = libdem, color=factor(judicial_review))) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  labs(x = "GDP per capita", y = "Liberal Democracy Index") +
   theme_bw() +
     scale_color_manual(name = "Judicial Review", values = c("steelblue3", "coral"), labels = c("No", "Yes")) 
 ```
@@ -358,10 +382,10 @@ What if you want a different baseline category? How do we interpret now?
 #| echo: true
 
 # make SS Africa the reference category
-modelData <- modelData |> 
-mutate(newReg = relevel(region, ref=4)) 
+modelData <- modelData |>
+  mutate(newReg = relevel(region, ref = "SSAfrica"))
 
-regional_model2 <- lm(libdem ~ newReg, data = modelData) 
+regional_model2 <- lm(libdem ~ newReg, data = modelData)
 
 summary(regional_model2)
 ```
@@ -410,7 +434,8 @@ levels(modelData$regime)
 <br>
 
 - Filter data to include only the year 2019 (or run the code to use modelData)
-- Make a plot to visualize the relationship between regime type and level of corruption.          - Which kind of plot is best in this situation?
+- Make a plot to visualize the relationship between regime type and level of corruption.
+  - Which kind of plot is best in this situation?
 - Fit a linear model
 - Interpret the intercept and coefficients
 
@@ -457,11 +482,122 @@ summary(corruption)
 <br>
 
 - What is a theory that you would like to test with V-Dem data?
-- What is the dependent variable? 
-- What are the independent variables? 
+- What is the dependent variable?
+- What are the independent variables?
 - Map out steps to wrangle the data and fit a regression model
-- What do you expect to find? 
+- What do you expect to find?
 - Now go ahead and wrangle the data
 - Fit the model
 - Interpret the coefficients and their significance
 - Did the results match your expectations?
+
+# Outliers and Model Diagnostics
+
+## What Are Outliers?
+
+<br>
+
+- Observations that don't fit the general pattern of the data
+- Not always errors — often **substantively interesting cases**
+- In our GDP-democracy example: oil-rich authoritarian states
+
+## Three Types {.smaller}
+
+<br>
+
+- **Leverage points**: extreme values on the x-axis
+  - Unusual predictor values — *potential* to distort the model
+- **Influential points**: significantly change the regression line when removed
+  - Combine extreme predictors *and* large residuals
+- **Residual outliers**: points far from the regression line
+  - Poorly fit by the model regardless of their x-value
+
+## Regression Diagnostics
+
+<br>
+
+`broom::augment()` adds diagnostic columns to the data:
+
+| Column | What it measures |
+|--------|-----------------|
+| `.hat` | **Leverage** — how extreme the predictor values are |
+| `.std.resid` | **Standardized residuals** — how far from the line |
+| `.cooksd` | **Cook's distance** — overall influence on the model |
+
+## Flagging Influential Points {.smaller}
+
+<br>
+
+```{r}
+#| label: diagnostics
+#| echo: true
+
+diag_data <- vdem |>
+  filter(year == 2006) |>
+  select(country = country_name, lib_dem = v2x_libdem,
+         wealth = e_gdppc, polarization = v2cacamps) |>
+  mutate(log_wealth = log(wealth)) |>
+  filter(!is.na(lib_dem), !is.na(wealth))
+
+dem_model <- lm(lib_dem ~ log_wealth + polarization, data = diag_data)
+
+model_diagnostics <- augment(dem_model, data = diag_data) |>
+  mutate(
+    high_leverage  = .hat > 2 * mean(.hat),
+    high_residual  = abs(.std.resid) > 2,
+    high_influence = .cooksd > 4 / nrow(diag_data)
+  )
+
+model_diagnostics |>
+  filter(high_leverage | high_residual | high_influence) |>
+  select(country, wealth, lib_dem, high_leverage, high_residual, high_influence)
+```
+
+## Outlier Strategies
+
+<br>
+
+::: {.incremental}
+1. **Leave them in** — outliers may be substantively important
+2. **Remove them** — check how much they change your results
+3. **Transform the data** — e.g., log transformation compresses extreme values
+:::
+
+## Compare Models With and Without Outliers {.smaller}
+
+<br>
+
+```{r}
+#| label: compare-outliers
+#| echo: true
+
+model_full <- lm(lib_dem ~ log_wealth + polarization, data = diag_data)
+
+model_clean <- model_diagnostics |>
+  filter(!high_leverage & !high_residual & !high_influence) |>
+  lm(lib_dem ~ log_wealth + polarization, data = _)
+
+tibble(
+  model        = c("Full model", "Outliers removed"),
+  log_wealth   = c(coef(model_full)[2], coef(model_clean)[2]),
+  polarization = c(coef(model_full)[3], coef(model_clean)[3]),
+  r_squared    = c(glance(model_full)$r.squared, glance(model_clean)$r.squared)
+)
+```
+
+## Your Turn! {.smaller}
+
+<br>
+
+- Using `model2` or `model3` from earlier in the session, run `augment()` to identify influential points
+- Which countries are flagged? Do they make substantive sense?
+- Remove the influential observations and re-fit the model
+- How much do the coefficients change? What does that tell you about the robustness of your results?
+
+```{r}
+#| label: timer3
+
+library(countdown)
+
+countdown(minutes = 10, id = "timer3", right = "10%", bottom = "5%")
+```

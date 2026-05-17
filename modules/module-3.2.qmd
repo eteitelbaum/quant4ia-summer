@@ -1,7 +1,7 @@
 ---
 title: "Module 3.2"
 subtitle: "Sampling and Uncertainty"
-format: 
+format:
   html:
     code-link: true
 highlight-style: atom-one
@@ -14,168 +14,193 @@ execute:
 ::: {.callout-tip}
 ## Prework
 
-- Install the following packages:
-  - `openintro`
-  - `infer`
-  - `tidymodels`
+Install the following packages before this lesson:
+
+```r
+install.packages(c("openintro", "tidymodels"))
+```
+
+Think about sampling. What does the word "sample" mean to you? What is a sample you have encountered in your own life — and what larger group was it meant to represent?
 :::
 
-# Overview
+## Overview
 
-In this module, we will talk about the concepts of sampling and uncertainty. We will discuss the difference between a population and a sample, and how we can use a sample to make inferences about a population. We will also talk about the concept of uncertainty and how we can quantify it using confidence intervals. Finally, we will discuss the difference between parametric and nonparametric methods for calculating confidence intervals.
+In this module we explore **statistical inference** — the process of using a sample to make informed guesses about a broader population. Since we rarely have access to data on every individual in a population, we rely on samples to estimate quantities of interest, like proportions or averages.
+
+But sampling introduces uncertainty. What if your sample is not typical? How much might your estimate differ if you sampled again? We will build intuition for what it means to sample from a population, how repeated sampling leads to a *sampling distribution*, and how to quantify uncertainty using standard errors and confidence intervals. We then explore two ways to construct CIs: using mathematical formulas, and using a computational approach called *bootstrapping*.
+
+## What Is Sampling?
+
+Imagine trying to learn how many hours college students sleep each night. You could ask every student on Earth — but that is not practical. Instead you look at a smaller group that hopefully represents the whole: you take a *sample*.
+
+The **population** is the full group you want to study. The **sample** is the smaller subset you actually observe. A **parameter** is a true (but usually unknown) characteristic of the population, like the actual average sleep time. A **statistic** is the number you compute from your sample — your estimate of that parameter. **Inference** is the process of using statistics to make educated guesses about parameters.
+
+### Target Population and Sampling Frame
+
+In practice, it matters how the sample was drawn. The **target population** is the group you want to learn about. The **sampling frame** is the actual list or method used to select your sample. These often diverge:
+
+- **Target population**: All high school students in the U.S.
+- **Sampling frame**: Students in one school district's enrollment database
+
+When the sampling frame does not match the target population, we risk **sampling bias** — our estimates may not generalize to the group we actually care about. Keeping this distinction in mind is one of the most important habits of a careful data analyst.
+
+### Sampling Variability and Sampling Distributions
 
 {{< video https://youtu.be/z0Ry_3_qhDw?si=JgVxCwtpofL9drnC title='Sampling Distributions' >}}
 
-## Sampling
+If you take one sample and compute a statistic, you get one answer. Take a different sample and you get a slightly different answer. This variability is unavoidable and forms the foundation of statistical inference.
 
-**Sampling** is the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population. It can be contrasted with a **census**, which involves gathering information on every individual in the population. 
+If you repeated the sampling process many times, all those statistics would themselves form a distribution — the **sampling distribution**. Understanding the shape and spread of that distribution is what allows us to say how confident we are in any single estimate.
 
-A **parameter** is a characteristic of a population whereas a **statistic** is a characteristic of a sample. So a sample statistic is used to estimate a population parameter.
+::: {.callout-warning icon=false}
+## Activity: Sampling with M&Ms
 
-Let's imagine that we want to say something about the population of M&Ms and we take a sample of M&Ms from a bag. We calculate the proportion of blue M&Ms in our sample. This is our sample statistic. We can use this to estimate the proportion of blue M&Ms in the entire population of M&Ms.
+Imagine a big bowl of M&Ms in front of you. Reach in and grab 20 at random, count how many are blue, and calculate the proportion. Put them back and grab 20 more. Repeat several times.
 
-**Statistical inference** refers to this process of making a guess about a population using information from a sample. We make an inference when the population parameter is **unknown** and we use a sample statistic to estimate it. This is the tricky part of statistics--we are trying to make a guess about something we don't know. It is a challenging process that requires us to make some assumptions and to quantify our uncertainty in ways that we will talk about in a little bit.  
+Each handful is a **sample**. Because you return the M&Ms each time, this is **sampling with replacement**. Notice how the proportion of blue M&Ms shifts from sample to sample — that variability is your sampling distribution in action.
 
-Note that statistical inference is different from **causal inference**. Causal inference refers to when we are trying to determine if one thing is causally related another. There a lot of specialized methods for causal inference that we will not cover in this course. So even when we are talking about the relationship between two variables, we are just saying that there is a relationship, not that one causes the other.
+If you have fun-size M&M packs at home, try this for real: record the proportion of blue M&Ms in each pack in a CSV file, load it in R, and make a histogram. Then take the average across all your proportions. How close does it come to the known population proportion of blue M&Ms (about 24%)?
 
-## Uncertainty
+This simple activity captures exactly what we mean by repeated sampling and bootstrap distributions.
+:::
 
-Let's imagine that we take many samples from the same population and through that process come up with many estimates of a parameter of interest like a mean or the proportion of M&Ms that are blue. Due to random chance, one estimate from one sample can differ from another. This is called **sampling variability**.
+## Standard Error
 
-Sampling variability entails that the process of taking many samples from our population would produce a **sampling distribution** of our **estimates**. This distribution would have a mean and a standard deviation. The standard deviation of this distribution has a special name--it is called the **standard error**.
+The spread of the sampling distribution has a special name: the **standard error (SE)**. It tells us, on average, how much a statistic varies from one sample to another. A smaller SE means more precise estimates; a larger SE means more variability.
 
-When we are making inferences, we want to both be able to generate an estimate *and* characterize our uncertainty with a *range* of possible estimates. We could do this by visualizing the sampling distribution of our estimates with a histogram or bar plot. But a more common way to do this is to calculate a **confidence interval** (CI).
+Standard error depends on two things: sample size and variability in the data. Bigger samples produce smaller standard errors — as you collect more data, your estimate converges toward the true parameter and the sampling distribution narrows.
 
-The confidence interval is a range of values that we are confident contains the true population parameter. Confidence intervals are defined by **confidence levels** that represent the probability that the interval contains the true parameter. The most commonly used confidence interval is the 95% confidence interval. It says that we are 95% confident that the parameter value falls within the range given by that interval.
+Understanding standard error is the key to constructing confidence intervals, which we turn to next.
 
-## Parametric methods
+## Confidence Intervals
 
-There are a couple of ways that we can derive our confidence intervals. One is to calculate it from the sample statistic and the standard error. This is called a **parametric** method because it relies on assumptions about the distribution of the data.
+A **confidence interval** gives us a range of values within which we believe the true population parameter likely falls. It is built from the sample statistic and its standard error.
 
-More specifically, the parametric method takes advantage of the Central Limit Theorem (CLT) to estimate the confidence interval. The CLT says that the sampling distribution of the sample mean will be approximately normally distributed if the sample size is large enough.
+{{< video https://www.youtube.com/watch?v=5q2ac412hv4 title='The Right and Wrong Way to Interpret a Confidence Interval' >}}
 
-Here is the mathematical formula for deriving the CIs:
+When we report a 95% confidence interval we say we are "95% confident" that the true parameter lies within the interval. More precisely: if we repeated our sampling many times and computed a CI each time, about 95% of those intervals would contain the true parameter. It is *not* a statement that the parameter has a 95% probability of being in this particular interval — the parameter is fixed; our interval is what varies.
 
-$$CI = \bar{x} \pm Z \left( \frac{\sigma}{\sqrt{n}} \right)$$
+There are two ways to construct confidence intervals: using mathematical formulas, or using a computational approach called bootstrapping.
 
-Here $\bar{x}$ is the sample mean, $Z$ is the Z-score corresponding to the desired level of confidence, $\sigma$ is the population standard deviation, and $n$ is the sample size. 
+## Math-Based Confidence Intervals
 
-This part here represents the standard error: 
+The **normal approximation** method uses the Central Limit Theorem, which tells us that for large enough samples the sampling distribution of the mean is approximately normal. The general formula is:
 
-$$\left( \frac{\sigma}{\sqrt{n}} \right)$$
+$$\text{CI} = \hat{x} \pm z \times \text{SE}$$
 
-The first intuition you want to walk away with here is that the bigger the standard error is, the bigger the CIs are going to be. Another intuition is that the bigger the sample size ($n$) is, the smaller the CIs are going to be because the spread of the sampling distribution gets narrower as the denominator gets bigger. 
+where $\hat{x}$ is the sample statistic, SE is the standard error, and $z$ depends on the confidence level:
 
-## Nonparametric methods
+- 95% confidence → $z \approx 1.96$
+- 90% confidence → $z \approx 1.645$
 
-Another way is to use a method called **bootstrapping**. It is a resampling method that involves taking many samples from the original sample and calculating the statistic of interest. The confidence interval is then calculated from the distribution of these statistics. This is a **nonparametric** method that uses the data to estimate the sampling distribution. It is referred to as a nonparametric method because it does not depend on assumptions about normality of the distribution of the data.
+For a proportion, the standard error is:
 
-Here is the general process for bootstrapping:
+$$SE = \sqrt{\frac{\hat{p}(1 - \hat{p})}{n}}$$
 
-1. Take a bootstrap sample - a random sample taken **with replacement** from the original sample, of the **same size** as the original sample;
+**Worked example.** Suppose we survey 100 people and 64 say they like pineapple on pizza. Our sample proportion is $\hat{p} = 0.64$.
 
-2. Calculate the bootstrap statistic - a statistic such as mean, median, proportion, slope, etc. computed on the bootstrap samples;
+$$SE = \sqrt{\frac{0.64 \times 0.36}{100}} \approx 0.048$$
 
-3. Repeat steps (1) and (2) many times to create a bootstrap distribution - a distribution of bootstrap statistics;
+$$\text{95\% CI} = 0.64 \pm 1.96 \times 0.048 = (0.546,\ 0.734)$$
 
-4. Calculate the bounds of the XX% confidence interval as the middle XX% 
-of the bootstrap distribution (usually 95 percent confidence interval)
+We are 95% confident that between 54.6% and 73.4% of the population likes pineapple on pizza.
 
-## Russian survey example
+Two intuitions to take away: the larger the standard error, the wider the CI. And the larger the sample size $n$, the smaller the SE — and therefore the narrower and more precise the CI.
 
-Let's look at an example to illustrate these concepts. In the `openintro` package, we can find a dataset that contains the results of a survey of 506 Russians about their beliefs about their country's interference in the 2016 US presidential election. The survey asked whether Russia tried to influence the election, and 40% of the respondents said that they did.
+## Bootstrapping
 
-First let's call the `openintro` package and view the dataset...
+**Bootstrapping** is a computational alternative to math-based CIs. It repeatedly resamples *with replacement* from the observed data to approximate the sampling distribution — no normality assumption required.
+
+{{< video https://www.youtube.com/watch?v=Xz0x-8-cgaQ title='Bootstrapping Main Ideas' >}}
+
+The logic: your original sample is the best approximation of the population you have. By randomly resampling from it, you simulate what other samples might look like. Computing the statistic on each resample builds up a **bootstrap distribution**, from which you read off the CI directly.
+
+Reasons to prefer bootstrapping:
+
+1. It does not require assumptions about the shape of the population distribution.
+2. It works well even with small samples or skewed data.
+3. It is straightforward to implement in R using the `infer` package.
+
+### Worked Example: Russian Survey Data
+
+The `openintro` package contains a Pew Research survey of 506 Russians asked whether they believed their country tried to interfere in the 2016 U.S. presidential election. We recode the response as a binary variable and summarize:
 
 ```{r}
-#install.packages("openintro")
 library(openintro)
 library(tidyverse)
 
 glimpse(russian_influence_on_us_election_2016)
-```
 
-Next, we will use `mutate()` to recode the qualitative variable as a numeric one...
-
-```{r}
-russiaData <- russian_influence_on_us_election_2016 |> 
+russiaData <- russian_influence_on_us_election_2016 |>
   mutate(try_influence = ifelse(influence_2016 == "Did try", 1, 0))
-```
 
-Now let's calculate the mean and standard deviation of the `try_influence` variable... 
-
-```{r}
 russiaData |>
-  summarize( 
-          mean = mean(try_influence),
-          sd = sd(try_influence)
-  )
+  summarize(mean = mean(try_influence), sd = sd(try_influence))
 ```
-
-And finally let's draw a bar plot...
 
 ```{r}
 ggplot(russiaData, aes(x = try_influence)) +
-  geom_bar(fill = "steelblue", width = .75) +
+  geom_bar(fill = "steelblue", width = 0.5) +
   labs(
     title = "Did Russia try to influence the U.S. election?",
     x = "0 = 'No', 1 = 'Yes'",
-    y = "Frequncy"
+    y = "Frequency"
   ) +
   theme_minimal()
 ```
 
-Now let's run the bootstrap using the `tidymodels` package. In this chunk, we pipe the `russiaData` dataset into the `specify()` function to specify the variable of interest. Then we pipe the output into the `generate()` function to generate 15000 bootstrap samples. Finally, we pipe the output into the `calculate()` function to calculate the mean of each bootstrap sample. Then we save the output to a new data frame called `boot_df` and `glimpse()` the data frame.
-
-Be sure to install `tidymodels` before running the code chunk. 
+Now we build the bootstrap distribution using `tidymodels`. The pipeline is: `specify()` the variable of interest → `generate()` many bootstrap resamples → `calculate()` the statistic on each one:
 
 ```{r}
-#| echo: true
-
 library(tidymodels)
 
 set.seed(66)
+
 boot_dist <- russiaData |>
-  # specify the variable of interest
   specify(response = try_influence) |>
-  # generate 15000 bootstrap samples
-  generate(reps = 15000, type = "bootstrap") |>
-  # calculate the mean of each bootstrap sample
+  generate(reps = 10000, type = "bootstrap") |>
   calculate(stat = "mean")
 
 glimpse(boot_dist)
 ```
 
-Calculate the confidence interval using the `get_ci()` function from the `infer` package which is part of the `tidymodels` suite. We will save the CI so that we can visualize it in the next step.
+Compute the 95% CI with `get_ci()` and visualize it with `visualize()` and `shade_ci()`:
 
 ```{r}
-#| echo: true 
-
-ci <- boot_dist |> get_ci(level = 0.95) 
-
+ci <- boot_dist |> get_ci(level = 0.95)
 ci
-```
 
-We interpret this confidence interval (CI) by stating that we are 95% confident that the proportion of Russians who believe that Russia interfered in the 2016 US election lies between the `lower_bound` and `upper_bound`. Or another way of putting it is that there is only a 5% chance that the true proportion lies outside of this interva. 
-
-Now let's visualize the distribution and CIs using the `visualize()` and `shade_ci()` functions from the `infer` package. 
-
-```{r}
 boot_dist |>
   visualize() +
   shade_ci(ci, color = "red", fill = NULL) +
-  labs( 
-    title = "Distribution of the Mean of the Bootstrap Samples",
-    x = "Mean",
+  labs(
+    title = "Bootstrap Distribution with 95% Confidence Interval",
+    x = "Proportion",
     y = "Count"
   ) +
-  theme_minimal() 
+  theme_minimal()
 ```
 
 ::: {.callout-note}
-Since the `visualize()` function generates a `ggplot` object you can add layers to it like labels and a theme using the standard `ggplot2` syntax.
+`visualize()` returns a `ggplot2` object, so you can add layers to it — labels, themes, annotations — using the standard `ggplot2` syntax.
 :::
 
+The shaded region marks the 95% confidence interval for the proportion of Russians who believe their country interfered in the election.
 
+::: {.callout-warning icon=false}
+## Your Turn
 
+The 95% CI is printed in the `ci` object above. Which of the following is the correct interpretation?
 
+(a) 95% of the time, the percentage of Russians who believe Russia interfered is between these values.
+(b) 95% of all Russians believe the probability of interference is within the interval.
+(c) We are 95% confident that the proportion of Russians who believe Russia interfered in the 2016 election is between these values.
+(d) We are 95% confident that the proportion of Russians who supported interference is between these values.
+
+```{r}
+#| code-fold: true
+# The correct answer is (c). The CI gives a range of plausible values for the
+# population proportion based on this sample. It does not describe individual
+# beliefs (b, d), nor does it mean the parameter literally varies (a).
+```
+:::

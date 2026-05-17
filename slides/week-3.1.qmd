@@ -364,8 +364,8 @@ vdem2022 |>
 #| label: regime-region-5
 #| code-fold: true
 #| code-line-numbers: "3"
-vdem2022 %>%
-  ggplot(., aes(x = region, fill = regime)) +
+vdem2022 |>
+  ggplot(aes(x = region, fill = regime)) +
       geom_bar(position = "fill") +
   theme_minimal() +
   labs(
@@ -391,8 +391,8 @@ We use `position = "fill"` to normalize the data and make the plot more interpre
 #| output: false
 #| code-line-numbers: "3"
 
-vdem2022 %>%
-  ggplot(., aes(x = region, fill = regime)) +
+vdem2022 |>
+  ggplot(aes(x = region, fill = regime)) +
       geom_bar(position = "fill") +
   theme_minimal() +
   labs(
@@ -625,6 +625,50 @@ ggplot(x, aes(x = x )) +
   )
 ```
 
+## Density Plots
+
+- A **density plot** is a smoothed version of the histogram
+- Useful for showing the shape of the distribution without choosing bin sizes
+- Use `geom_density()` in ggplot2
+
+```{r}
+#| label: density-plot
+#| echo: true
+#| code-fold: true
+
+ggplot(vdem2022, aes(x = polyarchy)) +
+  geom_density(fill = "steelblue", alpha = 0.5) +
+  labs(
+    x = "Electoral Democracy",
+    y = "Density",
+    title = "Distribution of Electoral Democracy in 2022",
+    caption = "Source: V-Dem Institute"
+  ) +
+  theme_minimal()
+```
+
+## Histogram vs. Density Plot
+
+```{r}
+#| label: hist-vs-density
+#| echo: true
+#| code-fold: true
+
+library(patchwork)
+
+p1 <- ggplot(vdem2022, aes(x = polyarchy)) +
+  geom_histogram(fill = "steelblue", bins = 30) +
+  labs(x = "Electoral Democracy", y = "Count", title = "Histogram") +
+  theme_minimal()
+
+p2 <- ggplot(vdem2022, aes(x = polyarchy)) +
+  geom_density(fill = "steelblue", alpha = 0.5) +
+  labs(x = "Electoral Democracy", y = "Density", title = "Density Plot") +
+  theme_minimal()
+
+p1 + p2
+```
+
 ## When is the Mean Useful?
 
 ```{r}
@@ -847,7 +891,8 @@ vdem2022 |>
 
 IQR: 25th percentile - 75th percentile
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 low <- quantile(vdem2022$polyarchy, .25)
 high <- quantile(vdem2022$polyarchy, .75)
 ggplot(vdem2022, aes(x = polyarchy )) +
@@ -871,7 +916,7 @@ ggplot(vdem2022, aes(x = polyarchy )) +
 #| label: iqr
 #| echo: true
 
-vdem2022 %>% 
+vdem2022 |>
   summarize(IQRlow =  quantile(polyarchy, .25),
             IQRhigh = quantile(polyarchy, .75),
             IQRlength = IQR(polyarchy)
@@ -901,13 +946,14 @@ ggplot(vdem2022, aes(x = "", y = polyarchy)) +
   theme_minimal()
 ```
 
-## Measure of Spead: Standard Deviation
+## Measure of Spread: Standard Deviation
 
 <br>
 
 -   Can think of it as something like the "average distance" of each data point from the mean
 
-```{r echo=TRUE}
+```{r}
+#| echo: true
 vdem2022 |>
   summarize(mean = mean(polyarchy),
             stdDev = sd(polyarchy))

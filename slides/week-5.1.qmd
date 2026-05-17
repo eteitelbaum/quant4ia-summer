@@ -19,14 +19,12 @@ execute:
 ---
 
 
-```{r} 
+```{r}
 #| label: packages
 
 library(tidyverse)
-library(tidymodels)
 library(vdemdata)
-
-set.seed(1234)
+library(broom)
 ```
 
 ## Modeling 
@@ -101,7 +99,7 @@ ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
 #  geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
   labs(
     title = "Wealth and Democracy, 2019",
-    x = "GPD per capita", 
+    x = "GDP per capita", 
     y = "Liberal Democracy Index") +
   theme_bw()
 ```
@@ -116,7 +114,7 @@ ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
   geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
   labs(
     title = "Wealth and Democracy, 2019",
-    x = "GPD per capita", 
+    x = "GDP per capita", 
     y = "Liberal Democracy Index") +
   theme_bw()
 ```
@@ -133,7 +131,7 @@ ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
 ggplot(modelData, aes(x = wealth, y = lib_dem)) +
   geom_point() +
   geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
-  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  labs(x = "GDP per capita", y = "Liberal Democracy Index") +
   theme_bw()
 ```
 
@@ -149,7 +147,7 @@ ggplot(modelData, aes(x = wealth, y = lib_dem)) +
   scale_x_log10(label = scales::label_dollar(suffix = "k")) +
   labs(
     title = "Wealth and Democracy, 2019",
-    x = "GPD per capita", 
+    x = "GDP per capita", 
     y = "Liberal Democracy Index") +
   theme_bw()
 ```
@@ -170,10 +168,31 @@ ggplot(modelData, aes(x = wealth, y = lib_dem)) +
   scale_x_log10(label = scales::label_dollar(suffix = "k")) +
   labs(
     title = "Wealth and Democracy, 2019",
-    x = "GPD per capita", 
+    x = "GDP per capita", 
     y = "Liberal Democracy Index") +
   theme_bw()
 ```
+
+## Correlation
+
+<br>
+
+Before fitting a model, we can quantify the strength of the relationship:
+
+```{r}
+#| label: correlation
+#| echo: true
+
+cor(modelData$log_wealth, modelData$lib_dem)
+```
+
+<br>
+
+::: {.incremental}
+- **r ≈ 0.53**: moderate positive relationship
+- r = +1 (perfect positive), 0 (none), −1 (perfect negative)
+- |r| > 0.7: strong; 0.3–0.7: moderate; < 0.3: weak
+:::
 
 ## Models as Functions
 
@@ -229,33 +248,30 @@ Linear model with one explanatory variable...
 
 ## Residuals
 
-```{r , echo = FALSE, warning = FALSE, out.width = "60%"}
+```{r}
+#| echo: false
+#| warning: false
+#| out-width: "60%"
 
-mod_fit <- linear_reg() |>
-  set_engine("lm") |>
-  fit(lib_dem ~ log_wealth, data = modelData)
+mod_fit <- lm(lib_dem ~ log_wealth, data = modelData)
 
-fit_tidy <- tidy(mod_fit$fit) 
-fit_aug  <- augment(mod_fit$fit) |>
+fit_aug  <- augment(mod_fit) |>
   mutate(res_cat = ifelse(.resid > 0, TRUE, FALSE))
 
-a <- round(fit_tidy$estimate[1], 2)
-b <- round(fit_tidy$estimate[2], 2)
+a <- round(coef(mod_fit)[1], 2)
+b <- round(coef(mod_fit)[2], 2)
 
 ggplot(data = fit_aug) +
   geom_point(aes(x = log_wealth, y = lib_dem, color = res_cat)) +
-  geom_line(aes(x = log_wealth, y = .fitted), size = 0.75, color = "#8E2C90") + 
+  geom_line(aes(x = log_wealth, y = .fitted), linewidth = 0.75, color = "#8E2C90") +
   labs(
     title = "GDP per Capita and Democracy",
     x = "GDP per Capita",
-    y = "Libearl Democracy Index"
+    y = "Liberal Democracy Index"
   ) +
   guides(color = "none") +
   scale_color_manual(values = c("#260b27", "darkorange")) +
   theme_bw()
-#+
-#  geom_text(aes(x = 0, y = 150), label = "Positive residual", color = "#e6b0e7", hjust = 0, size = 8) +
- # geom_text(aes(x = 150, y = 25), label = "Negative residual", color = "#260b27", hjust = 0, size = 8)
 
 ```
 
@@ -265,11 +281,13 @@ $\hat{Y} = a  + b \times X$
 
 $\hat{Y} = `r a`  + `r b` \times X$
 
-```{r echo=FALSE, out.width = "100%"}
+```{r}
+#| echo: false
+#| out-width: "100%"
 ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
   geom_point() +
   geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
-  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  labs(x = "GDP per capita", y = "Liberal Democracy Index") +
   theme_bw()
 #+
  # theme(
@@ -337,21 +355,23 @@ What is interpretation of our estimate of $b$?
 ## Linear Model: Interpretation
 
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
   geom_point() +
   geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
-  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  labs(x = "GDP per capita", y = "Liberal Democracy Index") +
   theme_bw()
 ```
 
 ## Linear Model: Interpretation
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
   geom_point() +
   geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
-  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  labs(x = "GDP per capita", y = "Liberal Democracy Index") +
   geom_segment(aes(x = 2, xend= 3, y=.37, yend=.37), colour="darkblue", linewidth=1.5, arrow = arrow(length = unit(0.5, "cm"))) +
   theme_bw()
   
@@ -360,11 +380,12 @@ ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
 
 ## Linear Model: Interpretation
 
-```{r echo=FALSE}
+```{r}
+#| echo: false
 ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
   geom_point() +
   geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
-  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
+  labs(x = "GDP per capita", y = "Liberal Democracy Index") +
   geom_segment(aes(x = 2, xend= 3, y=.37, yend=.37), colour="darkblue", linewidth=1.5) +
   geom_segment(aes(x = 3, xend= 3, y=.37, yend=.49), colour="darkblue", linewidth=1.5, arrow = arrow(length = unit(0.5, "cm"))) +
   geom_text(x=3.2, y=.43, label="0.12", color="darkblue", size=4) +
@@ -469,6 +490,25 @@ In equation form... How do we interpret the model?
 
 $$\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}$$
 
+## R-Squared
+
+<br>
+
+How well does the model fit? **R²** tells us the proportion of variation in Y explained by X:
+
+```{r}
+#| label: r-squared
+#| echo: true
+
+summary(model1)$r.squared
+```
+
+. . .
+
+<br>
+
+An R² of ≈ 0.28 means log GDP per capita explains **28%** of the variation in democracy scores. The remaining 72% is explained by other factors.
+
 ## Question
 
 <br>
@@ -535,31 +575,25 @@ ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
 ```{r}
 #| label: best-line3 
 
-mod_fit <- linear_reg() %>%
-  set_engine("lm") %>%
-  fit(lib_dem ~ log_wealth, data = modelData)
+mod_fit <- lm(lib_dem ~ log_wealth, data = modelData)
 
-fit_tidy <- tidy(mod_fit$fit) 
-fit_aug  <- augment(mod_fit$fit) %>%
+fit_aug  <- augment(mod_fit) |>
   mutate(res_cat = ifelse(.resid > 0, TRUE, FALSE))
 
-a <- round(fit_tidy$estimate[1], 2)
-b <- round(fit_tidy$estimate[2], 2)
+a <- round(coef(mod_fit)[1], 2)
+b <- round(coef(mod_fit)[2], 2)
 
 ggplot(data = fit_aug) +
   geom_point(aes(x = log_wealth, y = lib_dem, color = res_cat)) +
-  geom_line(aes(x = log_wealth, y = .fitted), size = 0.75, color = "#8E2C90") + 
+  geom_line(aes(x = log_wealth, y = .fitted), linewidth = 0.75, color = "#8E2C90") +
   labs(
     title = "GDP per Capita and Democracy",
     x = "GDP per Capita",
-    y = "Libearl Democracy Index"
+    y = "Liberal Democracy Index"
   ) +
   guides(color = "none") +
   scale_color_manual(values = c("#260b27", "darkorange")) +
   theme_bw()
-#+
-#  geom_text(aes(x = 0, y = 150), label = "Positive residual", color = "#e6b0e7", hjust = 0, size = 8) +
- # geom_text(aes(x = 150, y = 25), label = "Negative residual", color = "#260b27", hjust = 0, size = 8)
 
 ```
 
@@ -817,7 +851,7 @@ Are democracies less corrupt?
 
 - The variable name is: *v2x_corr* : lower values mean less corruption
 
-- See starter code [in classwork folder](/Users/ejt/Library/CloudStorage/Dropbox/classwork/quant4ia-summer24)
+- See starter code in the classwork folder on Dropbox
 
 
 ## Your Turn {.smaller}

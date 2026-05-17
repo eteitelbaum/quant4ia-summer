@@ -35,23 +35,23 @@ theme_set(theme_minimal())
 #| label: vdem_setup
 #| include: false
 
-polyarchy_annual <- vdem %>%
-  group_by(year) %>%
+polyarchy_annual <- vdem |>
+  group_by(year) |>
   summarize(
     polyarchy = mean(v2x_polyarchy, na.rm = TRUE),
     gdp_pc = mean(e_gdppc, na.rm = TRUE)*1000
-  ) %>%
+  ) |>
   mutate(
     wave = case_when(year <= 1827 ~ "pre 1st wave",
-                       year > 1827 & year <= 1926 ~ "1st wave", 
+                       year > 1827 & year <= 1926 ~ "1st wave",
                        year > 1926 & year <= 1945 ~ "1st rev. wave",
-                       year > 1945 & year <= 1962 ~ "2nd wave", 
-                       year > 1962 & year <= 1973 ~ "2nd rev. wave", 
-                       year > 1973 & year <= 2010 ~ "3rd wave", 
-                       year > 2010 ~ "3rd rev. wave") %>%
+                       year > 1945 & year <= 1962 ~ "2nd wave",
+                       year > 1962 & year <= 1973 ~ "2nd rev. wave",
+                       year > 1973 & year <= 2010 ~ "3rd wave",
+                       year > 2010 ~ "3rd rev. wave") |>
       factor(levels = c("pre 1st wave", "1st wave", "1st rev. wave",
                         "2nd wave", "2nd rev. wave", "3rd wave", "3rd rev. wave"))
-  ) %>%
+  ) |>
   drop_na()
 ```
 
@@ -519,27 +519,241 @@ countdown::countdown(minutes = 10, id = "timer2")
 ```
 
 
+# Histograms
+
+## Purpose of Histograms
+
+- Histograms are used to visualize the distribution of a single variable
+- They are used for continuous variables (e.g., income, age, etc.)
+- A *continuous* variable is one that can take on any value within a range (e.g., 0.5, 1.2, 3.7, etc.)
+- A *discrete* variable is one that can only take on certain values (e.g., 1, 2, 3, etc.)
+- x-axis represents value of variable of interest
+- y-axis represents the frequency of that value
+
+## Example
+
+```{r}
+#| label: histogram1
+
+# load data
+dem_women <- read_csv("data/dem_women.csv")
+
+# filter to 2022
+dem_women_2022 <- dem_women |>
+  filter(year == 2022)
+
+# create histogram
+ggplot(dem_women_2022, aes(x = flfp)) +
+  geom_histogram(fill = "steelblue") +
+  labs(
+    x = "Percentage of Working Aged Women in Labor Force",
+    y = "Number of Countries",
+    title = "Female labor force participation rates, 2022",
+    caption = "Source: World Bank"
+    ) + theme_minimal()
+```
+
+## Histogram Code
+
+<br>
+
+```{r}
+#| label: histogram2
+#| echo: true
+#| eval: false
+#| code-line-numbers: "|1-2|4-6|8-10"
+
+# load data
+dem_women <- read_csv("data/dem_women.csv")
+
+# filter to 2022
+dem_women_2022 <- dem_women |>
+  filter(year == 2022)
+
+# create histogram
+ggplot(dem_women_2022, aes(x = flfp)) +
+  geom_histogram(fill = "steelblue") +
+  labs(
+    x = "Percentage of Working Aged Women in Labor Force",
+    y = "Number of Countries",
+    title = "Female labor force participation rates, 2022",
+    caption = "Source: World Bank"
+    ) + theme_minimal()
+```
+
+## Change Number of Bins
+
+<br>
+
+Change number of bins (bars) using `bins` or `binwidth` arguments (default number of bins = 30):
+
+<br>
+
+```{r}
+#| label: histogram3
+#| echo: true
+#| eval: false
+#| code-line-numbers: "2"
+
+ggplot(dem_women_2022, aes(x = flfp)) +
+  geom_histogram(bins = 50, fill = "steelblue") +
+  labs(
+    x = "Percentage of Working Aged Women in Labor Force",
+    y = "Number of Countries",
+    title = "Female labor force participation rates, 2022",
+    caption = "Source: World Bank"
+    ) + theme_minimal()
+```
+
+##
+
+At 50 bins...
+
+```{r}
+#| label: histogram4
+
+ggplot(dem_women_2022, aes(x = flfp)) +
+  geom_histogram(bins = 50, fill = "steelblue") +
+  labs(
+    x = "Percentage of Working Aged Women in Labor Force",
+    y = "Number of Countries",
+    title = "Female labor force participation rates, 2022",
+    caption = "Source: World Bank"
+    ) + theme_minimal()
+```
+
+##
+
+At 100 bins...probably too many!
+
+```{r}
+#| label: histogram5
+
+ggplot(dem_women_2022, aes(x = flfp)) +
+  geom_histogram(bins = 100, fill = "steelblue") +
+  labs(
+    x = "Percentage of Working Aged Women in Labor Force",
+    y = "Number of Countries",
+    title = "Female labor force participation rates, 2022",
+    caption = "Source: World Bank"
+    ) + theme_minimal()
+```
+
+##
+
+<br>
+
+Using `binwidth` instead of `bins`...
+
+<br>
+
+```{r}
+#| label: histogram6
+#| echo: true
+#| eval: false
+#| code-line-numbers: "2"
+
+ggplot(dem_women_2022, aes(x = flfp)) +
+  geom_histogram(binwidth = 2, fill = "steelblue") +
+  labs(
+    x = "Percentage of Working Aged Women in Labor Force",
+    y = "Number of Countries",
+    title = "Female labor force participation rates, 2022",
+    caption = "Source: World Bank"
+    ) + theme_minimal()
+```
+
+##
+
+Setting `binwidth` to 2...
+
+```{r}
+#| label: histogram7
+
+ggplot(dem_women_2022, aes(x = flfp)) +
+  geom_histogram(binwidth = 2, fill = "steelblue") +
+  labs(
+    x = "Percentage of Working Aged Women in Labor Force",
+    y = "Number of Countries",
+    title = "Female labor force participation rates, 2022",
+    caption = "Source: World Bank"
+    ) + theme_minimal()
+```
+
+## Change from Count to Density
+
+<br>
+
+```{r}
+#| label: histogram8
+#| echo: true
+#| eval: false
+#| code-line-numbers: "1,5"
+
+ggplot(dem_women_2022, aes(after_stat(density), x = flfp)) +
+  geom_histogram(fill = "steelblue") +
+  labs(
+    x = "Percentage of Working Aged Women in Labor Force",
+    y = "Density",
+    title = "Female labor force participation rates, 2022",
+    caption = "Source: World Bank"
+    ) + theme_minimal()
+```
+
+##
+
+Which gives us...
+
+```{r}
+#| label: histogram9
+
+ggplot(dem_women_2022, aes(after_stat(density), x = flfp)) +
+  geom_histogram(fill = "steelblue") +
+  labs(
+    x = "Percentage of Working Aged Women in Labor Force",
+    y = "Density",
+    title = "Female labor force participation rates, 2022",
+    caption = "Source: World Bank"
+    ) + theme_minimal()
+```
+
+## Your Turn!
+
+1. Pick a variable that you want to explore the distribution of
+2. Make a histogram
+    a. Only specify `x = ` in `aes()`
+    b. Specify geom as `geom_histogram`
+3. Choose color for bars
+4. Choose appropriate labels
+5. Change number of bins
+6. Change from count to density
+
+```{r}
+#| label: timer3
+countdown::countdown(minutes = 10, id = "timer3")
+```
+
 ```{r}
 #| label: vdem_setup_2
 #| include: false
 
-polyarchy_annual <- vdem %>%
-  group_by(year) %>%
+polyarchy_annual <- vdem |>
+  group_by(year) |>
   summarize(
     polyarchy = mean(v2x_polyarchy, na.rm = TRUE),
     gdp_pc = mean(e_gdppc, na.rm = TRUE)*1000
-  ) %>%
+  ) |>
   mutate(
     wave = case_when(year <= 1827 ~ "pre 1st wave",
-                       year > 1827 & year <= 1926 ~ "1st wave", 
+                       year > 1827 & year <= 1926 ~ "1st wave",
                        year > 1926 & year <= 1945 ~ "1st rev. wave",
-                       year > 1945 & year <= 1962 ~ "2nd wave", 
-                       year > 1962 & year <= 1973 ~ "2nd rev. wave", 
-                       year > 1973 & year <= 2010 ~ "3rd wave", 
-                       year > 2010 ~ "3rd rev. wave") %>%
+                       year > 1945 & year <= 1962 ~ "2nd wave",
+                       year > 1962 & year <= 1973 ~ "2nd rev. wave",
+                       year > 1973 & year <= 2010 ~ "3rd wave",
+                       year > 2010 ~ "3rd rev. wave") |>
       factor(levels = c("pre 1st wave", "1st wave", "1st rev. wave",
                         "2nd wave", "2nd rev. wave", "3rd wave", "3rd rev. wave"))
-  ) %>%
+  ) |>
   drop_na()
 ```
 
@@ -553,21 +767,21 @@ polyarchy_annual <- vdem %>%
 #| label: huntington
 region_plot <- ggplot(polyarchy_annual, aes(x = gdp_pc, y = polyarchy)) + 
   geom_point(aes(color = wave)) + 
-  geom_smooth(method = "lm", se = FALSE, size = .75) + 
+  geom_smooth(method = "lm", se = FALSE, linewidth = .75) +
   scale_x_log10(label = scales::label_dollar()) +
   aes(label = year) +
   labs(x= "GDP Per Capita", y = "Polyarchy Score",
        title = "Democracy, development and Huntington's three waves") +
   scale_color_discrete(name = "Wave")
 
-ggplotly(region_plot, tooltip = c("year", "polyarchy")) %>%   
+ggplotly(region_plot, tooltip = c("year", "polyarchy")) |>
   # add source
-  layout(annotations = list(text = "Source: The V-Dem Institute, Varities of Democracy Dataset",  
+  layout(annotations = list(text = "Source: The V-Dem Institute, Varities of Democracy Dataset",
                             font = list(size = 10), showarrow = FALSE,
                             xref = 'paper', x = 1, xanchor = 'right', xshift = 100,
-                            yref = 'paper', y = -.1, yanchor = 'auto', yshift = 0)) %>%
+                            yref = 'paper', y = -.1, yanchor = 'auto', yshift = 0)) |>
   # add web address
-  layout(annotations = list(text = "www.psc2339.com", 
+  layout(annotations = list(text = "www.psc2339.com",
                             font = list(size = 10, color = 'grey'), showarrow = FALSE,
                             xref = 'paper', x = .5, xanchor = 'center', xshift = 0,
                             yref = 'paper', y = 1, yanchor = 'top', yshift = 0))

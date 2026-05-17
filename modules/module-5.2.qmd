@@ -1,7 +1,7 @@
 ---
 title: "Module 5.2"
 subtitle: "Multiple Regression"
-format: 
+format:
   html:
     code-link: true
 highlight-style: atom-one
@@ -11,62 +11,71 @@ execute:
   warning: false
 ---
 
-## Overview
+::: {.callout-tip}
+## Prework
 
-In the previous lesson, we discussed simple linear regression, which is a statistical method that allows us to model the relationship between a dependent variable and a single independent variable. In this lesson, we will discuss multiple linear regression, which is an extension of simple linear regression that allows us to model the relationship between a dependent variable and multiple independent variables. To get you started, here is a video where Andrew Ng explains the logic of multiple linear regression. 
+Run this code chunk to load the necessary packages and data for this module:
 
-{{< video https://youtu.be/jXg0vU0y1ak?si=rhQ9uWhuhVqnI-Ox title='Multiple Linear Regression' >}}
-
-
-## Multiple Regression
-
-Mulitple linear regression is an extension of simple linear regression that allows us to model the relationship between a dependent variable and multiple independent variables. Extending on our earlier bivariate model, we can now include multiple predictors in our model. We would represent this in the following equation:
-
-$$Y = a + b_1X_1 + b_2X_2 + \ldots + b_nX_n$$
-
-
-Where $Y$ is the dependent variable, $a$ is the intercept, $b_1$ through $b_n$ are the coefficients, and $X_1$ through $X_n$ are the independent variables.
-
-To solve this model, we use the same method of least squares to minimize the sum of squared residuals, except in this case, OLS is searching for combination of $a$, $b_1$, $b_2$...$b_n$ that minimize sum of squared residuals across all predictors. So it is the same logic, just a bit more complicated. 
-
-To make things a little more concrete, let's build up an example using the V-Dem data. Let's first load the relevant packages and grab the data from V-Dem. We will use data from 2006 because we want a nice cross-section and it has data for all of the variables that we will be using in our analysis.
-
-```{r} 
-#| label: packages_data
-#| echo: true
+```{r}
+#| label: setup
+#| code-fold: true
 
 library(tidyverse)
 library(vdemdata)
 
 model_data <- vdem |>
-  filter(year == 2006) |> 
-  select(country_name, 
-         libdem = v2x_libdem, 
-         wealth = e_gdppc, 
-         oil_rents = e_total_oil_income_pc,
-         polarization = v2cacamps, 
-         corruption = v2x_corr, 
-         judicial_review = v2jureview_ord, 
-         region = e_regionpol_6C, 
-         regime = v2x_regime) |> 
-  mutate(log_wealth = log(wealth), 
-         region = factor(
-           region,
-           labels=c("Eastern Europe", 
-             "Latin America", 
-             "MENA", 
-             "SSAfrica", 
-             "Western Europe and North America", 
-             "Asia and Pacific"))
-          )
+  filter(year == 2006) |>
+  select(
+    country = country_name,
+    libdem = v2x_libdem,
+    wealth = e_gdppc,
+    oil_rents = e_total_oil_income_pc,
+    polarization = v2cacamps,
+    corruption = v2x_corr,
+    judicial_review = v2jureview_ord,
+    region = e_regionpol_6C,
+    regime = v2x_regime
+  ) |>
+  mutate(
+    log_wealth = log(wealth),
+    judicial_review = factor(judicial_review, labels = c("No", "Yes")),
+    region = factor(
+      region,
+      labels = c(
+        "Eastern Europe",
+        "Latin America",
+        "MENA",
+        "Sub-Saharan Africa",
+        "Western Europe & North America",
+        "Asia & Pacific"
+      )
+    )
+  )
 
 glimpse(model_data)
 ```
+:::
 
-Previously, we were only interested in GDP per capita as a predictor of democracy. Now, let's consider another predictor: political polarization (also measured by V-Dem). We can start with a simple scatter plot and a linear model to see the relationship between polarization and democracy cross-nationally.
+## Overview
+
+In the previous module, we discussed simple linear regression, which models the relationship between a response variable and a single explanatory variable. In this module, we extend that to **multiple linear regression**, which allows us to model the relationship between a response variable and *multiple* predictors simultaneously.
+
+{{< video https://youtu.be/jXg0vU0y1ak?si=rhQ9uWhuhVqnI-Ox title='Multiple Linear Regression' >}}
+
+## Multiple Regression
+
+Multiple linear regression extends the bivariate model by adding more predictors:
+
+$$Y = a + b_1X_1 + b_2X_2 + \ldots + b_nX_n$$
+
+Where $Y$ is the response variable, $a$ is the intercept, and $b_1$ through $b_n$ are the coefficients for predictors $X_1$ through $X_n$.
+
+The key phrase in multiple regression is **"holding other variables constant"** (sometimes phrased as *ceteris paribus*, Latin for "all else equal"). Each coefficient represents the expected change in $Y$ for a one-unit change in that predictor, *while controlling for all the other predictors in the model*.
+
+We use data from 2006 to demonstrate. Let's start by looking at polarization as a predictor of democracy:
 
 ```{r}
-#| label: plot_polarization
+#| label: plot-polarization
 
 ggplot(model_data, aes(x = polarization, y = libdem)) +
   geom_point() +
@@ -75,128 +84,156 @@ ggplot(model_data, aes(x = polarization, y = libdem)) +
   theme_minimal()
 ```
 
-We can see that there appears to be quite a strong relationship between political polarization and democracy. Now, as with GDP per capita in the previous lesson, we can estimate the relationship between political polarization and democracy using a linear model to get the coefficients that define the line we see in the plot above. We want to estimate this equation: 
-
-$$lib\_dem = a + b \times polarization$$
+There is a clear negative relationship — more polarized countries tend to be less democratic. Let's estimate this bivariate model:
 
 ```{r}
 #| label: model1
-#| echo: true
 
-model1 <-  lm(libdem ~ polarization, data = model_data) 
+model1 <- lm(libdem ~ polarization, data = model_data)
 
 summary(model1)
 ```
 
-We see that coefficient for polarization is -.088 and significant at the .0001 level. This means that for every one unit increase in polarization we should expect to see a .088 decrease in the liberay democracy score. 
+The coefficient for polarization is approximately −0.088 and statistically significant: a one-unit increase in polarization is associated with a 0.088 decrease in the democracy score.
 
-Now we can just add predictors to our model. Let's add log wealth back in and see how it changes the relationship between polarization and democracy. The equation we are estimating here is: 
+Now let's add log wealth as a second predictor:
 
 $$lib\_dem = a + b_1 \times polarization + b_2 \times log(wealth)$$
 
 ```{r}
 #| label: model2
-#| echo: true
 
-model2 <- lm(libdem ~ polarization + log_wealth, data = model_data) 
+model2 <- lm(libdem ~ polarization + log_wealth, data = model_data)
 
 summary(model2)
 ```
 
-Now we can interpret the coefficients the same way as before, except we are doing so in the context of "all things being equal" or "holding other variables constant." In this case, the coefficient for polarization is -.05 and again statistically significant. Thus we would say that **holding GDP per capita fixed**, a one unit change in political polaraization has a -.05 impact on the predicted level of democracy. Similarly, we could say that, **holding polarization fixed**, a one unit change in log GDP per capita increase the predicted democracy score by 0.095 units. 
+The coefficient for polarization is now approximately −0.05. This is the effect of polarization **holding GDP per capita fixed**. Similarly, the coefficient for log wealth tells us the association with democracy **holding polarization fixed**. Notice how the coefficients can change when we add predictors — this happens when predictors are correlated with each other.
 
-Now if we want to add yet another predictor, we can do so in the same fashion. Let's say we are interested in the impact of oil rents on democracy. We can add this to our model and estimate the following equation:
+Let's add a third predictor — oil rents per capita:
 
 $$lib\_dem = a + b_1 \times polarization + b_2 \times log(wealth) + b_3 \times oil\_rents$$
 
 ```{r}
 #| label: model3
-#| echo: true
 
 model3 <- lm(libdem ~ polarization + log_wealth + oil_rents, data = model_data)
 
 summary(model3)
 ```
 
-Here the oil rents variable is negative and significant, suggesting that **holding polarization and GDP fixed**, a one unit change in oil rents per capita has a -.00004 unit impact on the predicted level of democracy. We would have to go back to the oil rents variable to understand the significance of this finding, but this gives you a basic sense of how to interpret the coefficients in a multiple regression model.
+The oil rents coefficient is negative and significant: **holding polarization and GDP fixed**, higher oil rents are associated with lower democracy.
 
-## Categorical Variables
+## Categorical Predictors
 
-Another topic we want to cover is how to include categorical variables in a regression model. Recall that categorical variables are variables that take on a limited number of values. For example, whether a country has judicial review or not can be coded as a categorical variable. We can turn that variable into a dummy variable and include it in our model. 
+Another important topic is how to include **categorical variables** in regression models. Categorical variables represent distinct groups rather than continuous numeric values — examples include regime type, world region, or the presence or absence of an institution.
 
-Let's quickly visualize the relationship between wealth and democracy, incorporating judicial review as a factor variable that conditions the relationship between wealth and democracy. Note how we are using the `factor()` function to turn the `judicial_review` variable into a factor variable. 
+We handle categorical variables through **dummy variables** (also called indicator variables): one binary (0/1) variable for each category, with one category left out as the **reference category**. R handles this automatically when a variable is stored as a `factor`.
+
+### Binary Categorical Variable: Judicial Review
+
+Let's explore whether countries with judicial review tend to be more democratic. We already converted `judicial_review` to a factor in the setup chunk. Let's visualize the relationship:
 
 ```{r}
-#| label: judicial_review
+#| label: judicial-review-plot
 
-ggplot(model_data, aes(x = log_wealth, y = libdem, color=factor(judicial_review))) +
+ggplot(model_data, aes(x = wealth, y = libdem, color = judicial_review)) +
   geom_point() +
   geom_smooth(method = "lm", se = FALSE) +
-  labs(x = "GPD per capita", y = "Liberal Democracy Index") +
-  theme_bw() +
-    scale_color_manual(name = "Judicial Review", values = c("steelblue3", "coral"), labels = c("No", "Yes")) 
-
+  scale_x_log10(labels = scales::dollar_format(suffix = "k")) +
+  labs(x = "GDP per capita", y = "Liberal Democracy Index") +
+  scale_color_manual(name = "Judicial Review", values = c("steelblue3", "coral"),
+                     labels = c("No", "Yes")) +
+  theme_bw()
 ```
 
-We can see that the relationship between GDP per capita and democracy is different for countries with and without judicial review. We can estimate this relationship using a linear model. We do this by simply incorporating the categorical variable, `judicial_review`, into our model. Here is the equation we want to estimate:
-
-$$lib\_dem = a + b_1 \times log(wealth) + b_2 \times judicial\_review$$
+At every level of wealth, countries with judicial review tend to have higher democracy scores. We can quantify this by including `judicial_review` as a predictor:
 
 ```{r}
-#| label: judicial_review_model
-#| echo: true
+#| label: model4
 
 model4 <- lm(libdem ~ log_wealth + judicial_review, data = model_data)
 
 summary(model4)
 ```
-We can now interpret the coefficient on `judicial_review` as the expected difference in the predicted level of democracy between countries with and without judicial review, holding GDP per capita fixed. In this case, the coefficient is .26, suggesting that **holding GDP per capita fixed**, countries with judicial review are expected to be .26 units more democratic as per V-Dem's liberal democracy measure. 
 
-Note that the intercept also has an important interpretation. The intercept is the average democracy score of countries without judicial review. Thus, the average democracy score of countries with judicial review is -.05 + .12 + .26 = .33 and the average democracy score of countries without judicial review is -.05 + .12 = .07.
+::: {.callout-important}
+## Understanding Reference Categories
 
-The judical review example here is an example of a **dummy variable**. Dummy variables are a way to include categorical variables in a regression model. Note that we always leave one category out of the model, as the omitted reference category. The coefficient on a dummy variable is then interpreted as the expected difference in the dependent variable between the category of the dummy variable and the omitted category. In this case, the omitted category is countries without judicial review. 
+When R includes a factor in a regression, it creates dummy variables for each level *except one*. That omitted level is the **reference category** (or baseline). All coefficients for the factor are then interpreted relative to that baseline.
 
-Let's try one more example. We will use the `region` variable to estimate the relationship between regions of the world and democracy. `region` will enter into the model as a factor variable. Noee that since Eastern Europe is the first category, default in R is to use that as the omitted category in models.
+Here, "No" is the reference category for `judicial_review` (R uses the first factor level). The intercept represents the expected democracy level for countries *without* judicial review. The coefficient for `judicial_reviewYes` tells us how much higher the expected democracy score is for countries *with* judicial review, holding GDP fixed.
+:::
+
+The coefficient of approximately 0.26 for `judicial_reviewYes` means that, **holding GDP per capita fixed**, countries with judicial review are expected to score about 0.26 points higher on the liberal democracy index.
+
+### Multi-Category Variable: World Region
+
+When a categorical variable has more than two levels, R creates one dummy for each level except the reference. Let's fit a model with world region as the predictor:
 
 ```{r}
-#| label: region_model
-#| echo: true
+#| label: region-levels
 
 levels(model_data$region)
 ```
 
-This means that when we run the regression, we will be interpreting the other region coefficients as the expected difference in the predicted level of democracy between that region and Eastern Europe, holding all other variables constant. And the coefficient will represent the value of the dependent variable for the omitted category (Eastern Europe).
-
+Eastern Europe is the first level, so it will serve as the reference category.
 
 ```{r}
-#| label: region_model2
-#| echo: true
+#| label: model5
 
 model5 <- lm(libdem ~ region, data = model_data)
 
 summary(model5)
 ```
 
-Here the coefficient on Latin America is .06. This entails that, holding all other variables constant, countries in Latin America are expected to be .06 units more democratic than countries in Eastern Europe. Similarly countries in the MENA region are expected to be -.23 units less democratic than countries in Eastern Europe. Etc. And finally the predicted level of democracy in Eastern Europe is represented by the value of the coefficient, .44. 
+Each regional coefficient represents the expected difference in democracy between that region and Eastern Europe. For example, the coefficient for MENA tells us how much more (or less) democratic MENA countries are expected to be compared to Eastern European countries.
 
-What if you want a different baseline category? In that case, we can use the `relevel()` function to change the reference category. Let's make Sub-Saharan Africa the reference category and re-estimate the model.    
+What if you want a different baseline? Use `relevel()` to change the reference category:
 
 ```{r}
-#| label: region_model3
-#| echo: true
+#| label: model6
 
-# make SS Africa the reference category
-model_data_relevel <- model_data |> 
-mutate(new_region = relevel(region, ref=4)) 
+model_data_relevel <- model_data |>
+  mutate(region2 = relevel(region, ref = "Sub-Saharan Africa"))
 
-model6 <- lm(libdem ~ new_region, data = model_data_relevel)
+model6 <- lm(libdem ~ region2, data = model_data_relevel)
 
 summary(model6)
 ```
 
-Now we interpret all of the coefficients relative to Sub-Saharan Africa. For example, Eastern Europe is expected to be .138 units more democratic than Sub-Saharan Africa while Latin America is predicted to be .206 units higher. The predicted level of democracy in Sub-Saharan Africa for this year is represented by the constant--.298.
+Now all coefficients are interpreted relative to Sub-Saharan Africa. Eastern Europe is expected to be about 0.14 units more democratic than Sub-Saharan Africa, and so on.
 
-## Challenge
+## Making Predictions
 
-The data we wrangled also includes a categorial regime variable: Closed autocracy (0), Electoral Autocracy (1), Electoral Democracy (2), Liberal Democracy (3) as well as a measure of corruption. Based on what you have learned, do you think you can use these data to answer the question of "which types of regimes have more corruption?"
+Once we have estimated a model, we can use it to make predictions for hypothetical cases using R's `predict()` function. Let's use our model with polarization, wealth, and oil rents (model3). Suppose we want to predict the democracy level for a country with:
 
+- Polarization = 0.5
+- GDP per capita of ~$8k (log_wealth ≈ 2.1)
+- Oil rents = 2
+
+```{r}
+#| label: predictions
+
+new_data <- tibble(
+  polarization = 0.5,
+  log_wealth   = 2.1,
+  oil_rents    = 2
+)
+
+predict(model3, newdata = new_data)
+```
+
+The model predicts a democracy score of approximately 0.46 for this hypothetical country. This prediction is a principled estimate based on the relationships learned from the original data — not a guarantee, but a useful summary of what the model expects.
+
+::: {.callout-warning icon=false}
+## Your Turn
+
+The data also includes a categorical `regime` variable: Closed Autocracy (0), Electoral Autocracy (1), Electoral Democracy (2), Liberal Democracy (3), and a `corruption` measure.
+
+- Convert `regime` into a factor in `model_data`.
+- Check the levels and identify the reference category.
+- Visualize the average corruption level across regime types using a bar plot.
+- Fit a regression model predicting `corruption` from `regime`. Interpret the coefficients.
+- Switch the reference category to "Electoral Democracy" (level 2) and refit. How do the coefficients change?
+:::
