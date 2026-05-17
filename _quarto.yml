@@ -13,7 +13,7 @@ website:
   reader-mode: true
   page-footer:
     right: "This page is built with [Quarto](https://quarto.org/). 👷🛠️"
-    left: "&copy; Copyright 2024, [Emmanuel Teitelbaum](https://emmanuel.teitelbaum.com)"
+    left: "&copy; Copyright 2026, [Emmanuel Teitelbaum](https://emmanuel.teitelbaum.com)"
     background: "#1F45FC"
   sidebar:
     background: "#1F45FC"
