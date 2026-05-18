@@ -3504,7 +3504,7 @@
     "href": "slides/week-1.1.html#welcome",
     "title": "Quantitative Analysis for IA Practitioners",
     "section": "Welcome!",
-    "text": "Welcome!\n\nProfessor Teitelbaum ejt@gwu.edu\nOffice Hours: Tuesdays, 3:00-5:00 p.m.\nMonroe Hall Rm 411 or online\nGo to my calendly page to sign up for a slot"
+    "text": "Welcome!\n\nProfessor Teitelbaum ejt@gwu.edu\nOffice Hours: Monday, 3:00-5:00 p.m.\nOnline only\nGo to my calendly page to sign up for a slot"
   },
   {
     "objectID": "slides/week-1.1.html#why-take-this-course",
@@ -3574,7 +3574,7 @@
     "href": "slides/week-1.1.html#how-do-i-get-an-a-requirements",
     "title": "Quantitative Analysis for IA Practitioners",
     "section": "How do I get an “A”? (requirements)",
-    "text": "How do I get an “A”? (requirements)\n\n\nWeekly quizzes (20 percent)\n3 Data Analysis Assignments (45 percent; 15 percent each)\nFinal Project (20 percent)"
+    "text": "How do I get an “A”? (requirements)\n\n\nSix weekly labs (30 percent; 5 percent each)\nThree data analysis assignments (60 percent; 20 percent each)\nClass participation (10 percent)"
   },
   {
     "objectID": "slides/week-1.1.html#course-website",
@@ -5184,7 +5184,7 @@
     "href": "course-syllabus.html",
     "title": "IAFF 6501: Quantitative Analysis for IA Practitioners",
     "section": "",
-    "text": "Location: Online\nTime: MW 5:10 - 6:30 p.m.\nInstructor: Prof. Emmanuel Teitelbaum\nEmail: ejt@gwu.edu\nOffice Hours: Tuesdays, 3-5 p.m.\n\nCredit Hours: 3.0.",
+    "text": "Location: Online\nTime: MW 5:10 - 6:30 p.m.\nInstructor: Prof. Emmanuel Teitelbaum\nEmail: ejt@gwu.edu\nOffice Hours: MW, 3-5 p.m.\n\nCredit Hours: 3.0.",
     "crumbs": [
       "Course Information",
       "Syllabus"
@@ -5195,7 +5195,7 @@
     "href": "course-syllabus.html#course-information",
     "title": "IAFF 6501: Quantitative Analysis for IA Practitioners",
     "section": "",
-    "text": "Location: Online\nTime: MW 5:10 - 6:30 p.m.\nInstructor: Prof. Emmanuel Teitelbaum\nEmail: ejt@gwu.edu\nOffice Hours: Tuesdays, 3-5 p.m.\n\nCredit Hours: 3.0.",
+    "text": "Location: Online\nTime: MW 5:10 - 6:30 p.m.\nInstructor: Prof. Emmanuel Teitelbaum\nEmail: ejt@gwu.edu\nOffice Hours: MW, 3-5 p.m.\n\nCredit Hours: 3.0.",
     "crumbs": [
       "Course Information",
       "Syllabus"
@@ -5349,7 +5349,7 @@
     "href": "course-syllabus.html#course-communication",
     "title": "IAFF 6501: Quantitative Analysis for IA Practitioners",
     "section": "Course Communication",
-    "text": "Course Communication\nCommunication in our course is essential; clearing up questions earlier than later is a good practice, so please don’t hesitate to reach out to me.\nWe will communicate to you primarily through GW’s Blackboard System. Announcements and emails sent through Blackboard automatically go to your GW email address (i.e., userid@gwu.edu). Please check your GW email account on a daily basis or forward your GW email to another address that you check daily.\nI will respond to emails/discussion posts within 48 hours (i.e., “24 hours on weekdays and on the next business day over weekends and holidays.”) I will provide feedback on assignments/exams within 3 days (i.e., “five days on weekdays and on the next business day over weekends and holidays.”)\nYou can post general course-related questions to our Discord server. Please post your question here first rather than emailing me directly if your question regards the course material. However, if you have a question that is more personal in nature (i.e., grades), please email me directly to set up an appointment.",
+    "text": "Course Communication\nCommunication in our course is essential. Clearing up questions earlier rather than later is a good practice, so please don’t hesitate to reach out.\nWe will communicate with you primarily through GW’s Blackboard System. Announcements and emails sent through Blackboard automatically go to your GW email address. Please check your GW email on a daily basis or forward it to an address you check regularly.\nI will respond to emails within 48 hours on weekdays, and on the next business day over weekends and holidays. I will provide feedback on assignments within five business days.\nTechnical questions about errors, package issues, or code that won’t run are best handled in person, where we can look at the problem together. Please bring these to class, ask after class, or come to office hours. For this summer course, you can also post technical questions to our Discord server, which has the added benefit of letting your classmates learn from the exchange. Please do not email me technical questions, as email is not an effective medium for diagnosing and solving coding problems. Note that debugging is also one of the most legitimate uses of AI tools in this course, so if your code throws an error and you cannot figure out why, consulting an AI is a reasonable first step before reaching out to me.\nGeneral course questions about assignments, readings, or course content can also go to Discord. Post there first before emailing, since others likely have the same question. Personal questions about grades or other private matters should be sent to me by email to set up an appointment.",
     "crumbs": [
       "Course Information",
       "Syllabus"
@@ -5859,6 +5859,39 @@
     "crumbs": [
       "Course Modules",
       "Module 5.1"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#course-description",
+    "href": "course-syllabus.html#course-description",
+    "title": "IAFF 6501: Quantitative Analysis for IA Practitioners",
+    "section": "Course Description",
+    "text": "Course Description\nThis course will focus on developing data analysis and data science skills that are relevant for international affairs practitioners. Students will develop coding, data visualization, data analysis, and data presentation skills that will allow them to use data to answer questions related to international affairs and to contribute to data driven policy and programmatic decision making.",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#course-objectives",
+    "href": "course-syllabus.html#course-objectives",
+    "title": "IAFF 6501: Quantitative Analysis for IA Practitioners",
+    "section": "Course Objectives",
+    "text": "Course Objectives\nCourse and module objectives are guides to gauge your skill and knowledge development. By the end of this course, you should be able to:\n\nAnalyze data sets using modern computational tools (using R).\nIdentify and access data sets, and apply data wrangling concepts to optimize data for analysis and modeling purposes.\nUse data visualization to summarize simple and complex relationships between and among variables in a data set.\nUse tools of statistical inference to test hypotheses\nDevelop and use models for prediction/forecasting, and for causal inference\nCreate professional and reproducible data analysis outputs (reports, websites, slides, and so on) using Quarto",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
+    ]
+  },
+  {
+    "objectID": "course-syllabus.html#policy-on-ai-tools",
+    "href": "course-syllabus.html#policy-on-ai-tools",
+    "title": "IAFF 6501: Quantitative Analysis for IA Practitioners",
+    "section": "Policy on AI Tools",
+    "text": "Policy on AI Tools\n\nOverview\nAI tools (such as ChatGPT, Claude, Gemini, Copilot, and others) can be genuinely useful companions for learning to code and analyze data. This course takes a permissive approach: you may use AI tools to support your learning. Think of them as a tutor available around the clock, one you can ask to explain a concept, clarify an error message, walk through how a function works, or help you debug code that isn’t running correctly.\nThat said, there is an important distinction between using AI to learn and using AI instead of learning. The goal of this course is for you to develop real skills in R, data analysis, and statistical reasoning. If you simply paste an assignment into an AI and copy the output, you will pass the assignment but miss the course. More practically, you will struggle in future courses, in job interviews, and on the job itself, where these skills will be expected of you.\n\n\nGuidelines\nTry first, then consult. Whether you are working on a lab or a homework, your first move should be to consult the course materials, e.g. the modules, slides, and readings. For labs, which are guided fill-in-the-blank exercises, the hints at the bottom of each page are there for a reason. Use them before turning to AI. For homeworks, which are more open-ended and challenging, it is reasonable to ask AI for help when you are genuinely stuck, but again, consult the course materials first.\nUse AI as a consultant, not a ghostwriter. Asking an AI why your code throws an error, what a function does, or how to interpret an output is exactly the kind of use that supports your learning. Debugging is one of the most legitimate uses of AI in a coding course. Asking it to complete your assignment for you is not.\nCritically evaluate AI output. AI tools make mistakes. They hallucinate functions, write syntactically incorrect code, and sometimes give confidently wrong answers. You are responsible for understanding and verifying whatever you submit.\nAcknowledge your use. In your submission statement, note whether you used AI tools and confirm that your use was advisory rather than generative.",
+    "crumbs": [
+      "Course Information",
+      "Syllabus"
     ]
   }
 ]

@@ -1,7 +1,6 @@
 ---
 title: "Quantitative Analysis for IA Practitioners"
 subtitle: "IAFF 6501"
-#author:  "Eric Kramon"
 footer: "[IAFF 6501 Website](https://quant4ia.rocks)"
 logo: images/iaff6501-logo.png
 format:
@@ -23,8 +22,8 @@ execute:
 <br>
 
 | Professor Teitelbaum [ejt\@gwu.edu](mailto:ejt@gwu.edu)
-| Office Hours: Tuesdays, 3:00-5:00 p.m.
-| Monroe Hall Rm 411 or online
+| Office Hours: Monday, 3:00-5:00 p.m.
+| Online only
 | Go to my [calendly page](https://calendly.com/emmanuel-teitelbaum) to sign up for a slot
 
 ## Why Take this Course?
@@ -35,33 +34,6 @@ execute:
 -   Data is everywhere and it is changing the way government works
 -   You will be a better consumer of data and research
 -   You can be a "bridge builder" between traditional analysts and data scientists on your team
-
-## Data Informed Dipomacy
-
-<br>
-
-> Data is a critical instrument of diplomacy. When our workforce has data at their fingertips they are better prepared to engage diplomatically, manage effectively, and lead globally.
-
-| Secretary of State Anthony Blinken, 2022[^1]
-
-[^1]: <https://www.state.gov/data/>
-
-## State Department Goals
-
-<br>
-
-::: columns
-::: {.column width="50%"}
-[![](images/enterprise-strategy.png)](https://www.state.gov/wp-content/uploads/2021/09/Reference-EDS-Accessible.pdf)
-:::
-
-::: {.column width="50%"}
-- Cultivate a Data Culture
-- Accelerate Decisions through Analytics
-- Establish Mission-Driven Data Management
-- Enhance Enterprise Data Governance
-:::
-:::
 
 ## Open Goverment Data Act (2018)
 
@@ -74,6 +46,16 @@ execute:
 <https://crsreports.congress.gov/product/pdf/IF/IF12299>
 :::
 
+## Data Informed Dipomacy
+
+<br>
+
+> Data is a critical instrument of diplomacy. When our workforce has data at their fingertips they are better prepared to engage diplomatically, manage effectively, and lead globally.
+
+| Secretary of State Anthony Blinken, 2022[^1]
+
+[^1]: <https://www.state.gov/data/>
+
 ## Open Source Intelligence 
 
 <br>
@@ -82,28 +64,12 @@ execute:
 - Government agencies use a lot of the same datasets that we will be using in this class
 - Yet the OSINT community has only begun to scratch the surface of what is possible with data science
 
-## 
-
-<br>
-
-![](images/MLP.jpg)
-
-::: notes
-MLP's digital tools provide fine-grained data tracking and forecasting major political events across nearly 60 countries by continuously scraping and process tens of millions of articles published by more than 300 local, regional, and international news sources in more than 30 languages. This infrastructure provides up-to-date data on recent and historical trends in civic space and foreign influence and builds forecasting models that learn from historical patterns to predict how conditions are likely to change in the near future.
-:::
-
-## 
-
-<br>
-
-![](images/CSO.jpg)
-
 ## Monitoring, Evaluation and Learning
 
 ::: {.incremental}
 - Another important use of data in international affairs is monitoring, evaluation and learning (MEL)
 - MEL is a process that helps organizations track and assess the performance of their programs
-- MEL is a key component of [USAID](https://www.usaid.gov/activity-monitoring-evaluation-and-learning-mel-plan), the [World Bank](https://www.worldbank.org/en/research/dime/research) and other agencies 
+- MEL is a key component of the [World Bank](https://www.worldbank.org/en/research/dime/research) and other agencies that focus on international development
 - A major component of MEL is the use of randomized control trials (RCTs) and other designs, which you will learn about in this class
 :::
 
@@ -134,9 +100,9 @@ MLP's digital tools provide fine-grained data tracking and forecasting major pol
 
 <br>
 
--   Weekly quizzes (20 percent)
--   3 Data Analysis Assignments (45 percent; 15 percent each)
--   Final Project (20 percent)
+-   Six weekly labs (30 percent; 5 percent each)
+-   Three data analysis assignments (60 percent; 20 percent each)
+-   Class participation (10 percent)
 
 ## Course Website
 
@@ -311,7 +277,6 @@ unvotes |>
 -   Click the little green arrow to run the code chunk
 -   Click Render to update your HTML output
 -   Complete as much as you can (no problem if you do not finish)
-
 
 ## Quarto
 
