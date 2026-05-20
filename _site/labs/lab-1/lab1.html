@@ -598,11 +598,12 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-2-create-a-bar-chart-20-pts" id="toc-step-2-create-a-bar-chart-20-pts" class="nav-link" data-scroll-target="#step-2-create-a-bar-chart-20-pts">Step 2: Create a Bar Chart (20 pts)</a></li>
   <li><a href="#step-3-interpret-your-chart-10-pts" id="toc-step-3-interpret-your-chart-10-pts" class="nav-link" data-scroll-target="#step-3-interpret-your-chart-10-pts">Step 3: Interpret Your Chart (10 pts)</a></li>
   </ul></li>
-  <li><a href="#part-2-histogram-50-pts" id="toc-part-2-histogram-50-pts" class="nav-link" data-scroll-target="#part-2-histogram-50-pts">Part 2: Histogram (50 pts)</a>
+  <li><a href="#part-2-line-chart-50-pts" id="toc-part-2-line-chart-50-pts" class="nav-link" data-scroll-target="#part-2-line-chart-50-pts">Part 2: Line Chart (50 pts)</a>
   <ul class="collapse">
-  <li><a href="#step-1-load-and-explore-the-full-dataset-10-pts" id="toc-step-1-load-and-explore-the-full-dataset-10-pts" class="nav-link" data-scroll-target="#step-1-load-and-explore-the-full-dataset-10-pts">Step 1: Load and Explore the Full Dataset (10 pts)</a></li>
-  <li><a href="#step-2-create-a-histogram-20-pts" id="toc-step-2-create-a-histogram-20-pts" class="nav-link" data-scroll-target="#step-2-create-a-histogram-20-pts">Step 2: Create a Histogram (20 pts)</a></li>
-  <li><a href="#step-3-interpret-your-histogram-10-pts" id="toc-step-3-interpret-your-histogram-10-pts" class="nav-link" data-scroll-target="#step-3-interpret-your-histogram-10-pts">Step 3: Interpret Your Histogram (10 pts)</a></li>
+  <li><a href="#step-1-load-and-explore-the-data-10-pts-1" id="toc-step-1-load-and-explore-the-data-10-pts-1" class="nav-link" data-scroll-target="#step-1-load-and-explore-the-data-10-pts-1">Step 1: Load and Explore the Data (10 pts)</a></li>
+  <li><a href="#step-2-filter-the-data-10-pts" id="toc-step-2-filter-the-data-10-pts" class="nav-link" data-scroll-target="#step-2-filter-the-data-10-pts">Step 2: Filter the Data (10 pts)</a></li>
+  <li><a href="#step-3-create-a-line-chart-20-pts" id="toc-step-3-create-a-line-chart-20-pts" class="nav-link" data-scroll-target="#step-3-create-a-line-chart-20-pts">Step 3: Create a Line Chart (20 pts)</a></li>
+  <li><a href="#step-4-interpret-your-chart-10-pts" id="toc-step-4-interpret-your-chart-10-pts" class="nav-link" data-scroll-target="#step-4-interpret-your-chart-10-pts">Step 4: Interpret Your Chart (10 pts)</a></li>
   </ul></li>
   <li><a href="#hints" id="toc-hints" class="nav-link" data-scroll-target="#hints">Hints</a></li>
   </ul>
@@ -668,9 +669,9 @@ How to complete this lab
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
 <p>In this lab, you will practice adapting code from the lectures to work with a new dataset. You will:</p>
 <ol type="1">
-<li>Load and explore a new dataset</li>
-<li>Create a bar chart by adapting code from Lesson 2.1</li>
-<li>Create a histogram</li>
+<li>Load and explore new datasets</li>
+<li>Create a bar chart by adapting code from Lesson 1.2</li>
+<li>Create a line chart</li>
 <li>Write brief interpretations of your visualizations</li>
 <li>Render your document to PDF and submit</li>
 </ol>
@@ -688,7 +689,7 @@ How to complete this lab
 <p>Today we’ll work with data from the Gapminder project, which tracks development indicators across countries. We have two files:</p>
 <ul>
 <li><code>gapminder_summary.csv</code> - Average values by continent</li>
-<li><code>gapminder_2007.csv</code> - Data for 142 individual countries in 2007</li>
+<li><code>gapminder_full.csv</code> - Data for 142 countries from 1952 to 2007</li>
 </ul>
 </section>
 <section id="part-1-bar-chart-50-points" class="level2">
@@ -718,7 +719,7 @@ dbl (4): avg_life_exp, avg_gdp_cap, total_pop, n_countries
 </section>
 <section id="step-2-create-a-bar-chart-20-pts" class="level3">
 <h3 class="anchored" data-anchor-id="step-2-create-a-bar-chart-20-pts">Step 2: Create a Bar Chart (20 pts)</h3>
-<p>Using the bar chart code from <strong>Lesson 2.1</strong> as a template, create a bar chart using one of the variables in the dataframe. Your options are <code>avg_life_exp</code>, <code>avg_gdp_cap</code>, <code>total_pop</code>, or <code>n_countries</code>.</p>
+<p>Using the bar chart code from <strong>Lesson 1.2</strong> as a template, create a bar chart using one of the variables in the dataframe. Your options are <code>avg_life_exp</code>, <code>avg_gdp_cap</code>, <code>total_pop</code>, or <code>n_countries</code>.</p>
 <p>Think about what needs to change:</p>
 <ul>
 <li>What is the name of your data frame?</li>
@@ -736,15 +737,15 @@ dbl (4): avg_life_exp, avg_gdp_cap, total_pop, n_countries
 <p>YOUR INTERPRETATION HERE</p>
 </section>
 </section>
-<section id="part-2-histogram-50-pts" class="level2">
-<h2 class="anchored" data-anchor-id="part-2-histogram-50-pts">Part 2: Histogram (50 pts)</h2>
-<section id="step-1-load-and-explore-the-full-dataset-10-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-load-and-explore-the-full-dataset-10-pts">Step 1: Load and Explore the Full Dataset (10 pts)</h3>
-<p>Now let’s work with the full Gapminder dataset for 2007:</p>
+<section id="part-2-line-chart-50-pts" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-line-chart-50-pts">Part 2: Line Chart (50 pts)</h2>
+<section id="step-1-load-and-explore-the-data-10-pts-1" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-load-and-explore-the-data-10-pts-1">Step 1: Load and Explore the Data (10 pts)</h3>
+<p>Load the full Gapminder dataset and use <code>glimpse()</code> to explore it.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"gapminder_2007.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>gapminder <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"gapminder_full.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stderr">
-<pre><code>Rows: 142 Columns: 6
+<pre><code>Rows: 1704 Columns: 6
 ── Column specification ────────────────────────────────────────────────────────
 Delimiter: ","
 chr (2): country, continent
@@ -755,22 +756,29 @@ dbl (4): year, population, life_exp, gdp_cap
 </div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use glimpse() to explore this data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Use glimpse() to explore the data</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
-<p>Describe these data? How many variables are there? How many countries are represented?</p>
+<p><strong>Question:</strong> What variables are in this dataset? What years are covered? What does each row represent?</p>
 <p>YOUR ANSWER HERE</p>
 </section>
-<section id="step-2-create-a-histogram-20-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-create-a-histogram-20-pts">Step 2: Create a Histogram (20 pts)</h3>
-<p>Using the histogram code from <strong>Lesson 2.1</strong> as a template, create a histogram showing the <strong>distribution of life expectancy</strong> across all countries.</p>
-<p>Remember: histograms use <code>geom_histogram()</code> and only need an <code>x</code> variable in <code>aes()</code>.</p>
+<section id="step-2-filter-the-data-10-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-filter-the-data-10-pts">Step 2: Filter the Data (10 pts)</h3>
+<p>Choose three countries you’re interested in and filter the data to include only those countries. Replace the <code>___</code> placeholders with real country names — spelling must match exactly what you saw in <code>glimpse()</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your histogram code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>gapminder_ctrs <span class="ot">&lt;-</span> gapminder <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"___"</span>, <span class="st">"___"</span>, <span class="st">"___"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-3-interpret-your-histogram-10-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-interpret-your-histogram-10-pts">Step 3: Interpret Your Histogram (10 pts)</h3>
-<p>Write 2-3 sentences about what you see. Is life expectancy spread evenly across countries, or are there clusters? What range do most countries fall into?</p>
+<section id="step-3-create-a-line-chart-20-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-create-a-line-chart-20-pts">Step 3: Create a Line Chart (20 pts)</h3>
+<p>Using the line chart code from <strong>Lesson 1.2</strong> as a template, create a line chart showing how life expectancy (<code>life_exp</code>) has changed over time for your three countries. Use <code>year</code> on the x-axis and <code>life_exp</code> on the y-axis.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your line chart code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-4-interpret-your-chart-10-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-interpret-your-chart-10-pts">Step 4: Interpret Your Chart (10 pts)</h3>
+<p>Write 2-3 sentences describing what you see. How has life expectancy changed over time in your chosen countries? Are there differences across them?</p>
 <p>YOUR INTERPRETATION HERE</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -800,9 +808,9 @@ Render as PDF and Submit Your Work (20 pts)
 <pre><code>ggplot(data_name, aes(x = ___, y = ___)) +
   geom_col() +
   labs(title = "___", x = "___", y = "___")</code></pre>
-<p><strong>Hint 2 - Histogram structure:</strong></p>
-<pre><code>ggplot(data_name, aes(x = ___)) +
-  geom_histogram()</code></pre>
+<p><strong>Hint 2 - Line chart structure:</strong></p>
+<pre><code>ggplot(data_name, aes(x = year, y = life_exp, color = country)) +
+  geom_line(linewidth = 1)</code></pre>
 <p><strong>Hint 3 - Variable names matter:</strong> Make sure the variable names in your code match <em>exactly</em> what you saw in <code>glimpse()</code>. R is case-sensitive!</p>
 
 
