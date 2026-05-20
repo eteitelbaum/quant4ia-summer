@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-05-17">
+  <meta name="dcterms.date" content="2026-05-20">
   <title>IAFF 6501 -- Summer 2026 – Summarizing Data</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -190,8 +190,8 @@
       margin-right: 0; 
     }
   </style>
-  <link href="../site_libs/countdown-0.4.0/countdown.css" rel="stylesheet">
-  <script src="../site_libs/countdown-0.4.0/countdown.js"></script>
+  <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
+  <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
 <meta property="og:title" content="Summarizing Data – IAFF 6501 – Summer 2026">
 <meta property="og:site_name" content="IAFF 6501 -- Summer 2026">
 <meta name="twitter:title" content="Summarizing Data – IAFF 6501 – Summer 2026">
@@ -207,7 +207,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">May 17, 2026</p>
+  <p class="date">May 20, 2026</p>
 </section>
 <section id="group-summarize-and-arrange" class="slide level2">
 <h2>Group, Summarize and Arrange</h2>
@@ -282,12 +282,12 @@
 <pre><code># A tibble: 6 × 5
   region         polyarchy libdem corruption gdp_pc
   &lt;chr&gt;              &lt;dbl&gt;  &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;
-1 The West           0.876  0.824     0.0647   81.7
-2 Latin America      0.648  0.476     0.281    30.8
-3 Eastern Europe     0.548  0.419     0.292    31.7
-4 Asia               0.443  0.312     0.263    64.8
-5 Africa             0.435  0.261     0.231    30.6
-6 Middle East        0.271  0.171     0.250    91.2</code></pre>
+1 The West           0.874  0.825     0.0605  160. 
+2 Latin America      0.648  0.462     0.285    72.0
+3 Eastern Europe     0.549  0.442     0.302    67.5
+4 Asia               0.442  0.317     0.266   134. 
+5 Africa             0.428  0.258     0.230    78.0
+6 Middle East        0.270  0.162     0.248   209. </code></pre>
 </div>
 </div>
 </section>
@@ -412,10 +412,7 @@
 </ol>
 <div class="cell">
 <div class="cell-output-display">
-<div class="countdown" id="timer1" data-update-every="1" tabindex="0" style="top:0%;right:5%;">
-<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+<countdown-timer class="countdown" id="timer1" minutes="5" seconds="0" update-every="1" tabindex="0" style="top:0%;right:5%;--countdown-color-border:#fff;--countdown-color-text:#fff;--countdown-color-running-background:#42affa;--countdown-color-running-text:black;--countdown-color-finished-background:#E5D19D;--countdown-color-finished-text:#00264A;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -439,7 +436,7 @@
 <h2>Visualize It!</h2>
 <p><br></p>
 
-<img data-src="week-2.2_files/figure-html/barchart2-1.png" width="672" class="r-stretch"></section>
+<img data-src="week-2.2_files/figure-revealjs/barchart2-1.png" width="960" class="r-stretch"></section>
 <section id="try-it-yourself-1" class="slide level2">
 <h2>Try it Yourself</h2>
 <ul>
@@ -450,10 +447,7 @@
 </ul>
 <div class="cell">
 <div class="cell-output-display">
-<div class="countdown" id="timer2" data-update-every="1" tabindex="0" style="top:0%;right:5%;">
-<div class="countdown-controls"><button class="countdown-bump-down">−</button><button class="countdown-bump-up">+</button></div>
-<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
-</div>
+<countdown-timer class="countdown" id="timer2" minutes="10" seconds="0" update-every="1" tabindex="0" style="top:0%;right:5%;"></countdown-timer>
 </div>
 </div>
 </section>
@@ -742,6 +736,44 @@
         ]
       });
     </script>
+    
+    <script>
+      // htmlwidgets need to know to resize themselves when slides are shown/hidden.
+      // Fire the "slideenter" event (handled by htmlwidgets.js) when the current
+      // slide changes (different for each slide format).
+      (function () {
+        // dispatch for htmlwidgets
+        function fireSlideEnter() {
+          const event = window.document.createEvent("Event");
+          event.initEvent("slideenter", true, true);
+          window.document.dispatchEvent(event);
+        }
+
+        function fireSlideChanged(previousSlide, currentSlide) {
+          fireSlideEnter();
+
+          // dispatch for shiny
+          if (window.jQuery) {
+            if (previousSlide) {
+              window.jQuery(previousSlide).trigger("hidden");
+            }
+            if (currentSlide) {
+              window.jQuery(currentSlide).trigger("shown");
+            }
+          }
+        }
+
+        // hookup for slidy
+        if (window.w3c_slidy) {
+          window.w3c_slidy.add_observer(function (slide_num) {
+            // slide_num starts at position 1
+            fireSlideChanged(null, w3c_slidy.slides[slide_num - 1]);
+          });
+        }
+
+      })();
+    </script>
+
     <script id="quarto-html-after-body" type="application/javascript">
       window.document.addEventListener("DOMContentLoaded", function (event) {
         const tabsets =  window.document.querySelectorAll(".panel-tabset-tabby")
