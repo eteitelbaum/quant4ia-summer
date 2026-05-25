@@ -10,8 +10,8 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-05-20">
-  <title>IAFF 6501 -- Summer 2026 – Working with V-Dem Data</title>
+  <meta name="dcterms.date" content="2026-05-25">
+  <title>IAFF 6501 -- Summer 2026 – Wrangling Data</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
@@ -195,9 +195,9 @@
   <link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
   <link href="../site_libs/countdown-0.6.0/countdown.css" rel="stylesheet">
   <script src="../site_libs/countdown-0.6.0/countdown.js"></script>
-<meta property="og:title" content="Working with V-Dem Data – IAFF 6501 – Summer 2026">
+<meta property="og:title" content="Wrangling Data – IAFF 6501 – Summer 2026">
 <meta property="og:site_name" content="IAFF 6501 -- Summer 2026">
-<meta name="twitter:title" content="Working with V-Dem Data – IAFF 6501 – Summer 2026">
+<meta name="twitter:title" content="Wrangling Data – IAFF 6501 – Summer 2026">
 <meta name="twitter:card" content="summary">
 </head>
 <body class="quarto-dark">
@@ -205,12 +205,12 @@
     <div class="slides">
 
 <section id="title-slide" class="quarto-title-block center">
-  <h1 class="title">Working with V-Dem Data</h1>
+  <h1 class="title">Wrangling Data</h1>
 
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">May 20, 2026</p>
+  <p class="date">May 25, 2026</p>
 </section>
 <section id="where-does-data-come-from" class="slide level2">
 <h2>Where Does Data Come From?</h2>
@@ -4985,14 +4985,13 @@ $ e_ovexist_3                     &lt;dbl&gt; NA, NA, NA, NA, NA, NA, NA, NA, NA
 <section id="filter" class="slide level2">
 <h2><code>filter()</code></h2>
 <ul>
-<li>Run this code. What do you see?</li>
-<li>Try changing the year</li>
-<li>For one year, use <code>==</code> instead of <code>&gt;=</code></li>
-<li>Or try <code>&lt;=</code> and see what happens</li>
+<li>How would you get earlier years?<br>
+</li>
+<li>One year?</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>democracy <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span> <span class="co"># download the V-Dem dataset</span></span>
-<span id="cb3-2"><a></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">1990</span>) <span class="co"># filter out years less than 1990</span></span>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a></a>democracy <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span> </span>
+<span id="cb3-2"><a></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">1990</span>) <span class="co"># filter out years &gt; 1989</span></span>
 <span id="cb3-3"><a></a>  </span>
 <span id="cb3-4"><a></a><span class="fu">glimpse</span>(democracy)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -9618,11 +9617,6 @@ $ e_ovexist_2                     &lt;dbl&gt; 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0
 $ e_ovexist_3                     &lt;dbl&gt; 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0, 1,…</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer1" minutes="5" seconds="0" update-every="1" tabindex="0" style="top:10%;right:10%;--countdown-color-border:#fff;--countdown-color-text:#fff;--countdown-color-running-background:#42affa;--countdown-color-running-text:black;--countdown-color-finished-background:#E5D19D;--countdown-color-finished-text:#00264A;"></countdown-timer>
-</div>
-</div>
 </section>
 <section id="versus" class="slide level2">
 <h2><code>=</code> versus <code>==</code></h2>
@@ -9645,9 +9639,7 @@ $ e_ovexist_3                     &lt;dbl&gt; 1, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 0
 <section id="select" class="slide level2">
 <h2><code>select()</code></h2>
 <ul>
-<li>Run this code. What do you see?</li>
-<li>Now try <code>v2x_libdem</code> instead of <code>v2x_polyarchy</code></li>
-<li>Choose more from the <a href="https://v-dem.net/documents/24/codebook_v13.pdf">codebook</a></li>
+<li>Try any indicator listed in the <a href="https://v-dem.net/documents/24/codebook_v13.pdf">codebook</a></li>
 </ul>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>democracy <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span> <span class="co"># download the V-Dem dataset</span></span>
@@ -9668,16 +9660,11 @@ $ year         &lt;dbl&gt; 1789, 1790, 1791, 1792, 1793, 1794, 1795, 1796, 1797,
 $ polyarchy    &lt;dbl&gt; 0.027, 0.027, 0.027, 0.027, 0.027, 0.027, 0.027, 0.027, 0…</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer2" minutes="5" seconds="0" update-every="1" tabindex="0" style="top:0%;right:5%;"></countdown-timer>
-</div>
-</div>
 </section>
 <section id="mutate" class="slide level2">
 <h2><code>mutate()</code></h2>
 <ul>
-<li>Modify the code to create new variable that is three times the value of <code>polyarchy</code></li>
+<li>Modify the code to create a new variable, e.g.&nbsp;double the value of <code>polyarchy</code></li>
 <li>How about <code>polyarchy</code> squared?</li>
 </ul>
 <div class="cell">
@@ -9704,11 +9691,6 @@ $ polyarchy     &lt;dbl&gt; 0.643, 0.757, 0.915, 0.903, 0.739, 0.755, 0.817, 0.3
 $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.740, …</code></pre>
 </div>
 </div>
-<div class="cell">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer2" minutes="5" seconds="0" update-every="1" tabindex="0" style="top:0%;right:5%;"></countdown-timer>
-</div>
-</div>
 </section>
 <section id="some-common-arithmetic-operators" class="slide level2">
 <h2>Some Common Arithmetic Operators</h2>
@@ -9721,8 +9703,23 @@ $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.7
 <li><code>^</code> exponentiation (also <code>**</code>)</li>
 </ul>
 </section>
+<section id="chaining-steps-with" class="slide level2">
+<h2>Chaining Steps with <code>|&gt;</code></h2>
+<ul>
+<li>We often need to do more than one thing to the same dataset</li>
+<li>The pipe operator <code>|&gt;</code> lets us chain those steps together</li>
+<li>Read it from top to bottom: take the result from one step and pass it to the next</li>
+<li>This makes code easier to read because each line does one job</li>
+</ul>
+<div class="fragment">
+<ul>
+<li>Next example: filter rows, select columns, then create or recode variables</li>
+</ul>
+</div>
+</section>
 <section id="vdemdata-example" class="slide level2 smaller">
 <h2><code>vdemdata</code> Example</h2>
+<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="co"># Load packages</span></span>
 <span id="cb9-2"><a></a><span class="fu">library</span>(vdemdata) <span class="co"># to download V-Dem data</span></span>
@@ -9756,6 +9753,7 @@ $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.7
 <section id="section-1" class="slide level2">
 <h2></h2>
 <p>Use <code>filter()</code> to select years…</p>
+<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb10" data-code-line-numbers="2-3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="co"># Download the data</span></span>
 <span id="cb10-2"><a></a>democracy <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span> </span>
@@ -9782,6 +9780,7 @@ $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.7
 <section id="section-2" class="slide level2">
 <h2></h2>
 <p>Use <code>select()</code> to choose variables…</p>
+<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb11" data-code-line-numbers="4-11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="co"># Download the data</span></span>
 <span id="cb11-2"><a></a>democracy <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span> </span>
@@ -9808,6 +9807,7 @@ $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.7
 <section id="section-3" class="slide level2">
 <h2></h2>
 <p>Use <code>mutate</code> with <code>case_match()</code> to Recode Region….</p>
+<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb12" data-code-line-numbers="12-23"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a><span class="co"># Download the data</span></span>
 <span id="cb12-2"><a></a>democracy <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span></span>
@@ -9841,29 +9841,166 @@ $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.7
 <div class="sourceCode cell-code" id="cb13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a></a><span class="fu">write_csv</span>(democracy, <span class="st">"democracy.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="visualize-it" class="slide level2">
-<h2>Visualize It!</h2>
+<section id="your-turn" class="slide level2">
+<h2>Your Turn!</h2>
+<p><br></p>
+<ul>
+<li>Keep only observations from <code>2010</code></li>
+<li>Select <code>country_name</code>, <code>year</code>, and <code>v2x_polyarchy</code></li>
+<li>Rename them to <code>country</code>, <code>year</code>, and <code>polyarchy</code></li>
+<li>Use <code>mutate()</code> to create <code>polyarchy_triple</code> and <code>polyarchy_sq</code></li>
+<li>Run <code>glimpse()</code> to check your work</li>
+</ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="fu">library</span>(ggplot2)</span>
-<span id="cb14-2"><a></a></span>
-<span id="cb14-3"><a></a><span class="fu">ggplot</span>(democracy, <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> polyarchy)) <span class="sc">+</span> </span>
-<span id="cb14-4"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region)) <span class="sc">+</span> </span>
-<span id="cb14-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
-<span id="cb14-6"><a></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">prefix =</span> <span class="st">"$"</span>, <span class="at">suffix =</span> <span class="st">"k"</span>)) <span class="sc">+</span></span>
-<span id="cb14-7"><a></a>  <span class="fu">labs</span>(</span>
-<span id="cb14-8"><a></a>    <span class="at">x=</span> <span class="st">"GDP per Capita"</span>, </span>
-<span id="cb14-9"><a></a>    <span class="at">y =</span> <span class="st">"Polyarchy Score"</span>,</span>
-<span id="cb14-10"><a></a>    <span class="at">title =</span> <span class="st">"Wealth and democracy in 2015"</span>, </span>
-<span id="cb14-11"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span>, </span>
-<span id="cb14-12"><a></a>    <span class="at">color =</span> <span class="st">"Region"</span></span>
-<span id="cb14-13"><a></a>    ) <span class="sc">+</span></span>
-<span id="cb14-14"><a></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">end =</span> .<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<countdown-timer class="countdown" id="timer4" minutes="5" seconds="0" update-every="1" tabindex="0" style="top:0%;right:5%;--countdown-color-border:#fff;--countdown-color-text:#fff;--countdown-color-running-background:#42affa;--countdown-color-running-text:black;--countdown-color-finished-background:#E5D19D;--countdown-color-finished-text:#00264A;"></countdown-timer>
+</div>
 </div>
 </section>
-<section id="visualize-it-1" class="slide level2">
-<h2>Visualize It!</h2>
+<section id="from-wrangling-to-visualization" class="slide level2">
+<h2>From Wrangling to Visualization</h2>
+<p><br></p>
+<ul>
+<li><code>filter()</code>, <code>select()</code>, and <code>mutate()</code> helped us build the dataset we want</li>
+<li>Now we pass that cleaned dataset to <code>ggplot2</code></li>
+<li>Same grammar of graphics idea as before: data + aesthetics + geom + labels</li>
+<li>For a scatter plot, we usually map one variable to the x-axis and one to the y-axis</li>
+</ul>
+</section>
+<section id="build-the-scatter-plot" class="slide level2">
+<h2>Build the Scatter Plot</h2>
+<p><br></p>
+<ul>
+<li>Start with the data and the aesthetics</li>
+<li>Put <code>gdp_pc</code> on the x-axis</li>
+<li>Put <code>polyarchy</code> on the y-axis</li>
+<li>This sets up the plot before we add any points</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14" data-code-line-numbers="3"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb14-2"><a></a></span>
+<span id="cb14-3"><a></a><span class="fu">ggplot</span>(democracy, <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="build-the-scatter-plot-1" class="slide level2">
+<h2>Build the Scatter Plot</h2>
+<p>This gives us the axes and plotting space:</p>
 
 <img data-src="week-2.1_files/figure-revealjs/scatterplot2-1.png" width="960" class="r-stretch"></section>
+<section id="add-the-points" class="slide level2">
+<h2>Add the Points</h2>
+<p><br></p>
+<ul>
+<li>A scatter plot uses <code>geom_point()</code></li>
+<li>We can also map <code>region</code> to color to add one more dimension</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15" data-code-line-numbers="4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb15-2"><a></a></span>
+<span id="cb15-3"><a></a><span class="fu">ggplot</span>(democracy, <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> polyarchy)) <span class="sc">+</span> </span>
+<span id="cb15-4"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="add-the-points-1" class="slide level2">
+<h2>Add the Points</h2>
+
+<img data-src="week-2.1_files/figure-revealjs/scatterplot4-1.png" width="960" class="r-stretch"></section>
+<section id="add-a-trend-line" class="slide level2">
+<h2>Add a Trend Line</h2>
+<p><br></p>
+<ul>
+<li>Then we can improve readability step by step</li>
+<li>Add a trend line with <code>geom_smooth()</code></li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16" data-code-line-numbers="5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb16-2"><a></a></span>
+<span id="cb16-3"><a></a><span class="fu">ggplot</span>(democracy, <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> polyarchy)) <span class="sc">+</span> </span>
+<span id="cb16-4"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region)) <span class="sc">+</span> </span>
+<span id="cb16-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="add-a-trend-line-1" class="slide level2">
+<h2>Add a Trend Line</h2>
+
+<img data-src="week-2.1_files/figure-revealjs/scatterplot6-1.png" width="960" class="r-stretch"></section>
+<section id="stretch-the-x-axis" class="slide level2">
+<h2>Stretch the X-Axis</h2>
+<p><br></p>
+<ul>
+<li>GDP values are very spread out</li>
+<li>A log scale makes the x-axis easier to read</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17" data-code-line-numbers="6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb17-2"><a></a></span>
+<span id="cb17-3"><a></a><span class="fu">ggplot</span>(democracy, <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> polyarchy)) <span class="sc">+</span> </span>
+<span id="cb17-4"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region)) <span class="sc">+</span> </span>
+<span id="cb17-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb17-6"><a></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">prefix =</span> <span class="st">"$"</span>, <span class="at">suffix =</span> <span class="st">"k"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="stretch-the-x-axis-1" class="slide level2">
+<h2>Stretch the X-Axis</h2>
+
+<img data-src="week-2.1_files/figure-revealjs/scatterplot8-1.png" width="960" class="r-stretch"></section>
+<section id="add-labels" class="slide level2">
+<h2>Add Labels</h2>
+<p><br></p>
+<ul>
+<li>Then give the plot clearer axis labels, a title, and a legend label</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb18" data-code-line-numbers="7-13"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb18-2"><a></a></span>
+<span id="cb18-3"><a></a><span class="fu">ggplot</span>(democracy, <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> polyarchy)) <span class="sc">+</span> </span>
+<span id="cb18-4"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region)) <span class="sc">+</span> </span>
+<span id="cb18-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb18-6"><a></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">prefix =</span> <span class="st">"$"</span>, <span class="at">suffix =</span> <span class="st">"k"</span>)) <span class="sc">+</span></span>
+<span id="cb18-7"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb18-8"><a></a>    <span class="at">x =</span> <span class="st">"GDP per Capita"</span>, </span>
+<span id="cb18-9"><a></a>    <span class="at">y =</span> <span class="st">"Polyarchy Score"</span>,</span>
+<span id="cb18-10"><a></a>    <span class="at">title =</span> <span class="st">"Wealth and democracy in 2015"</span>, </span>
+<span id="cb18-11"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span>, </span>
+<span id="cb18-12"><a></a>    <span class="at">color =</span> <span class="st">"Region"</span></span>
+<span id="cb18-13"><a></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="add-labels-1" class="slide level2">
+<h2>Add Labels</h2>
+
+<img data-src="week-2.1_files/figure-revealjs/scatterplot10-1.png" width="960" class="r-stretch"></section>
+<section id="improve-the-color-palette" class="slide level2">
+<h2>Improve the Color Palette</h2>
+<p><br></p>
+<ul>
+<li>Now swap in a more readable color palette</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb19" data-code-line-numbers="14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a></a><span class="fu">library</span>(ggplot2)</span>
+<span id="cb19-2"><a></a></span>
+<span id="cb19-3"><a></a><span class="fu">ggplot</span>(democracy, <span class="fu">aes</span>(<span class="at">x =</span> gdp_pc, <span class="at">y =</span> polyarchy)) <span class="sc">+</span> </span>
+<span id="cb19-4"><a></a>  <span class="fu">geom_point</span>(<span class="fu">aes</span>(<span class="at">color =</span> region)) <span class="sc">+</span> </span>
+<span id="cb19-5"><a></a>  <span class="fu">geom_smooth</span>(<span class="at">method =</span> <span class="st">"lm"</span>, <span class="at">linewidth =</span> <span class="dv">1</span>) <span class="sc">+</span> </span>
+<span id="cb19-6"><a></a>  <span class="fu">scale_x_log10</span>(<span class="at">labels =</span> scales<span class="sc">::</span><span class="fu">label_number</span>(<span class="at">prefix =</span> <span class="st">"$"</span>, <span class="at">suffix =</span> <span class="st">"k"</span>)) <span class="sc">+</span></span>
+<span id="cb19-7"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb19-8"><a></a>    <span class="at">x =</span> <span class="st">"GDP per Capita"</span>, </span>
+<span id="cb19-9"><a></a>    <span class="at">y =</span> <span class="st">"Polyarchy Score"</span>,</span>
+<span id="cb19-10"><a></a>    <span class="at">title =</span> <span class="st">"Wealth and democracy in 2015"</span>, </span>
+<span id="cb19-11"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span>, </span>
+<span id="cb19-12"><a></a>    <span class="at">color =</span> <span class="st">"Region"</span></span>
+<span id="cb19-13"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb19-14"><a></a>  <span class="fu">scale_color_viridis_d</span>(<span class="at">option =</span> <span class="st">"inferno"</span>, <span class="at">end =</span> .<span class="dv">8</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="improve-the-color-palette-1" class="slide level2">
+<h2>Improve the Color Palette</h2>
+
+<img data-src="week-2.1_files/figure-revealjs/scatterplot12-1.png" width="960" class="r-stretch"></section>
+<section id="finished-scatter-plot" class="slide level2">
+<h2>Finished Scatter Plot</h2>
+
+<img data-src="week-2.1_files/figure-revealjs/scatterplot13-1.png" width="960" class="r-stretch"></section>
 <section id="try-it-yourself" class="slide level2">
 <h2>Try it Yourself</h2>
 <ul>
@@ -9872,13 +10009,7 @@ $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.7
 <li>Note the indicator code (e.g.&nbsp;“v2x_polyarchy” for the polyarchy score)</li>
 <li>Change the code and download the data so you can visualize it</li>
 <li>Now make a scatter plot of your indicator versus GDP</li>
-<li>Bonus: How would you make a line chart?</li>
 </ul>
-<div class="cell">
-<div class="cell-output-display">
-<countdown-timer class="countdown" id="timer4" minutes="10" seconds="0" update-every="1" tabindex="0" style="top:5%;right:10%;"></countdown-timer>
-</div>
-</div>
 
 
 </section>
@@ -9898,8 +10029,6 @@ $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.7
   <script src="../site_libs/revealjs/plugin/reveal-menu/menu.js"></script>
   <script src="../site_libs/revealjs/plugin/reveal-menu/quarto-menu.js"></script>
   <script src="../site_libs/revealjs/plugin/reveal-chalkboard/plugin.js"></script>
-  <script src="../site_libs/revealjs/plugin/multiplex/socket.io.js"></script>
-  <script src="../site_libs/revealjs/plugin/multiplex/multiplex.js"></script>
   <script src="../site_libs/revealjs/plugin/quarto-support/support.js"></script>
   
 
@@ -9923,7 +10052,6 @@ $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.7
 'jumpToSlide': true,
 'menu': {"side":"left","useTextContentForMissingTitles":true,"markers":false,"loadIcons":false,"custom":[{"title":"Tools","icon":"<i class=\"fas fa-gear\"></i>","content":"<ul class=\"slide-menu-items\">\n<li class=\"slide-tool-item active\" data-item=\"0\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.fullscreen(event)\"><kbd>f</kbd> Fullscreen</a></li>\n<li class=\"slide-tool-item\" data-item=\"1\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.speakerMode(event)\"><kbd>s</kbd> Speaker View</a></li>\n<li class=\"slide-tool-item\" data-item=\"2\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.overview(event)\"><kbd>o</kbd> Slide Overview</a></li>\n<li class=\"slide-tool-item\" data-item=\"3\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.togglePdfExport(event)\"><kbd>e</kbd> PDF Export Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"4\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleScrollView(event)\"><kbd>r</kbd> Scroll View Mode</a></li>\n<li class=\"slide-tool-item\" data-item=\"5\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleChalkboard(event)\"><kbd>b</kbd> Toggle Chalkboard</a></li>\n<li class=\"slide-tool-item\" data-item=\"6\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.toggleNotesCanvas(event)\"><kbd>c</kbd> Toggle Notes Canvas</a></li>\n<li class=\"slide-tool-item\" data-item=\"7\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.downloadDrawings(event)\"><kbd>d</kbd> Download Drawings</a></li>\n<li class=\"slide-tool-item\" data-item=\"8\"><a href=\"#\" onclick=\"RevealMenuToolHandlers.keyboardHelp(event)\"><kbd>?</kbd> Keyboard Help</a></li>\n</ul>"}],"openButton":true},
 'chalkboard': {"buttons":true},
-'multiplex': {"secret":null,"id":"9a42f1758af191b1","url":"https://reveal-multiplex.glitch.me/"},
 'smaller': false,
  
         // Display controls in the bottom right corner
@@ -10097,7 +10225,7 @@ $ polyarchy_dbl &lt;dbl&gt; 1.286, 1.514, 1.830, 1.806, 1.478, 1.510, 1.634, 0.7
         plugins: [QuartoLineHighlight, PdfExport, RevealMenu, RevealChalkboard, QuartoSupport,
 
           RevealMath,
-          
+          RevealNotes,
           RevealSearch,
           RevealZoom
         ]

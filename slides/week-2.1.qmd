@@ -1,5 +1,5 @@
 ---
-title: Working with V-Dem Data
+title: Wrangling Data
 date: today
 date-format: long
 footer: "[IAFF 6501 Website](https://quant4ia.rocks)"
