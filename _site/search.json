@@ -2253,7 +2253,7 @@
     "href": "index.html",
     "title": "Course Schedule",
     "section": "",
-    "text": "This page displays an outline of the topics, content, and assignments for the term. Each module starts on a Monday. There are no assignments due on weekends.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nModule\nDate\nTopic\nReadings\nSlides\nVideos\nAssignments\n\n\n\n\n\nGS\nBy May 18\nBefore We Begin\n📖\n\n🖥️, 🖥️\n\n\n\n\n1.1\nMay 18\nData Visualization 1\n📖, 📖\n🖥️\n🖥️, 🖥️\n\n\n\n\n1.2\nMay 20\nData Visualization 2\n📖, 📖\n🖥️\n🖥️, 🖥️\n🧪\n\n\n\n2.1\nMay 25\nWorking with data\n📖\n🖥️\n🖥️\n\n\n\n\n2.2\nMay 27\nExploring categorical data\n📖, 📖\n🖥️\n🖥️\n🧪, 🧮\n\n\n\n3.1\nJun 1\nContinuous distributions\n📖, 📖\n🖥️\n🖥️, 🖥️\n\n\n\n\n3.2\nJun 3\nSampling and Uncertainty\n📖, 📖\n🖥️\n🖥️, 🖥️\n🧪\n\n\n\n4.1\nJun 8\nHypothesis testing 1\n📖\n🖥️\n🖥️\n\n\n\n\n4.2\nJun 10\nHypothesis testing 2\n📖, 📖\n🖥️\n🖥️\n🧪, 🧮\n\n\n\n5.1\nJun 15\nLinear regression\n📖\n🖥️\n🖥️, 🖥️\n\n\n\n\n5.2\nJun 17\nMultiple regression\n📖\n🖥️\n🖥️\n🧪\n\n\n\n6.1\nJun 22\nLogistic regression\n📖\n🖥️\n🖥️, 🖥️\n\n\n\n\n6.2\nJun 24\nPresenting results\n📖\n🖥️\n🖥️, 🖥️, 🖥️, 🖥️\n🧪, 🧮",
+    "text": "This page displays an outline of the topics, content, and assignments for the term. Each module starts on a Monday. There are no assignments due on weekends.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nModule\nDate\nTopic\nReadings\nSlides\nVideos\nAssignments\n\n\n\n\n\nGS\nBy May 18\nBefore We Begin\n📖\n\n🖥️, 🖥️\n\n\n\n\n1.1\nMay 18\nCourse overview\n📖, 📖\n🖥️\n🖥️, 🖥️\n\n\n\n\n1.2\nMay 20\nBasics of data viz\n📖, 📖\n🖥️\n🖥️, 🖥️\n🧪\n\n\n\n2.1\nMay 25\nWrangling data\n📖\n🖥️\n🖥️\n\n\n\n\n2.2\nMay 27\nExploring categorical data\n📖, 📖\n🖥️\n🖥️\n🧪, 🧮\n\n\n\n3.1\nJun 1\nContinuous distributions\n📖, 📖\n🖥️\n🖥️, 🖥️\n\n\n\n\n3.2\nJun 3\nSampling and Uncertainty\n📖, 📖\n🖥️\n🖥️, 🖥️\n🧪\n\n\n\n4.1\nJun 8\nHypothesis testing 1\n📖\n🖥️\n🖥️\n\n\n\n\n4.2\nJun 10\nHypothesis testing 2\n📖, 📖\n🖥️\n🖥️\n🧪, 🧮\n\n\n\n5.1\nJun 15\nLinear regression\n📖\n🖥️\n🖥️, 🖥️\n\n\n\n\n5.2\nJun 17\nMultiple regression\n📖\n🖥️\n🖥️\n🧪\n\n\n\n6.1\nJun 22\nLogistic regression\n📖\n🖥️\n🖥️, 🖥️\n\n\n\n\n6.2\nJun 24\nPresenting results\n📖\n🖥️\n🖥️, 🖥️, 🖥️, 🖥️\n🧪, 🧮",
     "crumbs": [
       "Course Information",
       "Schedule"
@@ -2904,7 +2904,7 @@
     "href": "labs/lab-2/lab2.html#overview",
     "title": "Lab 2",
     "section": "Overview",
-    "text": "Overview\nIn this lab, you will practice wrangling data and creating visualizations using the V-Dem democracy dataset. You will:\n\nLoad and explore democracy data\nCreate a line chart showing trends in democracy over time\nCreate a scatter plot examining the relationship between wealth and democracy\nCreate a column chart of women’s political representation by region\nWrite brief interpretations of your visualizations\nRender your document to PDF and submit\n\nYou are encouraged to have the lecture materials from Module 2.1 open while completing this lab. You should also have the V-Dem codebook available to help you choose variables.",
+    "text": "Overview\nIn this lab, you will practice the main skills from Modules 2.1 and 2.2. You will:\n\nLoad and wrangle V-Dem data\nSummarize democracy indicators by region\nCreate a column chart from summarized data\nExplore categorical regime data with geom_bar()\nCompare regime proportions across regions\nWrite brief interpretations of your results\n\nYou are encouraged to have the Week 2 lecture materials and the V-Dem codebook open while completing the lab.",
     "crumbs": [
       "Labs",
       "Lab 2"
@@ -2915,7 +2915,7 @@
     "href": "labs/lab-2/lab2.html#getting-started",
     "title": "Lab 2",
     "section": "Getting Started",
-    "text": "Getting Started\nLoad the required packages.\n\nlibrary(vdemdata) # load the V-Dem package\nlibrary(tidyverse) # load the tidyverse\nrun &lt;- isTRUE(params$completed)\n\n\nsome_of_vdem &lt;- vdem |&gt;\n  filter(year &gt;= 2010) |&gt;\n  select(country_name, year, v2x_polyarchy, v2x_libdem)\n\n\n\n\n\n\n\nInstalling vdemdata locally\n\n\n\nIf you are working on your own computer and don’t have vdemdata installed, you’ll need to install it from GitHub. First install the pak package, then use it to install vdemdata:\ninstall.packages(\"pak\")\npak::pkg_install(\"vdeminstitute/vdemdata\")",
+    "text": "Getting Started\nLoad the required packages.\n\nlibrary(vdemdata)\nlibrary(tidyverse)\nrun &lt;- isTRUE(params$completed)\n\n\n\n\n\n\n\nInstalling vdemdata locally\n\n\n\nIf you are working on your own computer and do not have vdemdata installed, install pak and then install vdemdata from GitHub:\ninstall.packages(\"pak\")\npak::pkg_install(\"vdeminstitute/vdemdata\")",
     "crumbs": [
       "Labs",
       "Lab 2"
@@ -2970,7 +2970,7 @@
     "href": "labs/lab-2/lab2.html#hints",
     "title": "Lab 2",
     "section": "Hints",
-    "text": "Hints\nOnly look at these if you’re stuck!\nHint 1 - Line chart structure:\nggplot(data_name, aes(x = year, y = ___, color = ___)) +\n  geom_line() +\n  labs(title = \"___\", x = \"Year\", y = \"___\", color = \"___\")\nHint 2 - Scatter plot structure:\nggplot(data_name, aes(x = ___, y = ___)) +\n  geom_point() +\n  labs(title = \"___\", x = \"___\", y = \"___\")\nHint 3 - Column chart with reordering:\nggplot(data_name, aes(x = reorder(region, -women_rep), y = women_rep)) +\n  geom_col() +\n  labs(title = \"___\", x = \"___\", y = \"___\")\nHint 4 - Common issues:\n\nMake sure variable names match exactly what you see in the data (R is case-sensitive!)\nIf you get an error about missing values, check that you included na.rm = TRUE in your summary functions\nIf your line chart only shows one line, make sure you included color = country in your aes()",
+    "text": "Hints\nOnly look at these if you are stuck.\nHint 1 - Wrangling structure\nnew_data &lt;- vdem |&gt;\n  filter(year == 2015) |&gt;\n  select(\n    country = country_name,\n    year,\n    polyarchy = v2x_polyarchy\n  ) |&gt;\n  mutate(...)\nHint 2 - Summarizing structure\nsummary_data &lt;- democracy |&gt;\n  group_by(region) |&gt;\n  summarize(\n    polyarchy = mean(polyarchy, na.rm = TRUE)\n  ) |&gt;\n  arrange(desc(polyarchy))\nHint 3 - geom_col()\nggplot(dem_summary, aes(x = reorder(region, -polyarchy), y = polyarchy)) +\n  geom_col()\nHint 4 - geom_bar()\nggplot(vdem2022_regime, aes(x = regime)) +\n  geom_bar()\nHint 5 - Proportional bar chart\nggplot(vdem2022_regime, aes(x = region, fill = regime)) +\n  geom_bar(position = \"fill\")",
     "crumbs": [
       "Labs",
       "Lab 2"
@@ -6061,5 +6061,38 @@
     "title": "Summarizing Data",
     "section": "",
     "text": "You work at a think tank and your boss wants you to…\n\n\nVisualize trends in liberal democracy since the end of WWII for countries in South Asia\nSee how regions compare in terms of levels of corruption in 2015\nView the relationship between GDP per capita and electoral democracy in 2020\nHow would you do it?"
+  },
+  {
+    "objectID": "labs/lab-2/lab2.html#part-1-wrangle-democracy-data-30-points",
+    "href": "labs/lab-2/lab2.html#part-1-wrangle-democracy-data-30-points",
+    "title": "Lab 2",
+    "section": "Part 1: Wrangle Democracy Data (30 points)",
+    "text": "Part 1: Wrangle Democracy Data (30 points)\nIn this part, you will build a clean dataset from V-Dem using filter(), select(), and mutate().\n\nStep 1: Create a Wrangled Dataset (20 pts)\nFilter the data to one year, select the variables you need, and recode the region variable into readable labels.\n\ndemocracy &lt;- vdem |&gt;\n  ???(year == ???) |&gt;\n  ???(\n    country = ???,\n    year,\n    polyarchy = ???,\n    libdem = ???,\n    gdp_pc = ???,\n    region = ???\n  ) |&gt;\n  ???(\n    region = case_match(region,\n      1 ~ \"Eastern Europe\",\n      2 ~ \"Latin America\",\n      3 ~ \"Middle East\",\n      4 ~ \"Africa\",\n      5 ~ \"The West\",\n      6 ~ \"Asia\")\n  )\n\n\n\nStep 2: Examine the Data (5 pts)\nRun glimpse() on your new data frame.\n\nglimpse(???)\n\n\n\nStep 3: Brief Response (5 pts)\nWrite 2-3 sentences answering these questions:\n\nWhat year did you choose?\nHow many rows and columns does your wrangled dataset have?\nWhy is it useful to recode region before plotting?\n\nYOUR RESPONSE HERE",
+    "crumbs": [
+      "Labs",
+      "Lab 2"
+    ]
+  },
+  {
+    "objectID": "labs/lab-2/lab2.html#part-2-summarize-and-visualize-by-region-35-points",
+    "href": "labs/lab-2/lab2.html#part-2-summarize-and-visualize-by-region-35-points",
+    "title": "Lab 2",
+    "section": "Part 2: Summarize and Visualize by Region (35 points)",
+    "text": "Part 2: Summarize and Visualize by Region (35 points)\nIn this part, you will practice group_by(), summarize(), arrange(), and geom_col().\n\nStep 1: Summarize the Data (15 pts)\nCreate a regional summary dataset. Use mean() for polyarchy and gdp_pc, and sort from highest to lowest polyarchy.\n\ndem_summary &lt;- democracy |&gt;\n  ???(region) |&gt;\n  ???(\n    polyarchy = ???(polyarchy, na.rm = TRUE),\n    gdp_pc = ???(gdp_pc, na.rm = TRUE)\n  ) |&gt;\n  ???(desc(polyarchy))\n\n\n\nStep 2: Print the Summary (5 pts)\nPrint your summarized data frame.\n\n???\n\n\n\nStep 3: Create a Column Chart (10 pts)\nCreate a column chart of average polyarchy by region. Reorder the bars from highest to lowest.\n\n# Write your code here\n\n\n\nStep 4: Brief Interpretation (5 pts)\nWrite 2-3 sentences describing what you see.\n\nWhich region has the highest average polyarchy score?\nWhich region has the lowest?\nDoes the ranking make sense to you?\n\nYOUR RESPONSE HERE",
+    "crumbs": [
+      "Labs",
+      "Lab 2"
+    ]
+  },
+  {
+    "objectID": "labs/lab-2/lab2.html#part-3-explore-categorical-regime-data-35-points",
+    "href": "labs/lab-2/lab2.html#part-3-explore-categorical-regime-data-35-points",
+    "title": "Lab 2",
+    "section": "Part 3: Explore Categorical Regime Data (35 points)",
+    "text": "Part 3: Explore Categorical Regime Data (35 points)\nIn this part, you will work with V-Dem’s v2x_regime variable and use count() and geom_bar().\n\nStep 1: Build a Regime Dataset (15 pts)\nFilter the data to 2022, select country, regime, and region, and recode both region and regime.\n\nvdem2022_regime &lt;- vdem |&gt;\n  ???(year == ???) |&gt;\n  ???(\n    country = ???,\n    regime = ???,\n    region = ???\n  ) |&gt;\n  ???(\n    region = case_match(region,\n      1 ~ \"Eastern Europe\",\n      2 ~ \"Latin America\",\n      3 ~ \"Middle East\",\n      4 ~ \"Africa\",\n      5 ~ \"The West\",\n      6 ~ \"Asia\"),\n    regime = case_match(regime,\n      0 ~ \"Closed Autocracy\",\n      1 ~ \"Electoral Autocracy\",\n      2 ~ \"Electoral Democracy\",\n      3 ~ \"Liberal Democracy\")\n  )\n\n\n\nStep 2: Count Regime Types (5 pts)\nCreate a frequency table of regime types.\n\nvdem2022_regime |&gt;\n  ???(regime)\n\n\n\nStep 3: Create a Bar Chart of Regime Types (5 pts)\nUse geom_bar() to plot the distribution of regime types.\n\n# Write your code here\n\n\n\nStep 4: Compare Regions with Proportions (5 pts)\nNow create a second bar chart comparing regime types across regions using position = \"fill\".\n\n# Write your code here\n\n\n\nStep 5: Brief Interpretation (5 pts)\nWrite 2-3 sentences describing what you see.\n\nWhich regime type is most common overall?\nWhich region appears to have the largest share of liberal democracies?\nWhy is position = \"fill\" useful here?\n\nYOUR RESPONSE HERE\n\n\n\n\n\n\nSubmission\n\n\n\n\nReplace “YOUR NAME HERE” at the top with your actual name\nMake sure all code chunks run without errors\nChange completed: false to completed: true\nRender to HTML to check your work\nChange format: html to format: pdf\nSubmit the PDF to Blackboard",
+    "crumbs": [
+      "Labs",
+      "Lab 2"
+    ]
   }
 ]

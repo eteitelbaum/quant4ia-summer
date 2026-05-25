@@ -112,10 +112,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 
 <meta property="og:title" content="Lab 2 – IAFF 6501 – Summer 2026">
-<meta property="og:description" content="Wrangling and Visualizing Democracy Data">
+<meta property="og:description" content="Wrangling and Exploring Democracy Data">
 <meta property="og:site_name" content="IAFF 6501 -- Summer 2026">
 <meta name="twitter:title" content="Lab 2 – IAFF 6501 – Summer 2026">
-<meta name="twitter:description" content="Wrangling and Visualizing Democracy Data">
+<meta name="twitter:description" content="Wrangling and Exploring Democracy Data">
 <meta name="twitter:card" content="summary">
 </head>
 
@@ -591,24 +591,26 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <ul>
   <li><a href="#overview" id="toc-overview" class="nav-link active" data-scroll-target="#overview">Overview</a></li>
   <li><a href="#getting-started" id="toc-getting-started" class="nav-link" data-scroll-target="#getting-started">Getting Started</a></li>
-  <li><a href="#the-data" id="toc-the-data" class="nav-link" data-scroll-target="#the-data">The Data</a></li>
-  <li><a href="#part-1-line-chart-of-democracy-trends-30-points" id="toc-part-1-line-chart-of-democracy-trends-30-points" class="nav-link" data-scroll-target="#part-1-line-chart-of-democracy-trends-30-points">Part 1: Line Chart of Democracy Trends (30 points)</a>
+  <li><a href="#part-1-wrangle-democracy-data-30-points" id="toc-part-1-wrangle-democracy-data-30-points" class="nav-link" data-scroll-target="#part-1-wrangle-democracy-data-30-points">Part 1: Wrangle Democracy Data (30 points)</a>
   <ul class="collapse">
-  <li><a href="#step-1-wrangle-the-data-15-pts" id="toc-step-1-wrangle-the-data-15-pts" class="nav-link" data-scroll-target="#step-1-wrangle-the-data-15-pts">Step 1: Wrangle the Data (15 pts)</a></li>
-  <li><a href="#step-2-create-a-line-chart-10-pts" id="toc-step-2-create-a-line-chart-10-pts" class="nav-link" data-scroll-target="#step-2-create-a-line-chart-10-pts">Step 2: Create a Line Chart (10 pts)</a></li>
-  <li><a href="#step-3-interpret-your-chart-5-pts" id="toc-step-3-interpret-your-chart-5-pts" class="nav-link" data-scroll-target="#step-3-interpret-your-chart-5-pts">Step 3: Interpret Your Chart (5 pts)</a></li>
+  <li><a href="#step-1-create-a-wrangled-dataset-20-pts" id="toc-step-1-create-a-wrangled-dataset-20-pts" class="nav-link" data-scroll-target="#step-1-create-a-wrangled-dataset-20-pts">Step 1: Create a Wrangled Dataset (20 pts)</a></li>
+  <li><a href="#step-2-examine-the-data-5-pts" id="toc-step-2-examine-the-data-5-pts" class="nav-link" data-scroll-target="#step-2-examine-the-data-5-pts">Step 2: Examine the Data (5 pts)</a></li>
+  <li><a href="#step-3-brief-response-5-pts" id="toc-step-3-brief-response-5-pts" class="nav-link" data-scroll-target="#step-3-brief-response-5-pts">Step 3: Brief Response (5 pts)</a></li>
   </ul></li>
-  <li><a href="#part-2-scatter-plot-of-wealth-and-democracy-35-points" id="toc-part-2-scatter-plot-of-wealth-and-democracy-35-points" class="nav-link" data-scroll-target="#part-2-scatter-plot-of-wealth-and-democracy-35-points">Part 2: Scatter Plot of Wealth and Democracy (35 points)</a>
+  <li><a href="#part-2-summarize-and-visualize-by-region-35-points" id="toc-part-2-summarize-and-visualize-by-region-35-points" class="nav-link" data-scroll-target="#part-2-summarize-and-visualize-by-region-35-points">Part 2: Summarize and Visualize by Region (35 points)</a>
   <ul class="collapse">
-  <li><a href="#step-1-load-and-wrangle-the-data-15-pts" id="toc-step-1-load-and-wrangle-the-data-15-pts" class="nav-link" data-scroll-target="#step-1-load-and-wrangle-the-data-15-pts">Step 1: Load and Wrangle the Data (15 pts)</a></li>
-  <li><a href="#step-2-create-a-scatter-plot-15-pts" id="toc-step-2-create-a-scatter-plot-15-pts" class="nav-link" data-scroll-target="#step-2-create-a-scatter-plot-15-pts">Step 2: Create a Scatter Plot (15 pts)</a></li>
-  <li><a href="#step-3-interpret-your-scatter-plot-5-pts" id="toc-step-3-interpret-your-scatter-plot-5-pts" class="nav-link" data-scroll-target="#step-3-interpret-your-scatter-plot-5-pts">Step 3: Interpret Your Scatter Plot (5 pts)</a></li>
+  <li><a href="#step-1-summarize-the-data-15-pts" id="toc-step-1-summarize-the-data-15-pts" class="nav-link" data-scroll-target="#step-1-summarize-the-data-15-pts">Step 1: Summarize the Data (15 pts)</a></li>
+  <li><a href="#step-2-print-the-summary-5-pts" id="toc-step-2-print-the-summary-5-pts" class="nav-link" data-scroll-target="#step-2-print-the-summary-5-pts">Step 2: Print the Summary (5 pts)</a></li>
+  <li><a href="#step-3-create-a-column-chart-10-pts" id="toc-step-3-create-a-column-chart-10-pts" class="nav-link" data-scroll-target="#step-3-create-a-column-chart-10-pts">Step 3: Create a Column Chart (10 pts)</a></li>
+  <li><a href="#step-4-brief-interpretation-5-pts" id="toc-step-4-brief-interpretation-5-pts" class="nav-link" data-scroll-target="#step-4-brief-interpretation-5-pts">Step 4: Brief Interpretation (5 pts)</a></li>
   </ul></li>
-  <li><a href="#part-3-column-chart-of-womens-representation-35-points" id="toc-part-3-column-chart-of-womens-representation-35-points" class="nav-link" data-scroll-target="#part-3-column-chart-of-womens-representation-35-points">Part 3: Column Chart of Women’s Representation (35 points)</a>
+  <li><a href="#part-3-explore-categorical-regime-data-35-points" id="toc-part-3-explore-categorical-regime-data-35-points" class="nav-link" data-scroll-target="#part-3-explore-categorical-regime-data-35-points">Part 3: Explore Categorical Regime Data (35 points)</a>
   <ul class="collapse">
-  <li><a href="#step-1-wrangle-the-data-15-pts-1" id="toc-step-1-wrangle-the-data-15-pts-1" class="nav-link" data-scroll-target="#step-1-wrangle-the-data-15-pts-1">Step 1: Wrangle the Data (15 pts)</a></li>
-  <li><a href="#step-2-create-a-column-chart-15-pts" id="toc-step-2-create-a-column-chart-15-pts" class="nav-link" data-scroll-target="#step-2-create-a-column-chart-15-pts">Step 2: Create a Column Chart (15 pts)</a></li>
-  <li><a href="#step-3-interpret-your-chart-5-pts-1" id="toc-step-3-interpret-your-chart-5-pts-1" class="nav-link" data-scroll-target="#step-3-interpret-your-chart-5-pts-1">Step 3: Interpret Your Chart (5 pts)</a></li>
+  <li><a href="#step-1-build-a-regime-dataset-15-pts" id="toc-step-1-build-a-regime-dataset-15-pts" class="nav-link" data-scroll-target="#step-1-build-a-regime-dataset-15-pts">Step 1: Build a Regime Dataset (15 pts)</a></li>
+  <li><a href="#step-2-count-regime-types-5-pts" id="toc-step-2-count-regime-types-5-pts" class="nav-link" data-scroll-target="#step-2-count-regime-types-5-pts">Step 2: Count Regime Types (5 pts)</a></li>
+  <li><a href="#step-3-create-a-bar-chart-of-regime-types-5-pts" id="toc-step-3-create-a-bar-chart-of-regime-types-5-pts" class="nav-link" data-scroll-target="#step-3-create-a-bar-chart-of-regime-types-5-pts">Step 3: Create a Bar Chart of Regime Types (5 pts)</a></li>
+  <li><a href="#step-4-compare-regions-with-proportions-5-pts" id="toc-step-4-compare-regions-with-proportions-5-pts" class="nav-link" data-scroll-target="#step-4-compare-regions-with-proportions-5-pts">Step 4: Compare Regions with Proportions (5 pts)</a></li>
+  <li><a href="#step-5-brief-interpretation-5-pts" id="toc-step-5-brief-interpretation-5-pts" class="nav-link" data-scroll-target="#step-5-brief-interpretation-5-pts">Step 5: Brief Interpretation (5 pts)</a></li>
   </ul></li>
   <li><a href="#hints" id="toc-hints" class="nav-link" data-scroll-target="#hints">Hints</a></li>
   </ul>
@@ -621,7 +623,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../labs/lab-1/lab1.html">Labs</a></li><li class="breadcrumb-item"><a href="../../labs/lab-2/lab2.html">Lab 2</a></li></ol></nav>
 <div class="quarto-title">
 <h1 class="title">Lab 2</h1>
-<p class="subtitle lead">Wrangling and Visualizing Democracy Data</p>
+<p class="subtitle lead">Wrangling and Exploring Democracy Data</p>
 </div>
 
 
@@ -672,29 +674,24 @@ How to complete this lab
 </div>
 <section id="overview" class="level2">
 <h2 class="anchored" data-anchor-id="overview">Overview</h2>
-<p>In this lab, you will practice wrangling data and creating visualizations using the V-Dem democracy dataset. You will:</p>
+<p>In this lab, you will practice the main skills from Modules 2.1 and 2.2. You will:</p>
 <ol type="1">
-<li>Load and explore democracy data</li>
-<li>Create a line chart showing trends in democracy over time</li>
-<li>Create a scatter plot examining the relationship between wealth and democracy</li>
-<li>Create a column chart of women’s political representation by region</li>
-<li>Write brief interpretations of your visualizations</li>
-<li>Render your document to PDF and submit</li>
+<li>Load and wrangle V-Dem data</li>
+<li>Summarize democracy indicators by region</li>
+<li>Create a column chart from summarized data</li>
+<li>Explore categorical regime data with <code>geom_bar()</code></li>
+<li>Compare regime proportions across regions</li>
+<li>Write brief interpretations of your results</li>
 </ol>
-<p>You are encouraged to have the lecture materials from Module 2.1 open while completing this lab. You should also have the V-Dem codebook available to help you choose variables.</p>
+<p>You are encouraged to have the Week 2 lecture materials and the V-Dem codebook open while completing the lab.</p>
 </section>
 <section id="getting-started" class="level2">
 <h2 class="anchored" data-anchor-id="getting-started">Getting Started</h2>
 <p>Load the required packages.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vdemdata) <span class="co"># load the V-Dem package</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse) <span class="co"># load the tidyverse</span></span>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vdemdata)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a>run <span class="ot">&lt;-</span> <span class="fu">isTRUE</span>(params<span class="sc">$</span>completed)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>some_of_vdem <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span></span>
-<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">&gt;=</span> <span class="dv">2010</span>) <span class="sc">|&gt;</span></span>
-<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(country_name, year, v2x_polyarchy, v2x_libdem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="callout callout-style-default callout-note callout-titled">
 <div class="callout-header d-flex align-content-center">
@@ -702,134 +699,180 @@ How to complete this lab
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Installing vdemdata locally
+Installing <code>vdemdata</code> locally
 </div>
 </div>
 <div class="callout-body-container callout-body">
-<p>If you are working on your own computer and don’t have <code>vdemdata</code> installed, you’ll need to install it from GitHub. First install the <code>pak</code> package, then use it to install <code>vdemdata</code>:</p>
-<div class="sourceCode" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="st">"vdeminstitute/vdemdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p>If you are working on your own computer and do not have <code>vdemdata</code> installed, install <code>pak</code> and then install <code>vdemdata</code> from GitHub:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="fu">install.packages</span>(<span class="st">"pak"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>pak<span class="sc">::</span><span class="fu">pkg_install</span>(<span class="st">"vdeminstitute/vdemdata"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </div>
 </section>
-<section id="the-data" class="level2">
-<h2 class="anchored" data-anchor-id="the-data">The Data</h2>
-<p>Today we’ll work with two data sources:</p>
+<section id="part-1-wrangle-democracy-data-30-points" class="level2">
+<h2 class="anchored" data-anchor-id="part-1-wrangle-democracy-data-30-points">Part 1: Wrangle Democracy Data (30 points)</h2>
+<p>In this part, you will build a clean dataset from V-Dem using <code>filter()</code>, <code>select()</code>, and <code>mutate()</code>.</p>
+<section id="step-1-create-a-wrangled-dataset-20-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-create-a-wrangled-dataset-20-pts">Step 1: Create a Wrangled Dataset (20 pts)</h3>
+<p>Filter the data to one year, select the variables you need, and recode the region variable into readable labels.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>democracy <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  ???(year <span class="sc">==</span> ???) <span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  ???(</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> ???,</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    year,</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">polyarchy =</span> ???,</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">libdem =</span> ???,</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp_pc =</span> ???,</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">region =</span> ???</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  ???(</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>    <span class="at">region =</span> <span class="fu">case_match</span>(region,</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Eastern Europe"</span>,</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>      <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Latin America"</span>,</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>      <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Middle East"</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>      <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Africa"</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>      <span class="dv">5</span> <span class="sc">~</span> <span class="st">"The West"</span>,</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>      <span class="dv">6</span> <span class="sc">~</span> <span class="st">"Asia"</span>)</span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-2-examine-the-data-5-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-examine-the-data-5-pts">Step 2: Examine the Data (5 pts)</h3>
+<p>Run <code>glimpse()</code> on your new data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="fu">glimpse</span>(???)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-3-brief-response-5-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-brief-response-5-pts">Step 3: Brief Response (5 pts)</h3>
+<p>Write 2-3 sentences answering these questions:</p>
 <ul>
-<li>The <code>vdem</code> dataset from the <code>vdemdata</code> package, which contains hundreds of democracy indicators for countries over time</li>
-<li><code>dem_women.csv</code>, which contains a subset of V-Dem data along with economic and women’s representation variables</li>
+<li>What year did you choose?</li>
+<li>How many rows and columns does your wrangled dataset have?</li>
+<li>Why is it useful to recode <code>region</code> before plotting?</li>
 </ul>
+<p>YOUR RESPONSE HERE</p>
 </section>
-<section id="part-1-line-chart-of-democracy-trends-30-points" class="level2">
-<h2 class="anchored" data-anchor-id="part-1-line-chart-of-democracy-trends-30-points">Part 1: Line Chart of Democracy Trends (30 points)</h2>
-<p>For this part, you will use the V-Dem dataset to visualize how democracy has changed over time in a few countries of your choosing.</p>
-<section id="step-1-wrangle-the-data-15-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-wrangle-the-data-15-pts">Step 1: Wrangle the Data (15 pts)</h3>
-<p>First, you need to wrangle the <code>vdem</code> data to select only the variables and countries you want. Consult the V-Dem codebook to choose a high-level democracy indicator (such as <code>v2x_polyarchy</code>, <code>v2x_libdem</code>, <code>v2x_partipdem</code>, or another measure that interests you).</p>
-<p>Fill in the blanks in the code below:</p>
+</section>
+<section id="part-2-summarize-and-visualize-by-region-35-points" class="level2">
+<h2 class="anchored" data-anchor-id="part-2-summarize-and-visualize-by-region-35-points">Part 2: Summarize and Visualize by Region (35 points)</h2>
+<p>In this part, you will practice <code>group_by()</code>, <code>summarize()</code>, <code>arrange()</code>, and <code>geom_col()</code>.</p>
+<section id="step-1-summarize-the-data-15-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-summarize-the-data-15-pts">Step 1: Summarize the Data (15 pts)</h3>
+<p>Create a regional summary dataset. Use <code>mean()</code> for <code>polyarchy</code> and <code>gdp_pc</code>, and sort from highest to lowest <code>polyarchy</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>dem_waves_ctrs <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span></span>
-<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(                               <span class="co"># selects columns?</span></span>
-<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> country_name,</span>
-<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    year,</span>
-<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">delibdem =</span> v2x_delibdem             <span class="co"># choose a V-Dem variable and rename it</span></span>
-<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(</span>
-<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>    country <span class="sc">%in%</span> <span class="fu">c</span>(<span class="st">"???"</span>,             <span class="co"># select/filter countries to visualize</span></span>
-<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"???"</span>,             <span class="co"># don't forget to put names in ""</span></span>
-<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a>                   <span class="st">"???"</span>)</span>
-<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>    )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>dem_summary <span class="ot">&lt;-</span> democracy <span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  ???(region) <span class="sc">|&gt;</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  ???(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">polyarchy =</span> ???(polyarchy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>),</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp_pc =</span> ???(gdp_pc, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  ???(<span class="fu">desc</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-2-create-a-line-chart-10-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-create-a-line-chart-10-pts">Step 2: Create a Line Chart (10 pts)</h3>
-<p>Using the line chart code from <strong>Module 1.2</strong> as a template, create a line chart showing how your chosen democracy indicator has changed over time in your selected countries. Make sure each country is represented by a different colored line.</p>
-<p>Think about what needs to go in the <code>aes()</code>:</p>
+<section id="step-2-print-the-summary-5-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-print-the-summary-5-pts">Step 2: Print the Summary (5 pts)</h3>
+<p>Print your summarized data frame.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>???</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-3-create-a-column-chart-10-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-create-a-column-chart-10-pts">Step 3: Create a Column Chart (10 pts)</h3>
+<p>Create a column chart of average polyarchy by region. Reorder the bars from highest to lowest.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-4-brief-interpretation-5-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-brief-interpretation-5-pts">Step 4: Brief Interpretation (5 pts)</h3>
+<p>Write 2-3 sentences describing what you see.</p>
 <ul>
-<li>What variable should go on the x-axis (time)?</li>
-<li>What variable should go on the y-axis (democracy measure)?</li>
-<li>What variable should determine the color of the lines?</li>
+<li>Which region has the highest average polyarchy score?</li>
+<li>Which region has the lowest?</li>
+<li>Does the ranking make sense to you?</li>
 </ul>
+<p>YOUR RESPONSE HERE</p>
+</section>
+</section>
+<section id="part-3-explore-categorical-regime-data-35-points" class="level2">
+<h2 class="anchored" data-anchor-id="part-3-explore-categorical-regime-data-35-points">Part 3: Explore Categorical Regime Data (35 points)</h2>
+<p>In this part, you will work with V-Dem’s <code>v2x_regime</code> variable and use <code>count()</code> and <code>geom_bar()</code>.</p>
+<section id="step-1-build-a-regime-dataset-15-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-build-a-regime-dataset-15-pts">Step 1: Build a Regime Dataset (15 pts)</h3>
+<p>Filter the data to 2022, select <code>country</code>, <code>regime</code>, and <code>region</code>, and recode both <code>region</code> and <code>regime</code>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your line chart code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-3-interpret-your-chart-5-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-interpret-your-chart-5-pts">Step 3: Interpret Your Chart (5 pts)</h3>
-<p>Write 2-3 sentences describing what you see. How have democracy levels changed over time in your selected countries? Are there any interesting patterns or divergences?</p>
-<p>YOUR INTERPRETATION HERE</p>
-</section>
-</section>
-<section id="part-2-scatter-plot-of-wealth-and-democracy-35-points" class="level2">
-<h2 class="anchored" data-anchor-id="part-2-scatter-plot-of-wealth-and-democracy-35-points">Part 2: Scatter Plot of Wealth and Democracy (35 points)</h2>
-<p>For this part, you will explore the relationship between economic development (GDP per capita) and democracy (polyarchy) using the <code>dem_women</code> dataset.</p>
-<section id="step-1-load-and-wrangle-the-data-15-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-load-and-wrangle-the-data-15-pts">Step 1: Load and Wrangle the Data (15 pts)</h3>
-<p>Load the data and calculate average values for each country across all years. Fill in the blanks:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>dem_women <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"dem_women.csv"</span>)</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>gdp_polyarchy_ctry <span class="ot">&lt;-</span> dem_women <span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(???, ???) <span class="sc">|&gt;</span>              <span class="co"># group by country, keep region</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">polyarchy =</span> ???(polyarchy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>), <span class="co"># summarize by mean (or median)</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="at">gdp_pc =</span> ???(gdp_pc, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)        <span class="co"># summarize by mean (or median)</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-2-create-a-scatter-plot-15-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-create-a-scatter-plot-15-pts">Step 2: Create a Scatter Plot (15 pts)</h3>
-<p>Using the scatter plot code from <strong>Module 1.2</strong> as a template, create a scatter plot with GDP per capita on the x-axis and polyarchy on the y-axis. Consider coloring the points by region to see if there are regional patterns.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your scatter plot code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="step-3-interpret-your-scatter-plot-5-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-interpret-your-scatter-plot-5-pts">Step 3: Interpret Your Scatter Plot (5 pts)</h3>
-<p>Write 2-3 sentences describing what you see. Is there a relationship between wealth and democracy? Do you notice any regional patterns?</p>
-<p>YOUR INTERPRETATION HERE</p>
-</section>
-</section>
-<section id="part-3-column-chart-of-womens-representation-35-points" class="level2">
-<h2 class="anchored" data-anchor-id="part-3-column-chart-of-womens-representation-35-points">Part 3: Column Chart of Women’s Representation (35 points)</h2>
-<p>For this part, you will create a column chart showing average women’s representation in parliament by region.</p>
-<section id="step-1-wrangle-the-data-15-pts-1" class="level3">
-<h3 class="anchored" data-anchor-id="step-1-wrangle-the-data-15-pts-1">Step 1: Wrangle the Data (15 pts)</h3>
-<p>Summarize the data to get average women’s representation by region. Fill in the blanks:</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>women_rep_region <span class="ot">&lt;-</span> dem_women <span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  ???(???) <span class="sc">|&gt;</span>                                      <span class="co"># group by region</span></span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>vdem2022_regime <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  ???(year <span class="sc">==</span> ???) <span class="sc">|&gt;</span></span>
 <span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  ???(</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">women_rep =</span> ???(women_rep, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)       <span class="co"># summarize by mean (or median)</span></span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> ???,</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    <span class="at">regime =</span> ???,</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">region =</span> ???</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>  ???(</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">region =</span> <span class="fu">case_match</span>(region,</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Eastern Europe"</span>,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>      <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Latin America"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>      <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Middle East"</span>,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>      <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Africa"</span>,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>      <span class="dv">5</span> <span class="sc">~</span> <span class="st">"The West"</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>      <span class="dv">6</span> <span class="sc">~</span> <span class="st">"Asia"</span>),</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">regime =</span> <span class="fu">case_match</span>(regime,</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>      <span class="dv">0</span> <span class="sc">~</span> <span class="st">"Closed Autocracy"</span>,</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a>      <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Electoral Autocracy"</span>,</span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>      <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Electoral Democracy"</span>,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>      <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Liberal Democracy"</span>)</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-2-create-a-column-chart-15-pts" class="level3">
-<h3 class="anchored" data-anchor-id="step-2-create-a-column-chart-15-pts">Step 2: Create a Column Chart (15 pts)</h3>
-<p>Using the column chart code from <strong>Module 1.1</strong> as a template, create a column chart showing women’s representation by region. For a cleaner visualization, try to arrange the columns in descending order by level of women’s representation.</p>
-<p><em>Hint:</em> To reorder the bars, you can use <code>reorder(region, -women_rep)</code> or <code>fct_reorder(region, women_rep, .desc = TRUE)</code> in your <code>aes()</code> for the x variable.</p>
+<section id="step-2-count-regime-types-5-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-count-regime-types-5-pts">Step 2: Count Regime Types (5 pts)</h3>
+<p>Create a frequency table of regime types.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your column chart code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>vdem2022_regime <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  ???(regime)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
-<section id="step-3-interpret-your-chart-5-pts-1" class="level3">
-<h3 class="anchored" data-anchor-id="step-3-interpret-your-chart-5-pts-1">Step 3: Interpret Your Chart (5 pts)</h3>
-<p>Write 2-3 sentences describing what you see. Which region has the highest level of women’s representation in parliament? Which has the lowest? Are you surprised by any of the results?</p>
-<p>YOUR INTERPRETATION HERE</p>
+<section id="step-3-create-a-bar-chart-of-regime-types-5-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-create-a-bar-chart-of-regime-types-5-pts">Step 3: Create a Bar Chart of Regime Types (5 pts)</h3>
+<p>Use <code>geom_bar()</code> to plot the distribution of regime types.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-4-compare-regions-with-proportions-5-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-compare-regions-with-proportions-5-pts">Step 4: Compare Regions with Proportions (5 pts)</h3>
+<p>Now create a second bar chart comparing regime types across regions using <code>position = "fill"</code>.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="step-5-brief-interpretation-5-pts" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-brief-interpretation-5-pts">Step 5: Brief Interpretation (5 pts)</h3>
+<p>Write 2-3 sentences describing what you see.</p>
+<ul>
+<li>Which regime type is most common overall?</li>
+<li>Which region appears to have the largest share of liberal democracies?</li>
+<li>Why is <code>position = "fill"</code> useful here?</li>
+</ul>
+<p>YOUR RESPONSE HERE</p>
 <div class="callout callout-style-default callout-important callout-titled">
 <div class="callout-header d-flex align-content-center">
 <div class="callout-icon-container">
 <i class="callout-icon"></i>
 </div>
 <div class="callout-title-container flex-fill">
-Submission (Completion)
+Submission
 </div>
 </div>
 <div class="callout-body-container callout-body">
 <ol type="1">
 <li>Replace “YOUR NAME HERE” at the top with your actual name</li>
-<li>Make sure all your code chunks run without errors</li>
-<li>Click “Render” to create your PDF</li>
+<li>Make sure all code chunks run without errors</li>
+<li>Change <code>completed: false</code> to <code>completed: true</code></li>
+<li>Render to HTML to check your work</li>
+<li>Change <code>format: html</code> to <code>format: pdf</code></li>
 <li>Submit the PDF to Blackboard</li>
 </ol>
 </div>
@@ -838,25 +881,32 @@ Submission (Completion)
 </section>
 <section id="hints" class="level2">
 <h2 class="anchored" data-anchor-id="hints">Hints</h2>
-<p><em>Only look at these if you’re stuck!</em></p>
-<p><strong>Hint 1 - Line chart structure:</strong></p>
-<pre><code>ggplot(data_name, aes(x = year, y = ___, color = ___)) +
-  geom_line() +
-  labs(title = "___", x = "Year", y = "___", color = "___")</code></pre>
-<p><strong>Hint 2 - Scatter plot structure:</strong></p>
-<pre><code>ggplot(data_name, aes(x = ___, y = ___)) +
-  geom_point() +
-  labs(title = "___", x = "___", y = "___")</code></pre>
-<p><strong>Hint 3 - Column chart with reordering:</strong></p>
-<pre><code>ggplot(data_name, aes(x = reorder(region, -women_rep), y = women_rep)) +
-  geom_col() +
-  labs(title = "___", x = "___", y = "___")</code></pre>
-<p><strong>Hint 4 - Common issues:</strong></p>
-<ul>
-<li>Make sure variable names match <em>exactly</em> what you see in the data (R is case-sensitive!)</li>
-<li>If you get an error about missing values, check that you included <code>na.rm = TRUE</code> in your summary functions</li>
-<li>If your line chart only shows one line, make sure you included <code>color = country</code> in your <code>aes()</code></li>
-</ul>
+<p><em>Only look at these if you are stuck.</em></p>
+<p><strong>Hint 1 - Wrangling structure</strong></p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>new_data <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2015</span>) <span class="sc">|&gt;</span></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">country =</span> country_name,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    year,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="at">polyarchy =</span> v2x_polyarchy</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(...)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Hint 2 - Summarizing structure</strong></p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>summary_data <span class="ot">&lt;-</span> democracy <span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(region) <span class="sc">|&gt;</span></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">polyarchy =</span> <span class="fu">mean</span>(polyarchy, <span class="at">na.rm =</span> <span class="cn">TRUE</span>)</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Hint 3 - <code>geom_col()</code></strong></p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(dem_summary, <span class="fu">aes</span>(<span class="at">x =</span> <span class="fu">reorder</span>(region, <span class="sc">-</span>polyarchy), <span class="at">y =</span> polyarchy)) <span class="sc">+</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_col</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Hint 4 - <code>geom_bar()</code></strong></p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(vdem2022_regime, <span class="fu">aes</span>(<span class="at">x =</span> regime)) <span class="sc">+</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<p><strong>Hint 5 - Proportional bar chart</strong></p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(vdem2022_regime, <span class="fu">aes</span>(<span class="at">x =</span> region, <span class="at">fill =</span> regime)) <span class="sc">+</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">position =</span> <span class="st">"fill"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
