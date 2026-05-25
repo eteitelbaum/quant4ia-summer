@@ -4,6 +4,7 @@ date: today
 date-format: long
 footer: "[IAFF 6501 Website](https://quant4ia.rocks)"
 logo: images/iaff6501-logo.png
+from: markdown+emoji
 format:
   revealjs:
     theme: [simple, custom.scss]
@@ -323,6 +324,353 @@ countdown(minutes = 5,
           id = "timer2", 
           top = "0%", 
           right = "5%")
+```
+
+## Thinking About Data
+
+<br>
+
+What are some ways we can classify data? :sunglasses: :thought_balloon:
+
+. . .
+
+:::{.incremental}
+- categorical vs. numerical
+- discrete vs. continuous
+- cross-sectional vs. panel
+- nominal vs. ordinal
+:::
+
+## Variable Types
+
+<br>
+
+- Categorical
+  - Binary: two categories
+  - Nominal: multiple unordered categories
+  - Ordinal: multiple ordered categories
+- Numerical
+  - Continuous: fractional values
+  - Discrete: whole-number counts
+
+## 
+
+<br>
+
+What types of variables are these? :thinking:
+
+:::{.incremental}
+- Is a country a democracy? (yes/no)
+- Polity score (-10 to 10)
+- V-Dem Polyarchy (0 to 1)
+- V-Dem Regimes of the World
+- Number of protest events
+- Protest type (sit-in, march, strike, etc.)
+:::
+
+## Categorical Data
+
+<br>
+
+- Now let's focus on categorical data
+- These variables place observations into groups
+- Today we will use V-Dem's `v2x_regime` variable
+- It classifies each country into a regime type
+
+## V-Dem Regimes of the World
+
+<br>
+
+- Closed Autocracy
+- Electoral Autocracy
+- Electoral Democracy
+- Liberal Democracy
+
+## Data Setup {.smaller}
+
+```{r}
+#| label: regime-setup
+#| output: false
+#| echo: true
+
+library(tidyverse)
+library(vdemdata)
+
+vdem2022_regime <- vdem |>
+  filter(year == 2022) |>
+  select(
+    country = country_name,
+    regime = v2x_regime,
+    region = e_regionpol_6C
+  ) |>
+  mutate(
+    region = case_match(region,
+      1 ~ "Eastern Europe",
+      2 ~ "Latin America",
+      3 ~ "Middle East",
+      4 ~ "Africa",
+      5 ~ "The West",
+      6 ~ "Asia"),
+    regime = case_match(regime,
+      0 ~ "Closed Autocracy",
+      1 ~ "Electoral Autocracy",
+      2 ~ "Electoral Democracy",
+      3 ~ "Liberal Democracy")
+  )
+```
+
+## Examine the Data
+
+<br>
+
+```{r}
+#| label: regime-glimpse
+#| echo: true
+
+glimpse(vdem2022_regime)
+```
+
+## 
+
+<br>
+
+Let's count the number of regimes by type...
+
+<br>
+
+```{r}
+#| label: regime-count
+#| echo: true
+
+vdem2022_regime |>
+  count(regime)
+```
+
+## Distribution of Regime Types
+
+<br>
+
+```{r}
+#| label: regime-bar1
+
+vdem2022_regime |>
+  ggplot(aes(x = regime)) +
+  geom_bar(fill = "steelblue") +
+  labs(
+    x = "Regime Type",
+    y = "Frequency",
+    title = "Regimes of the World in 2022",
+    caption = "Source: V-Dem Institute"
+  ) +
+  theme_minimal()
+```
+
+## Distribution of Regime Types
+
+<br>
+
+```{r}
+#| label: regime-bar2
+#| echo: true
+#| eval: false
+
+vdem2022_regime |>
+  ggplot(aes(x = regime)) +
+  geom_bar(fill = "steelblue") +
+  labs(
+    x = "Regime Type",
+    y = "Frequency",
+    title = "Regimes of the World in 2022",
+    caption = "Source: V-Dem Institute"
+  ) +
+  theme_minimal()
+```
+
+## More about `geom_bar()`
+
+<br>
+
+- `geom_bar()` is different from `geom_col()`
+- `geom_bar()` counts observations automatically
+- You only need to specify the x aesthetic
+- `geom_col()` is for pre-computed values like the regional means we graphed earlier
+
+## Your Turn!
+
+- Change the year and re-run the setup
+- Visualize the distribution of regime types with `geom_bar()`
+- Update the plot title to match your year
+- What is different about your year relative to 2022?
+
+```{r}
+#| label: timer-regime1
+
+library(countdown)
+countdown(minutes = 5, 
+          id = "timer-regime1", 
+          bottom = "10%", 
+          right = "10%",
+          color_border = "#fff",
+          color_text = "#fff",
+          color_running_background = "#42affa",
+          color_running_text = "black",
+          color_finished_background = "#E5D19D",
+          color_finished_text = "#00264A")
+```
+
+## Regime Variation by Region
+
+<br>
+
+```{r}
+#| label: regime-region1
+
+vdem2022_regime |>
+  ggplot(aes(x = region, fill = regime)) +
+  geom_bar() +
+  theme_minimal() +
+  labs(
+    x = "Region",
+    y = "Frequency",
+    title = "Regimes of the World by Region in 2022",
+    caption = "Source: V-Dem Institute",
+    fill = "Regime"
+  ) +
+  scale_fill_viridis_d(option = "inferno", end = .8)
+```
+
+## Regime Variation by Region
+
+<br>
+
+```{r}
+#| label: regime-region2
+#| echo: true
+#| eval: false
+
+vdem2022_regime |>
+  ggplot(aes(x = region, fill = regime)) +
+  geom_bar() +
+  theme_minimal() +
+  labs(
+    x = "Region",
+    y = "Frequency",
+    title = "Regimes of the World by Region in 2022",
+    caption = "Source: V-Dem Institute",
+    fill = "Regime"
+  ) +
+  scale_fill_viridis_d(option = "inferno", end = .8)
+```
+
+## What Did We Just Do?
+
+<br>
+
+:::{.incremental}
+- We used `geom_bar()` with two categorical variables
+- `regime` is an ordinal categorical variable
+- `region` is a nominal categorical variable
+- The plot shows counts, not proportions
+:::
+
+## 
+
+<br>
+
+Some regions have more countries than others.
+
+Why does that create an issue for comparing raw bar heights here?
+
+```{r}
+#| label: regime-region3
+
+vdem2022_regime |>
+  ggplot(aes(x = region, fill = regime)) +
+  geom_bar() +
+  theme_minimal() +
+  labs(
+    x = "Region",
+    y = "Frequency",
+    title = "Regimes of the World by Region in 2022",
+    caption = "Source: V-Dem Institute",
+    fill = "Regime"
+  ) +
+  scale_fill_viridis_d(option = "inferno", end = .8)
+```
+
+## Show Proportions Instead
+
+<br>
+
+```{r}
+#| label: regime-region4
+
+vdem2022_regime |>
+  ggplot(aes(x = region, fill = regime)) +
+  geom_bar(position = "fill") +
+  theme_minimal() +
+  labs(
+    x = "Region",
+    y = "Proportion",
+    title = "Regimes of the World by Region in 2022",
+    caption = "Source: V-Dem Institute",
+    fill = "Regime"
+  ) +
+  scale_fill_viridis_d(option = "inferno", end = .8)
+```
+
+## Show Proportions Instead
+
+<br>
+
+```{r}
+#| label: regime-region5
+#| echo: true
+#| eval: false
+#| code-line-numbers: "3"
+
+vdem2022_regime |>
+  ggplot(aes(x = region, fill = regime)) +
+  geom_bar(position = "fill") +
+  theme_minimal() +
+  labs(
+    x = "Region",
+    y = "Proportion",
+    title = "Regimes of the World by Region in 2022",
+    caption = "Source: V-Dem Institute",
+    fill = "Regime"
+  ) +
+  scale_fill_viridis_d(option = "inferno", end = .8)
+```
+
+## 
+
+<br>
+
+- We use `position = "fill"` to normalize each bar to 100%
+- That makes it easier to compare regions with different numbers of countries
+- This is usually the better choice when the group sizes are unequal
+
+## Your Turn!
+
+- Change the year to a different one
+- Repeat the region comparison with `fill = regime`
+- Use `position = "fill"` to compare proportions
+- Bonus: try `position = "dodge"` and compare what it emphasizes
+
+```{r}
+#| label: timer-regime2
+
+countdown(minutes = 5, 
+          id = "timer-regime2", 
+          bottom = "0%", 
+          right = "5%",
+          color_border = "#fff",
+          color_text = "#fff",
+          color_running_background = "#42affa",
+          color_running_text = "black",
+          color_finished_background = "#E5D19D",
+          color_finished_text = "#00264A")
 ```
 
 ## Messages, Warnings and Errors {.smaller}

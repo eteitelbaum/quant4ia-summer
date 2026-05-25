@@ -4712,7 +4712,7 @@
     "href": "slides/week-2.2.html#section-4",
     "title": "Summarizing Data",
     "section": "",
-    "text": "You work at a think tank and your boss wants you to…\n\n\nVisualize trends in liberal democracy since the end of WWII for countries in South Asia\nSee how regions compare in terms of levels of corruption in 2015\nView the relationship between GDP per capita and electoral democracy in 2020\nHow would you do it?"
+    "text": "What types of variables are these? 🤔\n\nIs a country a democracy? (yes/no)\nPolity score (-10 to 10)\nV-Dem Polyarchy (0 to 1)\nV-Dem Regimes of the World\nNumber of protest events\nProtest type (sit-in, march, strike, etc.)"
   },
   {
     "objectID": "slides/week-2.2.html#could-you-reproduce-it",
@@ -5921,5 +5921,145 @@
     "title": "Wrangling Data",
     "section": "Your Turn!",
     "text": "Your Turn!\n\n\nKeep only observations from 2010\nSelect country_name, year, and v2x_polyarchy\nRename them to country, year, and polyarchy\nUse mutate() to create polyarchy_triple and polyarchy_sq\nRun glimpse() to check your work"
+  },
+  {
+    "objectID": "slides/week-2.2.html#thinking-about-data",
+    "href": "slides/week-2.2.html#thinking-about-data",
+    "title": "Summarizing Data",
+    "section": "Thinking About Data",
+    "text": "Thinking About Data\n\nWhat are some ways we can classify data? 😎 💭\n\n\ncategorical vs. numerical\ndiscrete vs. continuous\ncross-sectional vs. panel\nnominal vs. ordinal"
+  },
+  {
+    "objectID": "slides/week-2.2.html#variable-types",
+    "href": "slides/week-2.2.html#variable-types",
+    "title": "Summarizing Data",
+    "section": "Variable Types",
+    "text": "Variable Types\n\n\nCategorical\n\nBinary: two categories\nNominal: multiple unordered categories\nOrdinal: multiple ordered categories\n\nNumerical\n\nContinuous: fractional values\nDiscrete: whole-number counts"
+  },
+  {
+    "objectID": "slides/week-2.2.html#categorical-data",
+    "href": "slides/week-2.2.html#categorical-data",
+    "title": "Summarizing Data",
+    "section": "Categorical Data",
+    "text": "Categorical Data\n\n\nNow let’s focus on categorical data\nThese variables place observations into groups\nToday we will use V-Dem’s v2x_regime variable\nIt classifies each country into a regime type"
+  },
+  {
+    "objectID": "slides/week-2.2.html#v-dem-regimes-of-the-world",
+    "href": "slides/week-2.2.html#v-dem-regimes-of-the-world",
+    "title": "Summarizing Data",
+    "section": "V-Dem Regimes of the World",
+    "text": "V-Dem Regimes of the World\n\n\nClosed Autocracy\nElectoral Autocracy\nElectoral Democracy\nLiberal Democracy"
+  },
+  {
+    "objectID": "slides/week-2.2.html#data-setup",
+    "href": "slides/week-2.2.html#data-setup",
+    "title": "Summarizing Data",
+    "section": "Data Setup",
+    "text": "Data Setup\n\nlibrary(tidyverse)\nlibrary(vdemdata)\n\nvdem2022_regime &lt;- vdem |&gt;\n  filter(year == 2022) |&gt;\n  select(\n    country = country_name,\n    regime = v2x_regime,\n    region = e_regionpol_6C\n  ) |&gt;\n  mutate(\n    region = case_match(region,\n      1 ~ \"Eastern Europe\",\n      2 ~ \"Latin America\",\n      3 ~ \"Middle East\",\n      4 ~ \"Africa\",\n      5 ~ \"The West\",\n      6 ~ \"Asia\"),\n    regime = case_match(regime,\n      0 ~ \"Closed Autocracy\",\n      1 ~ \"Electoral Autocracy\",\n      2 ~ \"Electoral Democracy\",\n      3 ~ \"Liberal Democracy\")\n  )"
+  },
+  {
+    "objectID": "slides/week-2.2.html#examine-the-data",
+    "href": "slides/week-2.2.html#examine-the-data",
+    "title": "Summarizing Data",
+    "section": "Examine the Data",
+    "text": "Examine the Data\n\n\nglimpse(vdem2022_regime)\n\nRows: 179\nColumns: 3\n$ country &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"South…\n$ regime  &lt;chr&gt; \"Electoral Democracy\", \"Electoral Democracy\", \"Liberal Democra…\n$ region  &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"Afr…"
+  },
+  {
+    "objectID": "slides/week-2.2.html#section-5",
+    "href": "slides/week-2.2.html#section-5",
+    "title": "Summarizing Data",
+    "section": "",
+    "text": "Let’s count the number of regimes by type…\n\n\nvdem2022_regime |&gt;\n  count(regime)\n\n               regime  n\n1    Closed Autocracy 33\n2 Electoral Autocracy 55\n3 Electoral Democracy 54\n4   Liberal Democracy 37"
+  },
+  {
+    "objectID": "slides/week-2.2.html#distribution-of-regime-types",
+    "href": "slides/week-2.2.html#distribution-of-regime-types",
+    "title": "Summarizing Data",
+    "section": "Distribution of Regime Types",
+    "text": "Distribution of Regime Types"
+  },
+  {
+    "objectID": "slides/week-2.2.html#distribution-of-regime-types-1",
+    "href": "slides/week-2.2.html#distribution-of-regime-types-1",
+    "title": "Summarizing Data",
+    "section": "Distribution of Regime Types",
+    "text": "Distribution of Regime Types\n\n\nvdem2022_regime |&gt;\n  ggplot(aes(x = regime)) +\n  geom_bar(fill = \"steelblue\") +\n  labs(\n    x = \"Regime Type\",\n    y = \"Frequency\",\n    title = \"Regimes of the World in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-2.2.html#more-about-geom_bar",
+    "href": "slides/week-2.2.html#more-about-geom_bar",
+    "title": "Summarizing Data",
+    "section": "More about geom_bar()",
+    "text": "More about geom_bar()\n\n\ngeom_bar() is different from geom_col()\ngeom_bar() counts observations automatically\nYou only need to specify the x aesthetic\ngeom_col() is for pre-computed values like the regional means we graphed earlier"
+  },
+  {
+    "objectID": "slides/week-2.2.html#your-turn",
+    "href": "slides/week-2.2.html#your-turn",
+    "title": "Summarizing Data",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\nChange the year and re-run the setup\nVisualize the distribution of regime types with geom_bar()\nUpdate the plot title to match your year\nWhat is different about your year relative to 2022?"
+  },
+  {
+    "objectID": "slides/week-2.2.html#regime-variation-by-region",
+    "href": "slides/week-2.2.html#regime-variation-by-region",
+    "title": "Summarizing Data",
+    "section": "Regime Variation by Region",
+    "text": "Regime Variation by Region"
+  },
+  {
+    "objectID": "slides/week-2.2.html#regime-variation-by-region-1",
+    "href": "slides/week-2.2.html#regime-variation-by-region-1",
+    "title": "Summarizing Data",
+    "section": "Regime Variation by Region",
+    "text": "Regime Variation by Region\n\n\nvdem2022_regime |&gt;\n  ggplot(aes(x = region, fill = regime)) +\n  geom_bar() +\n  theme_minimal() +\n  labs(\n    x = \"Region\",\n    y = \"Frequency\",\n    title = \"Regimes of the World by Region in 2022\",\n    caption = \"Source: V-Dem Institute\",\n    fill = \"Regime\"\n  ) +\n  scale_fill_viridis_d(option = \"inferno\", end = .8)"
+  },
+  {
+    "objectID": "slides/week-2.2.html#what-did-we-just-do",
+    "href": "slides/week-2.2.html#what-did-we-just-do",
+    "title": "Summarizing Data",
+    "section": "What Did We Just Do?",
+    "text": "What Did We Just Do?\n\n\nWe used geom_bar() with two categorical variables\nregime is an ordinal categorical variable\nregion is a nominal categorical variable\nThe plot shows counts, not proportions"
+  },
+  {
+    "objectID": "slides/week-2.2.html#section-6",
+    "href": "slides/week-2.2.html#section-6",
+    "title": "Summarizing Data",
+    "section": "",
+    "text": "Some regions have more countries than others.\nWhy does that create an issue for comparing raw bar heights here?"
+  },
+  {
+    "objectID": "slides/week-2.2.html#show-proportions-instead",
+    "href": "slides/week-2.2.html#show-proportions-instead",
+    "title": "Summarizing Data",
+    "section": "Show Proportions Instead",
+    "text": "Show Proportions Instead"
+  },
+  {
+    "objectID": "slides/week-2.2.html#show-proportions-instead-1",
+    "href": "slides/week-2.2.html#show-proportions-instead-1",
+    "title": "Summarizing Data",
+    "section": "Show Proportions Instead",
+    "text": "Show Proportions Instead\n\n\nvdem2022_regime |&gt;\n  ggplot(aes(x = region, fill = regime)) +\n  geom_bar(position = \"fill\") +\n  theme_minimal() +\n  labs(\n    x = \"Region\",\n    y = \"Proportion\",\n    title = \"Regimes of the World by Region in 2022\",\n    caption = \"Source: V-Dem Institute\",\n    fill = \"Regime\"\n  ) +\n  scale_fill_viridis_d(option = \"inferno\", end = .8)"
+  },
+  {
+    "objectID": "slides/week-2.2.html#section-7",
+    "href": "slides/week-2.2.html#section-7",
+    "title": "Summarizing Data",
+    "section": "",
+    "text": "We use position = \"fill\" to normalize each bar to 100%\nThat makes it easier to compare regions with different numbers of countries\nThis is usually the better choice when the group sizes are unequal"
+  },
+  {
+    "objectID": "slides/week-2.2.html#your-turn-1",
+    "href": "slides/week-2.2.html#your-turn-1",
+    "title": "Summarizing Data",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\nChange the year to a different one\nRepeat the region comparison with fill = regime\nUse position = \"fill\" to compare proportions\nBonus: try position = \"dodge\" and compare what it emphasizes"
+  },
+  {
+    "objectID": "slides/week-2.2.html#section-8",
+    "href": "slides/week-2.2.html#section-8",
+    "title": "Summarizing Data",
+    "section": "",
+    "text": "You work at a think tank and your boss wants you to…\n\n\nVisualize trends in liberal democracy since the end of WWII for countries in South Asia\nSee how regions compare in terms of levels of corruption in 2015\nView the relationship between GDP per capita and electoral democracy in 2020\nHow would you do it?"
   }
 ]
