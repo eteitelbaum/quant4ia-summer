@@ -319,7 +319,7 @@ ggplot(dem_summary, aes(x = reorder(region, -polyarchy), y = polyarchy)) +
 ```{r}
 #| label: timer2
 
-countdown(minutes = 10, 
+countdown(minutes = 5, 
           id = "timer2", 
           top = "0%", 
           right = "5%")
@@ -339,21 +339,25 @@ countdown(minutes = 10,
 
 ## 
 
-Your boss wants you to...
+You work at a think tank and your boss wants you to...
+
+<br>
 
 ::: {.incremental}
 - Visualize trends in liberal democracy since the end of WWII for countries in South Asia
 - See how regions compare in terms of levels of corruption in 2015
 - View the relationship between GDP per capita and electoral democracy in 2020
+- How would you do it? 
 :::
 
-## Could You Reproduce It? 
+```{r}
+#| label: timer3
 
-<br>
-
-- Have a look at my ["Democracy Around the World"](https://emmanuelteitelbaum.shinyapps.io/vdem-dashboard/) Shiny app
-- Can you reproduce the visualizations in the app using the V-Dem data?
-- What are the steps you would take to do so? 
+countdown(minutes = 5, 
+          id = "timer3", 
+          bottom = "0%", 
+          right = "5%")
+```
 
 ## Homework 1
 
@@ -361,20 +365,3 @@ Your boss wants you to...
 
 - Find Homework 1 on the [course website](https://quant4ia.rocks/assignments/homework-1)
 - Get started today! 
-
-## Publish HTML to Quarto Pub
-
-- Go to [quartopub.com](https://quartopub.com/)
-- Set up Quarto pub account
-- Look at [guide](https://quarto.org/docs/publishing/quarto-pub.html) for pubishing on Quarto pub
-- With your Quarto pub account open: 
-  - Go to terminal in RStudio
-  - Type `quarto publish quarto pub`
-  
-## Making PDFs
-
-- Install tinytex 
-  Type `quarto install tinytex` in terminal
-- Change document type in YAML header to pdf
-- Look at Quarto Reference and play with options
-  
