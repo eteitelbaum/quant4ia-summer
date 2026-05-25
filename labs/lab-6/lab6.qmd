@@ -13,10 +13,6 @@ params:
 Open the Lab 6 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651) to get started.
 :::
 
-::: {.callout-tip title="How to complete this lab"}
-Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
-:::
-
 ## Overview
 
 In this lab you will practice fitting and interpreting logistic regression models using data from the peace science literature. You will:
@@ -24,7 +20,7 @@ In this lab you will practice fitting and interpreting logistic regression model
 1. Build a conflict dataset using the `peacesciencer` package and understand its structure
 2. Fit a logistic regression model with `glm()`, interpret log-odds and odds ratios, and calculate predicted probabilities
 
-You are encouraged to have Modules 6.1 and 6.2 open while completing this lab.
+Fill in each `???` with the correct code. You are encouraged to have Modules 6.1 and 6.2 open while completing this lab.
 
 ## Getting Started
 

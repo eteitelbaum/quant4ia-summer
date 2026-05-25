@@ -2552,7 +2552,7 @@
     "href": "labs/lab-3/lab3.html#overview",
     "title": "Lab 3",
     "section": "Overview",
-    "text": "Overview\nIn this lab, you will practice describing distributions using the V-Dem dataset. You will:\n\nChoose one V-Dem variable you are interested in and create a clean variable name for it\nCalculate and interpret measures of central tendency (mean and median)\nCalculate and interpret measures of spread (range, IQR, and standard deviation)\nVisualize the distribution using a histogram/density plot and a box plot\nRender your document to PDF and submit\n\nYou are encouraged to have Module 3.1 open while completing this lab.",
+    "text": "Overview\nIn this lab, you will practice describing distributions using the V-Dem dataset. You will:\n\nChoose one V-Dem variable you are interested in and create a clean variable name for it\nCalculate and interpret measures of central tendency (mean and median)\nCalculate and interpret measures of spread (range, IQR, and standard deviation)\nVisualize the distribution using a histogram/density plot and a box plot\nRender your document to PDF and submit\n\nFill in each ??? with the correct code. You are encouraged to have Module 3.1 open while completing this lab.",
     "crumbs": [
       "Labs",
       "Lab 3"
@@ -2629,7 +2629,7 @@
     "href": "labs/lab-5/lab5.html#overview",
     "title": "Lab 5",
     "section": "Overview",
-    "text": "Overview\nIn this lab, you will practice fitting and interpreting linear regression models using V-Dem democracy data. You will:\n\nWrangle V-Dem data and visualize a bivariate relationship with a regression line\nFit a simple linear regression model and interpret the output\nExtend to multiple regression with two continuous predictors and a categorical predictor\nIdentify and assess the influence of outliers on your model\n\nYou are encouraged to have Modules 5.1 and 5.2 open while completing this lab.",
+    "text": "Overview\nIn this lab, you will practice fitting and interpreting linear regression models using V-Dem democracy data. You will:\n\nWrangle V-Dem data and visualize a bivariate relationship with a regression line\nFit a simple linear regression model and interpret the output\nExtend to multiple regression with two continuous predictors and a categorical predictor\nIdentify and assess the influence of outliers on your model\n\nFill in each ??? with the correct code. You are encouraged to have Modules 5.1 and 5.2 open while completing this lab.",
     "crumbs": [
       "Labs",
       "Lab 5"
@@ -2750,7 +2750,7 @@
     "href": "labs/lab-1/lab1.html#overview",
     "title": "Lab 1",
     "section": "Overview",
-    "text": "Overview\nIn this lab, you will practice adapting code from the lectures to work with a new dataset. You will:\n\nLoad and explore new datasets\nCreate a bar chart by adapting code from Lesson 1.2\nCreate a line chart\nWrite brief interpretations of your visualizations\nRender your document to PDF and submit\n\nYou are encouraged to have the lecture materials open while completing this lab.",
+    "text": "Overview\nIn this lab, you will practice adapting code from the lectures to work with a new dataset. You will:\n\nLoad and explore new datasets\nCreate a bar chart by adapting code from Lesson 1.2\nCreate a line chart\nWrite brief interpretations of your visualizations\nRender your document to PDF and submit\n\nFill in each ??? with the correct code. You are encouraged to have the lecture materials open while completing this lab.",
     "crumbs": [
       "Labs",
       "Lab 1"
@@ -2827,7 +2827,7 @@
     "href": "labs/lab-6/lab6.html#overview",
     "title": "Lab 6",
     "section": "Overview",
-    "text": "Overview\nIn this lab you will practice fitting and interpreting logistic regression models using data from the peace science literature. You will:\n\nBuild a conflict dataset using the peacesciencer package and understand its structure\nFit a logistic regression model with glm(), interpret log-odds and odds ratios, and calculate predicted probabilities\n\nYou are encouraged to have Modules 6.1 and 6.2 open while completing this lab.",
+    "text": "Overview\nIn this lab you will practice fitting and interpreting logistic regression models using data from the peace science literature. You will:\n\nBuild a conflict dataset using the peacesciencer package and understand its structure\nFit a logistic regression model with glm(), interpret log-odds and odds ratios, and calculate predicted probabilities\n\nFill in each ??? with the correct code. You are encouraged to have Modules 6.1 and 6.2 open while completing this lab.",
     "crumbs": [
       "Labs",
       "Lab 6"
@@ -2904,7 +2904,7 @@
     "href": "labs/lab-2/lab2.html#overview",
     "title": "Lab 2",
     "section": "Overview",
-    "text": "Overview\nIn this lab, you will practice the main skills from Modules 2.1 and 2.2. You will:\n\nLoad and wrangle V-Dem data\nSummarize democracy indicators by region\nCreate a column chart from summarized data\nExplore categorical regime data with geom_bar()\nCompare regime proportions across regions\nWrite brief interpretations of your results\n\nYou are encouraged to have the Week 2 lecture materials and the V-Dem codebook open while completing the lab.",
+    "text": "Overview\nIn this lab, you will practice the main skills from Modules 2.1 and 2.2. You will:\n\nLoad and wrangle V-Dem data\nSummarize democracy indicators by region\nCreate a column chart from summarized data\nExplore categorical regime data with geom_bar()\nCompare regime proportions across regions\nWrite brief interpretations of your results\n\nFill in each ??? with the correct code. You are encouraged to have the Week 2 lecture materials and the V-Dem codebook open while completing the lab.",
     "crumbs": [
       "Labs",
       "Lab 2"
@@ -2992,7 +2992,7 @@
     "href": "labs/lab-4/lab4.html#overview",
     "title": "Lab 4",
     "section": "Overview",
-    "text": "Overview\nUse a simulation-based workflow (bootstrap CI + hypothesis test) to analyze a governance reform example.\nYou are encouraged to have Module 3.2 and Module 4.1 open while completing this lab.",
+    "text": "Overview\nUse a simulation-based workflow (bootstrap CI + hypothesis test) to analyze a governance reform example. Fill in each ??? with the correct code.\nYou are encouraged to have Module 3.2 and Module 4.1 open while completing this lab.",
     "crumbs": [
       "Labs",
       "Lab 4"

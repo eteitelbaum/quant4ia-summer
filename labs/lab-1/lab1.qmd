@@ -11,10 +11,6 @@ format: html
 Open the Lab 1 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651) to get started.
 :::
 
-::: {.callout-tip title="How to complete this lab"}
-Write your code in each empty code chunk and answer the questions below. When you are done, render to HTML to preview your work. For your final submission, change `format: html` to `format: pdf` in the YAML header above and render to PDF.
-:::
-
 ## Overview
 
 In this lab, you will practice adapting code from the lectures to work with a new dataset. You will:
@@ -25,7 +21,7 @@ In this lab, you will practice adapting code from the lectures to work with a ne
 4.  Write brief interpretations of your visualizations
 5.  Render your document to PDF and submit
 
-You are encouraged to have the lecture materials open while completing this lab.
+Fill in each `???` with the correct code. You are encouraged to have the lecture materials open while completing this lab.
 
 ## Getting Started
 

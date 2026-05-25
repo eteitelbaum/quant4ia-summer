@@ -13,10 +13,6 @@ params:
 Open the Lab 5 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651) to get started.
 :::
 
-::: {.callout-tip title="How to complete this lab"}
-Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
-:::
-
 ## Overview
 
 In this lab, you will practice fitting and interpreting linear regression models using V-Dem democracy data. You will:
@@ -26,7 +22,7 @@ In this lab, you will practice fitting and interpreting linear regression models
 3. Extend to multiple regression with two continuous predictors and a categorical predictor
 4. Identify and assess the influence of outliers on your model
 
-You are encouraged to have Modules 5.1 and 5.2 open while completing this lab.
+Fill in each `???` with the correct code. You are encouraged to have Modules 5.1 and 5.2 open while completing this lab.
 
 ## Getting Started
 

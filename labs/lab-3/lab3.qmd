@@ -13,10 +13,6 @@ params:
 Open the Lab 3 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651) to get started.
 :::
 
-::: {.callout-tip title="How to complete this lab"}
-Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
-:::
-
 ## Overview
 
 In this lab, you will practice describing distributions using the V-Dem dataset. You will:
@@ -27,7 +23,7 @@ In this lab, you will practice describing distributions using the V-Dem dataset.
 4. Visualize the distribution using a histogram/density plot and a box plot
 5. Render your document to PDF and submit
 
-You are encouraged to have Module 3.1 open while completing this lab.
+Fill in each `???` with the correct code. You are encouraged to have Module 3.1 open while completing this lab.
 
 ## Getting Started
 

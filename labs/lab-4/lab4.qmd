@@ -13,13 +13,9 @@ params:
 Open the Lab 4 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651) to get started.
 :::
 
-::: {.callout-tip title="How to complete this lab"}
-Fill in each `???` with the correct code. Once **all** placeholders are filled in, change `completed: false` to `completed: true` in the YAML header above and render to HTML. For your final submission, change `format: html` to `format: pdf`.
-:::
-
 ## Overview
 
-Use a simulation-based workflow (bootstrap CI + hypothesis test) to analyze a governance reform example.
+Use a simulation-based workflow (bootstrap CI + hypothesis test) to analyze a governance reform example. Fill in each `???` with the correct code. 
 
 You are encouraged to have Module 3.2 and Module 4.1 open while completing this lab.
 
