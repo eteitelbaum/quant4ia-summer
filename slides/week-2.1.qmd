@@ -10,7 +10,6 @@ format:
     theme: [simple, custom.scss]
     transition: fade
     slide-number: true
-    multiplex: true
     chalkboard: true
 execute:
   echo: false
@@ -158,34 +157,17 @@ glimpse(democracy)
 
 ## `filter()`
 
-- Run this code. What do you see?
-- Try changing the year 
-- For one year, use `==` instead of `>=`
-- Or try `<=` and see what happens 
+- How would you get earlier years?  
+- One year? 
 
 ```{r}
 #| label: vdemdata2
 #| echo: true
 
-democracy <- vdem |> # download the V-Dem dataset
-  filter(year >= 1990) # filter out years less than 1990
+democracy <- vdem |> 
+  filter(year >= 1990) # filter out years > 1989
   
 glimpse(democracy)  
-```
-
-```{r}
-#| label: timer1
-library(countdown)
-countdown(minutes = 5, 
-          id = "timer1", 
-          top = "10%", 
-          right = "10%",
-          color_border = "#fff",
-          color_text = "#fff",
-          color_running_background = "#42affa",
-          color_running_text = "black",
-          color_finished_background = "#E5D19D",
-          color_finished_text = "#00264A")
 ```
 
 ## `=` versus `==`
@@ -205,9 +187,7 @@ countdown(minutes = 5,
 
 ## `select()`
 
-- Run this code. What do you see?
-- Now try `v2x_libdem` instead of `v2x_polyarchy`
-- Choose more from the [codebook](https://v-dem.net/documents/24/codebook_v13.pdf) 
+- Try any indicator listed in the [codebook](https://v-dem.net/documents/24/codebook_v13.pdf) 
 
 ```{r}
 #| label: vdemdata3
@@ -224,17 +204,9 @@ democracy <- vdem |> # download the V-Dem dataset
 glimpse(democracy)  
 ```
 
-```{r}
-#| label: timer2
-countdown(minutes = 5, 
-          id = "timer2",
-          top = "0%",
-          right = "5%")
-```
-
 ## `mutate()`
 
-- Modify the code to create new variable that is three times the value of `polyarchy` 
+- Modify the code to create a new variable, e.g. double the value of `polyarchy` 
 - How about `polyarchy` squared? 
 
 ```{r}
@@ -256,14 +228,6 @@ democracy <- vdem |> # download the V-Dem dataset
 glimpse(democracy)  
 ```
 
-```{r}
-#| label: timer3
-countdown(minutes = 5, 
-          id = "timer2",
-          top = "0%",
-          right = "5%")
-```
-
 ## Some Common Arithmetic Operators
 
 <br>
@@ -274,7 +238,20 @@ countdown(minutes = 5,
 - `/` division
 - `^` exponentiation (also `**`)
 
+## Chaining Steps with `|>`
+
+- We often need to do more than one thing to the same dataset
+- The pipe operator `|>` lets us chain those steps together
+- Read it from top to bottom: take the result from one step and pass it to the next
+- This makes code easier to read because each line does one job
+
+. . .
+
+- Next example: filter rows, select columns, then create or recode variables
+
 ## `vdemdata` Example {.smaller}
+
+<br>
 
 ```{r}
 #| label: vdemdata5
@@ -314,6 +291,8 @@ glimpse(democracy)
 
 Use `filter()` to select years...
 
+<br>
+
 ```{r}
 #| label: vdemdata6
 #| eval: false
@@ -346,6 +325,8 @@ democracy <- vdem |>
 
 Use `select()` to choose variables...
 
+<br>
+
 ```{r}
 #| label: vdemdata7
 #| eval: false
@@ -377,6 +358,8 @@ democracy <- vdem |>
 ## 
 
 Use `mutate` with `case_match()` to Recode Region....
+
+<br>
 
 ```{r}
 #| label: vdemdata8
@@ -421,47 +404,284 @@ democracy <- vdem |>
 write_csv(democracy, "democracy.csv")
 ```
 
-## Visualize It!
+## Your Turn!
+
+<br>
+
+- Keep only observations from `2010`
+- Select `country_name`, `year`, and `v2x_polyarchy`
+- Rename them to `country`, `year`, and `polyarchy`
+- Use `mutate()` to create `polyarchy_triple` and `polyarchy_sq`
+- Run `glimpse()` to check your work
+
+```{r}
+#| label: timer4
+
+library(countdown)
+countdown(minutes = 5, 
+          id = "timer4", 
+          top = "0%", 
+          right = "5%",
+          start_immediately = FALSE,
+          color_border = "#fff",
+          color_text = "#fff",
+          color_running_background = "#42affa",
+          color_running_text = "black",
+          color_finished_background = "#E5D19D",
+          color_finished_text = "#00264A")
+```
+
+## From Wrangling to Visualization
+
+<br>
+
+- `filter()`, `select()`, and `mutate()` helped us build the dataset we want
+- Now we pass that cleaned dataset to `ggplot2`
+- Same grammar of graphics idea as before: data + aesthetics + geom + labels
+- For a scatter plot, we usually map one variable to the x-axis and one to the y-axis
+
+## Build the Scatter Plot
+
+<br>
+
+- Start with the data and the aesthetics
+- Put `gdp_pc` on the x-axis
+- Put `polyarchy` on the y-axis
+- This sets up the plot before we add any points
 
 ```{r}
 #| label: scatterplot1
 #| eval: false
 #| echo: true
+#| code-line-numbers: "3"
 
 library(ggplot2)
 
-ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
-  geom_point(aes(color = region)) + 
-  geom_smooth(method = "lm", linewidth = 1) + 
-  scale_x_log10(labels = scales::label_number(prefix = "$", suffix = "k")) +
-  labs(
-    x= "GDP per Capita", 
-    y = "Polyarchy Score",
-    title = "Wealth and democracy in 2015", 
-    caption = "Source: V-Dem Institute", 
-    color = "Region"
-    ) +
-  scale_color_viridis_d(option = "inferno", end = .8)
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy))
 ```
 
-## Visualize It! 
+## Build the Scatter Plot
+
+This gives us the axes and plotting space:
 
 ```{r}
 #| label: scatterplot2
 
 library(ggplot2)
 
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy))
+```
+
+## Add the Points
+
+<br>
+
+- A scatter plot uses `geom_point()`
+- We can also map `region` to color to add one more dimension
+
+```{r}
+#| label: scatterplot3
+#| eval: false
+#| echo: true
+#| code-line-numbers: "4"
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region))
+```
+
+## Add the Points
+
+```{r}
+#| label: scatterplot4
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region))
+```
+
+## Add a Trend Line
+
+<br>
+
+- Then we can improve readability step by step
+- Add a trend line with `geom_smooth()`
+
+```{r}
+#| label: scatterplot5
+#| eval: false
+#| echo: true
+#| code-line-numbers: "5"
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region)) + 
+  geom_smooth(method = "lm", linewidth = 1)
+```
+
+## Add a Trend Line
+
+```{r}
+#| label: scatterplot6
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region)) + 
+  geom_smooth(method = "lm", linewidth = 1)
+```
+
+## Stretch the X-Axis
+
+<br>
+
+- GDP values are very spread out
+- A log scale makes the x-axis easier to read
+
+```{r}
+#| label: scatterplot7
+#| eval: false
+#| echo: true
+#| code-line-numbers: "6"
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region)) + 
+  geom_smooth(method = "lm", linewidth = 1) + 
+  scale_x_log10(labels = scales::label_number(prefix = "$", suffix = "k"))
+```
+
+## Stretch the X-Axis
+
+```{r}
+#| label: scatterplot8
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region)) + 
+  geom_smooth(method = "lm", linewidth = 1) + 
+  scale_x_log10(labels = scales::label_number(prefix = "$", suffix = "k"))
+```
+
+## Add Labels
+
+<br>
+
+- Then give the plot clearer axis labels, a title, and a legend label
+
+```{r}
+#| label: scatterplot9
+#| eval: false
+#| echo: true
+#| code-line-numbers: "7-13"
+
+library(ggplot2)
+
 ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
   geom_point(aes(color = region)) + 
   geom_smooth(method = "lm", linewidth = 1) + 
   scale_x_log10(labels = scales::label_number(prefix = "$", suffix = "k")) +
   labs(
-    x= "GDP per Capita", 
+    x = "GDP per Capita", 
     y = "Polyarchy Score",
-    title = "Wealth and democracy in 2020", 
+    title = "Wealth and democracy in 2015", 
     caption = "Source: V-Dem Institute", 
     color = "Region"
-    ) +
+  )
+```
+
+## Add Labels
+
+```{r}
+#| label: scatterplot10
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region)) + 
+  geom_smooth(method = "lm", linewidth = 1) + 
+  scale_x_log10(labels = scales::label_number(prefix = "$", suffix = "k")) +
+  labs(
+    x = "GDP per Capita", 
+    y = "Polyarchy Score",
+    title = "Wealth and democracy in 2015", 
+    caption = "Source: V-Dem Institute", 
+    color = "Region"
+  )
+```
+
+## Improve the Color Palette
+
+<br>
+
+- Now swap in a more readable color palette
+
+```{r}
+#| label: scatterplot11
+#| eval: false
+#| echo: true
+#| code-line-numbers: "14"
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region)) + 
+  geom_smooth(method = "lm", linewidth = 1) + 
+  scale_x_log10(labels = scales::label_number(prefix = "$", suffix = "k")) +
+  labs(
+    x = "GDP per Capita", 
+    y = "Polyarchy Score",
+    title = "Wealth and democracy in 2015", 
+    caption = "Source: V-Dem Institute", 
+    color = "Region"
+  ) +
+  scale_color_viridis_d(option = "inferno", end = .8)
+```
+
+## Improve the Color Palette
+
+```{r}
+#| label: scatterplot12
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region)) + 
+  geom_smooth(method = "lm", linewidth = 1) + 
+  scale_x_log10(labels = scales::label_number(prefix = "$", suffix = "k")) +
+  labs(
+    x = "GDP per Capita", 
+    y = "Polyarchy Score",
+    title = "Wealth and democracy in 2015", 
+    caption = "Source: V-Dem Institute", 
+    color = "Region"
+  ) +
+  scale_color_viridis_d(option = "inferno", end = .8)
+```
+
+## Finished Scatter Plot
+
+```{r}
+#| label: scatterplot13
+
+library(ggplot2)
+
+ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + 
+  geom_point(aes(color = region)) + 
+  geom_smooth(method = "lm", linewidth = 1) + 
+  scale_x_log10(labels = scales::label_number(prefix = "$", suffix = "k")) +
+  labs(
+    x = "GDP per Capita", 
+    y = "Polyarchy Score",
+    title = "Wealth and democracy in 2015", 
+    caption = "Source: V-Dem Institute", 
+    color = "Region"
+  ) +
   scale_color_viridis_d(option = "inferno", end = .8) +
   theme_minimal()
 ```
@@ -473,16 +693,3 @@ ggplot(democracy, aes(x = gdp_pc, y = polyarchy)) +
 - Note the indicator code (e.g. "v2x_polyarchy" for the polyarchy score)
 - Change the code and download the data so you can visualize it
 - Now make a scatter plot of your indicator versus GDP
-- Bonus: How would you make a line chart?
-
-```{r}
-#| label: timer4
-
-countdown(minutes = 10, 
-          id = "timer4", 
-          top = "5%", 
-          right = "10%")
-```
-
-
-
