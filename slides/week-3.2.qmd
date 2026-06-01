@@ -11,6 +11,8 @@ format:
     slide-number: true
     #multiplex: true
     chalkboard: true
+filters:
+  - shinylive
 execute:
   echo: false
   message: false
@@ -20,17 +22,19 @@ execute:
 
 ## Sampling
 
+<br>
+
 ::: incremental
 - **Sampling** the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population
 - Versus a **census**, which involves gathering information on every individual in the population
 - Why would you want to use a sample?
 :::
 
-Today's code is [HERE](https://www.dropbox.com/scl/fo/k6q8n5lbwbff6j0h5vvs1/AK9Ibhnd8t3rxV5FneYf8AU?rlkey=zo2rejko587tfvoq8tterd44r&dl=0)
-
 # Sampling Activity
 
 ## What proportion of all milk chocolate M&Ms are blue?
+
+<br>
 
 -   M&Ms has a precise distribution of colors that it produces in its factories
 -   M&Ms are sorted into bags in factories in a fairly random process
@@ -38,16 +42,122 @@ Today's code is [HERE](https://www.dropbox.com/scl/fo/k6q8n5lbwbff6j0h5vvs1/AK9I
 
 ## Activity
 
--   Get in groups of 2. Each group will have 4-5 bags of M&Ms.
--   Keep the contents of each bag separate, and do not eat (yet!)
--   Open up your first bag of M&Ms: calculate the proportion of the M&Ms that are blue. **Write this down.** What is your best guess (your **estimate**) for the proportion of all M&Ms that are blue?
+<br>
 
-## Activity
+- Use the virtual bag sampler on the next slide
+- Click **Open a New Bag** three or four times — each click is one sample from the M&M population
+- Record your proportion estimates (the app tracks them for you)
+- Add your estimates to the [class Google Sheet](https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit?usp=sharing) — we will analyze the class data together
 
--   Do the same as above for the rest of your bags (you should have 4-5 **estimates** written down)
--   Draw a histogram of your estimates (by hand)
--   Add your estimates to this [Google Sheet](https://docs.google.com/spreadsheets/d/136wGKZOnwOdo3O-4bUfF_TWKBCAWQUCyiVKSY4HyYAw/edit?usp=sharing)
--   Add your estimates to the class histogram on the whiteboard
+## Virtual M&M Bag Sampler
+
+```{shinylive-r}
+#| standalone: true
+#| viewerHeight: 540
+
+library(shiny)
+
+true_prop_blue <- 0.24
+mm_probs <- c(blue = 0.24, orange = 0.20, green = 0.16,
+              yellow = 0.14, red = 0.13, brown = 0.13)
+bag_size <- 56
+
+ui <- fluidPage(
+  fluidRow(
+    column(4,
+      wellPanel(
+        actionButton("open_bag", "Open a New Bag",
+                     class = "btn-primary btn-lg",
+                     style = "width:100%; margin-bottom:12px;"),
+        conditionalPanel("input.open_bag > 0",
+          h4("Your Estimates"),
+          tableOutput("estimates_table"),
+          hr(),
+          strong(textOutput("running_mean"))
+        )
+      )
+    ),
+    column(8,
+      plotOutput("bag_plot", height = "270px"),
+      conditionalPanel("input.open_bag > 1",
+        plotOutput("hist_plot", height = "190px")
+      )
+    )
+  )
+)
+
+server <- function(input, output, session) {
+
+  estimates   <- reactiveVal(numeric(0))
+  current_bag <- reactiveVal(NULL)
+
+  observeEvent(input$open_bag, {
+    bag <- sample(names(mm_probs), size = bag_size, replace = TRUE,
+                  prob = mm_probs)
+    current_bag(bag)
+    estimates(c(estimates(), mean(bag == "blue")))
+  })
+
+  output$bag_plot <- renderPlot({
+    req(current_bag())
+    colors  <- current_bag()
+    n       <- length(colors)
+    ncols   <- 8
+    nrows   <- ceiling(n / ncols)
+    x <- rep(1:ncols, length.out = n)
+    y <- rep(nrows:1, each = ncols)[1:n]
+    prop_blue <- mean(colors == "blue")
+
+    par(mar = c(1, 1, 3, 1))
+    plot(x, y,
+         xlim = c(0.5, ncols + 0.5), ylim = c(0.5, nrows + 0.5),
+         type = "n", axes = FALSE, xlab = "", ylab = "",
+         main = sprintf("Bag #%d  —  Proportion Blue: %.3f  (%d / %d)",
+                        input$open_bag, prop_blue,
+                        sum(colors == "blue"), n))
+    for (i in seq_along(colors)) {
+      symbols(x[i], y[i], circles = 0.35,
+              fg = if (colors[i] == "blue") "navy" else "gray60",
+              bg = colors[i],
+              add = TRUE, inches = FALSE,
+              lwd = if (colors[i] == "blue") 2.5 else 1)
+    }
+  })
+
+  output$estimates_table <- renderTable({
+    req(length(estimates()) > 0)
+    e <- estimates()
+    data.frame(Bag = paste0("#", seq_along(e)),
+               `Prop. Blue` = round(e, 3), check.names = FALSE)
+  }, striped = TRUE, bordered = TRUE, spacing = "s")
+
+  output$running_mean <- renderText({
+    e <- estimates()
+    req(length(e) > 0)
+    sprintf("Mean of %d bags: %.3f", length(e), mean(e))
+  })
+
+  output$hist_plot <- renderPlot({
+    req(length(estimates()) > 1)
+    e <- estimates()
+    par(mar = c(4, 4, 3, 1))
+    hist(e,
+         breaks = seq(0, 0.65, by = 0.05),
+         col = "steelblue3", border = "white",
+         xlim = c(0, 0.6),
+         xlab = "Proportion Blue", ylab = "Count",
+         main = "Your sampling distribution so far",
+         xaxt = "n")
+    axis(1, at = seq(0, 0.6, by = 0.1),
+         labels = paste0(seq(0, 60, by = 10), "%"))
+    abline(v = true_prop_blue, col = "red", lty = 2, lwd = 2)
+    text(true_prop_blue + 0.02, par("usr")[4] * 0.85,
+         "True: 24%", col = "red", adj = 0, cex = 0.9)
+  })
+}
+
+shinyApp(ui, server)
+```
 
 ## Let's Analyze the Data
 
@@ -108,14 +218,18 @@ ggplot(mnm_data, aes(x = proportion_blue)) +
   )
 ```
 
-## Discuss with Neighbor 
+## Discussion
+
+<br>
 
 -   What is the histogram/distribution showing?
--   Based on the histogram on the board, what is your answer to the question of what proportion of all milk chocolate M&Ms are blue? Why do you give that answer?
 -   Why do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?
--   How do our estimates relate to the actual percentage of blue M&Ms manufactured (ask Google or ChatGPT)
+-   How do our estimates relate to the actual percentage of blue M&Ms manufactured?
+-   What do you think would happen if we kept adding more samples to the distribution?
 
 ## What did we just do?
+
+<br>
 
 ::: incremental
 -   We wanted to say something about the **population** of M&Ms
@@ -126,6 +240,8 @@ ggplot(mnm_data, aes(x = proportion_blue)) +
 :::
 
 ## What did we just do?
+
+<br>
 
 ::: incremental
 -   We completed this task many times
@@ -138,6 +254,8 @@ ggplot(mnm_data, aes(x = proportion_blue)) +
 # Zooming Out
 
 ## Target Population
+
+<br>
 
 In data analysis, we are usually interested in saying something about a **Target Population.**
 
@@ -441,6 +559,8 @@ ggplot(russiaData, aes(x = try_influence)) +
 
 ## Bootstrap with `tidymodels`
 
+<br>
+
 Install `tidymodels` before running this code chunk... 
 
 ```{r}
@@ -547,6 +667,8 @@ ggplot(data = boot_dist, mapping = aes(x = stat)) +
 
 ## Or use the `infer` package
 
+<br>
+
 ```{r}
 #| label: infer-get-ci
 #| echo: true
@@ -557,6 +679,8 @@ ci
 ```
 
 ## Or use the `infer` package
+
+<br>
 
 ```{r}
 #| echo: true
@@ -574,6 +698,8 @@ boot_dist |>
 ```
 
 ## Or use the `infer` package
+
+<br>
 
 ```{r}
 #| echo: true
@@ -615,6 +741,8 @@ The 95% confidence interval was calculated as (`lower_bound`, `upper_bound`). Wh
 - Try progressively higher numbers. What happens to your estimates as the number of reps increases?
 
 ## Bias vs Precision
+
+<br>
 
 - A procedure is *unbiased* if it generates the "right" answer, on average
 - Precision refers to variability: procedures with less sampling variability will be more precise

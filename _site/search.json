@@ -1952,21 +1952,21 @@
     "href": "slides/week-3.2.html#sampling",
     "title": "Sampling and Uncertainty",
     "section": "Sampling",
-    "text": "Sampling\n\nSampling the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population\nVersus a census, which involves gathering information on every individual in the population\nWhy would you want to use a sample?\n\nToday’s code is HERE"
+    "text": "Sampling\n\n\nSampling the act of selecting a subset of individuals, items, or data points from a larger population to estimate characteristics or metrics of the entire population\nVersus a census, which involves gathering information on every individual in the population\nWhy would you want to use a sample?"
   },
   {
     "objectID": "slides/week-3.2.html#what-proportion-of-all-milk-chocolate-mms-are-blue",
     "href": "slides/week-3.2.html#what-proportion-of-all-milk-chocolate-mms-are-blue",
     "title": "Sampling and Uncertainty",
     "section": "What proportion of all milk chocolate M&Ms are blue?",
-    "text": "What proportion of all milk chocolate M&Ms are blue?\n\nM&Ms has a precise distribution of colors that it produces in its factories\nM&Ms are sorted into bags in factories in a fairly random process\nEach bag represents a sample from the full population of M&Ms"
+    "text": "What proportion of all milk chocolate M&Ms are blue?\n\n\nM&Ms has a precise distribution of colors that it produces in its factories\nM&Ms are sorted into bags in factories in a fairly random process\nEach bag represents a sample from the full population of M&Ms"
   },
   {
     "objectID": "slides/week-3.2.html#activity",
     "href": "slides/week-3.2.html#activity",
     "title": "Sampling and Uncertainty",
     "section": "Activity",
-    "text": "Activity\n\nGet in groups of 2. Each group will have 4-5 bags of M&Ms.\nKeep the contents of each bag separate, and do not eat (yet!)\nOpen up your first bag of M&Ms: calculate the proportion of the M&Ms that are blue. Write this down. What is your best guess (your estimate) for the proportion of all M&Ms that are blue?"
+    "text": "Activity\n\n\nUse the virtual bag sampler on the next slide\nClick Open a New Bag three or four times — each click is one sample from the M&M population\nRecord your proportion estimates (the app tracks them for you)\nAdd your estimates to the class Google Sheet — we will analyze the class data together"
   },
   {
     "objectID": "slides/week-3.2.html#activity-1",
@@ -2001,28 +2001,28 @@
     "href": "slides/week-3.2.html#discuss-with-neighbor",
     "title": "Sampling and Uncertainty",
     "section": "Discuss with Neighbor",
-    "text": "Discuss with Neighbor\n\nWhat is the histogram/distribution showing?\nBased on the histogram on the board, what is your answer to the question of what proportion of all milk chocolate M&Ms are blue? Why do you give that answer?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured (ask Google or ChatGPT)"
+    "text": "Discuss with Neighbor\n\nWhat is the histogram/distribution showing?\nBased on the class histogram, what is your answer to the question of what proportion of all milk chocolate M&Ms are blue? Why do you give that answer?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured (ask Google or ChatGPT)"
   },
   {
     "objectID": "slides/week-3.2.html#what-did-we-just-do",
     "href": "slides/week-3.2.html#what-did-we-just-do",
     "title": "Sampling and Uncertainty",
     "section": "What did we just do?",
-    "text": "What did we just do?\n\nWe wanted to say something about the population of M&Ms\nThe parameter we care about is the proportion of M&Ms that are blue\nIt would be impossible to conduct a census and to calculate the parameter\nWe took a sample from the population and calculated a sample statistic\nstatistical inference: act of making a guess about a population using information from a sample"
+    "text": "What did we just do?\n\n\nWe wanted to say something about the population of M&Ms\nThe parameter we care about is the proportion of M&Ms that are blue\nIt would be impossible to conduct a census and to calculate the parameter\nWe took a sample from the population and calculated a sample statistic\nstatistical inference: act of making a guess about a population using information from a sample"
   },
   {
     "objectID": "slides/week-3.2.html#what-did-we-just-do-1",
     "href": "slides/week-3.2.html#what-did-we-just-do-1",
     "title": "Sampling and Uncertainty",
     "section": "What did we just do?",
-    "text": "What did we just do?\n\nWe completed this task many times\nThis produced a sampling distribution of our estimates\nThere is a distribution of estimates because of sampling variability\nDue to random chance, one estimate from one sample can differ from another\nThese are foundational ideas for statistical inference that we are going to keep building on"
+    "text": "What did we just do?\n\n\nWe completed this task many times\nThis produced a sampling distribution of our estimates\nThere is a distribution of estimates because of sampling variability\nDue to random chance, one estimate from one sample can differ from another\nThese are foundational ideas for statistical inference that we are going to keep building on"
   },
   {
     "objectID": "slides/week-3.2.html#target-population",
     "href": "slides/week-3.2.html#target-population",
     "title": "Sampling and Uncertainty",
     "section": "Target Population",
-    "text": "Target Population\nIn data analysis, we are usually interested in saying something about a Target Population.\n\nWhat proportion of adult Russians support the war in Ukraine?\n\nTarget population: adult Russians (age 18+)\n\nHow many US college students check social media during their classes?\n\nTarget population: US college students\n\nWhat percentage of M&Ms are blue?\n\nTarget population: all of the M&Ms"
+    "text": "Target Population\n\nIn data analysis, we are usually interested in saying something about a Target Population.\n\nWhat proportion of adult Russians support the war in Ukraine?\n\nTarget population: adult Russians (age 18+)\n\nHow many US college students check social media during their classes?\n\nTarget population: US college students\n\nWhat percentage of M&Ms are blue?\n\nTarget population: all of the M&Ms"
   },
   {
     "objectID": "slides/week-3.2.html#sample",
@@ -2169,7 +2169,7 @@
     "href": "slides/week-3.2.html#bootstrap-with-tidymodels",
     "title": "Sampling and Uncertainty",
     "section": "Bootstrap with tidymodels",
-    "text": "Bootstrap with tidymodels\nInstall tidymodels before running this code chunk…\n\n#install.packages(\"tidymodels\")\nlibrary(tidymodels)\n\nset.seed(66)\nboot_dist &lt;- russiaData |&gt;\n  # specify the variable of interest\n  specify(response = try_influence) |&gt;\n  # generate 10000 bootstrap samples\n  generate(reps = 10000, type = \"bootstrap\") |&gt;\n  # calculate the mean of each bootstrap sample\n  calculate(stat = \"mean\")\n\nglimpse(boot_dist)\n\nRows: 10,000\nColumns: 2\n$ replicate &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1…\n$ stat      &lt;dbl&gt; 0.1146245, 0.1442688, 0.1343874, 0.1877470, 0.1521739, 0.138…"
+    "text": "Bootstrap with tidymodels\n\nInstall tidymodels before running this code chunk…\n\n#install.packages(\"tidymodels\")\nlibrary(tidymodels)\n\nset.seed(66)\nboot_dist &lt;- russiaData |&gt;\n  # specify the variable of interest\n  specify(response = try_influence) |&gt;\n  # generate 10000 bootstrap samples\n  generate(reps = 10000, type = \"bootstrap\") |&gt;\n  # calculate the mean of each bootstrap sample\n  calculate(stat = \"mean\")\n\nglimpse(boot_dist)\n\nRows: 10,000\nColumns: 2\n$ replicate &lt;int&gt; 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 1…\n$ stat      &lt;dbl&gt; 0.1146245, 0.1442688, 0.1343874, 0.1877470, 0.1521739, 0.138…"
   },
   {
     "objectID": "slides/week-3.2.html#section-9",
@@ -2204,21 +2204,21 @@
     "href": "slides/week-3.2.html#or-use-the-infer-package",
     "title": "Sampling and Uncertainty",
     "section": "Or use the infer package",
-    "text": "Or use the infer package\n\nci &lt;- boot_dist |&gt; get_ci(level = 0.95) \n\nci\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1    0.119    0.182"
+    "text": "Or use the infer package\n\n\nci &lt;- boot_dist |&gt; get_ci(level = 0.95) \n\nci\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1    0.119    0.182"
   },
   {
     "objectID": "slides/week-3.2.html#or-use-the-infer-package-1",
     "href": "slides/week-3.2.html#or-use-the-infer-package-1",
     "title": "Sampling and Uncertainty",
     "section": "Or use the infer package",
-    "text": "Or use the infer package\n\nboot_dist |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs( \n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
+    "text": "Or use the infer package\n\n\nboot_dist |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs( \n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.2.html#or-use-the-infer-package-2",
     "href": "slides/week-3.2.html#or-use-the-infer-package-2",
     "title": "Sampling and Uncertainty",
     "section": "Or use the infer package",
-    "text": "Or use the infer package\n\nboot_dist |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs( \n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
+    "text": "Or use the infer package\n\n\nboot_dist |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs( \n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.2.html#interpret-the-confidence-interval",
@@ -2239,7 +2239,7 @@
     "href": "slides/week-3.2.html#bias-vs-precision",
     "title": "Sampling and Uncertainty",
     "section": "Bias vs Precision",
-    "text": "Bias vs Precision\n\nA procedure is unbiased if it generates the “right” answer, on average\nPrecision refers to variability: procedures with less sampling variability will be more precise\n\nall else equal, a greater sample size will increase precision\n\nWhen we increase the sample size (number of reps), we increase precision\nAs a result our confidence interval will be narrower"
+    "text": "Bias vs Precision\n\n\nA procedure is unbiased if it generates the “right” answer, on average\nPrecision refers to variability: procedures with less sampling variability will be more precise\n\nall else equal, a greater sample size will increase precision\n\nWhen we increase the sample size (number of reps), we increase precision\nAs a result our confidence interval will be narrower"
   },
   {
     "objectID": "slides/week-3.2.html#why-did-we-do-these-simulations",
@@ -6115,5 +6115,19 @@
     "title": "Continuous Distributions",
     "section": "High-Level V-Dem Measures",
     "text": "High-Level V-Dem Measures\n\n\nElectoral Democracy (Polyarchy)\nLiberal Democracy\nEgalitarian Democracy\nParticipatory Democracy\nDeliberative Democracy\n\nAll continuous measures, ranging from 0 to 1. Let’s take a look at how to summarize data like this!"
+  },
+  {
+    "objectID": "slides/week-3.2.html#virtual-mm-bag-sampler",
+    "href": "slides/week-3.2.html#virtual-mm-bag-sampler",
+    "title": "Sampling and Uncertainty",
+    "section": "Virtual M&M Bag Sampler",
+    "text": "Virtual M&M Bag Sampler\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n#| viewerHeight: 540\n\nlibrary(shiny)\n\ntrue_prop_blue &lt;- 0.24\nmm_probs &lt;- c(blue = 0.24, orange = 0.20, green = 0.16,\n              yellow = 0.14, red = 0.13, brown = 0.13)\nbag_size &lt;- 56\n\nui &lt;- fluidPage(\n  fluidRow(\n    column(4,\n      wellPanel(\n        actionButton(\"open_bag\", \"Open a New Bag\",\n                     class = \"btn-primary btn-lg\",\n                     style = \"width:100%; margin-bottom:12px;\"),\n        conditionalPanel(\"input.open_bag &gt; 0\",\n          h4(\"Your Estimates\"),\n          tableOutput(\"estimates_table\"),\n          hr(),\n          strong(textOutput(\"running_mean\"))\n        )\n      )\n    ),\n    column(8,\n      plotOutput(\"bag_plot\", height = \"270px\"),\n      conditionalPanel(\"input.open_bag &gt; 1\",\n        plotOutput(\"hist_plot\", height = \"190px\")\n      )\n    )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n\n  estimates   &lt;- reactiveVal(numeric(0))\n  current_bag &lt;- reactiveVal(NULL)\n\n  observeEvent(input$open_bag, {\n    bag &lt;- sample(names(mm_probs), size = bag_size, replace = TRUE,\n                  prob = mm_probs)\n    current_bag(bag)\n    estimates(c(estimates(), mean(bag == \"blue\")))\n  })\n\n  output$bag_plot &lt;- renderPlot({\n    req(current_bag())\n    colors  &lt;- current_bag()\n    n       &lt;- length(colors)\n    ncols   &lt;- 8\n    nrows   &lt;- ceiling(n / ncols)\n    x &lt;- rep(1:ncols, length.out = n)\n    y &lt;- rep(nrows:1, each = ncols)[1:n]\n    prop_blue &lt;- mean(colors == \"blue\")\n\n    par(mar = c(1, 1, 3, 1))\n    plot(x, y,\n         xlim = c(0.5, ncols + 0.5), ylim = c(0.5, nrows + 0.5),\n         type = \"n\", axes = FALSE, xlab = \"\", ylab = \"\",\n         main = sprintf(\"Bag #%d  —  Proportion Blue: %.3f  (%d / %d)\",\n                        input$open_bag, prop_blue,\n                        sum(colors == \"blue\"), n))\n    for (i in seq_along(colors)) {\n      symbols(x[i], y[i], circles = 0.35,\n              fg = if (colors[i] == \"blue\") \"navy\" else \"gray60\",\n              bg = colors[i],\n              add = TRUE, inches = FALSE,\n              lwd = if (colors[i] == \"blue\") 2.5 else 1)\n    }\n  })\n\n  output$estimates_table &lt;- renderTable({\n    req(length(estimates()) &gt; 0)\n    e &lt;- estimates()\n    data.frame(Bag = paste0(\"#\", seq_along(e)),\n               `Prop. Blue` = round(e, 3), check.names = FALSE)\n  }, striped = TRUE, bordered = TRUE, spacing = \"s\")\n\n  output$running_mean &lt;- renderText({\n    e &lt;- estimates()\n    req(length(e) &gt; 0)\n    sprintf(\"Mean of %d bags: %.3f\", length(e), mean(e))\n  })\n\n  output$hist_plot &lt;- renderPlot({\n    req(length(estimates()) &gt; 1)\n    e &lt;- estimates()\n    par(mar = c(4, 4, 3, 1))\n    hist(e,\n         breaks = seq(0, 0.65, by = 0.05),\n         col = \"steelblue3\", border = \"white\",\n         xlim = c(0, 0.6),\n         xlab = \"Proportion Blue\", ylab = \"Count\",\n         main = \"Your sampling distribution so far\",\n         xaxt = \"n\")\n    axis(1, at = seq(0, 0.6, by = 0.1),\n         labels = paste0(seq(0, 60, by = 10), \"%\"))\n    abline(v = true_prop_blue, col = \"red\", lty = 2, lwd = 2)\n    text(true_prop_blue + 0.02, par(\"usr\")[4] * 0.85,\n         \"True: 24%\", col = \"red\", adj = 0, cex = 0.9)\n  })\n}\n\nshinyApp(ui, server)"
+  },
+  {
+    "objectID": "slides/week-3.2.html#discussion",
+    "href": "slides/week-3.2.html#discussion",
+    "title": "Sampling and Uncertainty",
+    "section": "Discussion",
+    "text": "Discussion\n\n\nWhat is the histogram/distribution showing?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured?\nWhat do you think would happen if we kept adding more samples to the distribution?"
   }
 ]
