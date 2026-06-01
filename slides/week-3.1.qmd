@@ -238,11 +238,163 @@ ggplot(x, aes(x = x )) +
   )
 ```
 
+## When is the Mean Useful?
+
+```{r}
+#| label: normal-distribution
+
+x <- tibble(x = rnorm(1000, 10))
+mean <- summarize(x, mn = mean(x))
+ggplot(x, aes(x = x )) +
+  geom_histogram(binwidth = .5, fill = "steelblue") + theme_bw() +
+   labs(
+    x = "A made up measure",
+    y = "Frequency",
+    title = "A Normal Distribution and the Mean"
+  ) +
+  geom_vline(xintercept = 9.98, linewidth = 2, color = "darkorange")
+```
+
+## When is the Mean Useful?
+
+```{r}
+#| label: mean-right-skew
+
+x <- tibble(x = rbeta(10000,2, 100))
+mean <- summarize(x, mn = mean(x))
+ggplot(x, aes(x = x )) +
+  geom_histogram( fill = "steelblue") + theme_bw() +
+   labs(
+    x = "A made up measure",
+    y = "Frequency",
+    title = "A RIGHT Skewed Distribution and the Mean"
+  ) +
+  geom_vline(xintercept = 0.0197, linewidth = 2, color = "darkorange")
+```
+
+## When is the Mean Useful?
+
+```{r}
+#| label: mean-bimodal
+
+library(truncnorm)
+
+nn <- 1e4
+set.seed(1)
+sims <- c(rtruncnorm(nn/2, a=1, b=5, mean=2, sd=.5),
+                    rtruncnorm(nn/2, a=1, b=5, mean=4, sd=.5))
+mn <- mean(sims)
+x <- tibble(x = sims)
+ggplot(x, aes(x = x )) +
+  geom_histogram( fill = "steelblue") + theme_bw() +
+   labs(
+    x = "A made up measure",
+    y = "Frequency",
+    title = "A BIMODAL Distribution and the Mean"
+  ) +
+    geom_vline(xintercept = mn, linewidth = 2, color = "darkorange")
+
+```
+
+## When is the `mean` useful?
+
+<br>
+
+-   The Mean works well as a summary statistic when the distribution is relatively symmetric
+-   Not as well when distributions are skewed or bimodal (or multi-modal)
+-   With skewed distributions, the mean is sensitive to extreme values
+-   The median is more robust
+
+## Lesson
+
+::: incremental
+-   Always look at your data!!
+-   When reading or in a presentation, ask yourself:
+    -   Does the mean make sense given the distribution of the measure?
+    -   Could extreme values in a skewed distribution make the mean not as useful?
+    -   Have the analysts shown you the distribution? If not, ask about it!
+:::
+
+## Visualize Our Measure
+
+<br>
+
+```{r}
+#| label: visualize-polyarchy
+
+mn <- mean(vdem2022$polyarchy)
+med <- median(vdem2022$polyarchy)
+
+ggplot(vdem2022, aes(x = polyarchy )) +
+  geom_histogram(binwidth = .05, fill = "steelblue") +
+   labs(
+    x = "Electoral Democracy",
+    y = "Frequency",
+    title = "Distribution of Electoral Democracy in 2022",
+    caption = "Source: V-Dem Institute"
+  ) +
+  geom_vline(xintercept = mn, linewidth = 1, color = "darkorange") +
+  theme_minimal()
+```
+
+## Visualize Our Measure
+
+<br>
+
+```{r}
+#| label: visualize-polyarchy-2
+#| echo: true
+#| eval: false
+
+mn <- mean(vdem2022$polyarchy)
+med <- median(vdem2022$polyarchy)
+
+ggplot(vdem2022, aes(x = polyarchy )) +
+  geom_histogram(binwidth = .05, fill = "steelblue") +
+   labs(
+    x = "Electoral Democracy",
+    y = "Frequency",
+    title = "Distribution of Electoral Democracy in 2022",
+    caption = "Source: V-Dem Institute"
+  ) +
+  geom_vline(xintercept = mn, linewidth = 1, color = "darkorange") +
+  theme_minimal()
+```
+
+## Visualize Our Measure
+
+<br>
+
+```{r}
+#| label: visualize-polyarchy-3
+#| echo: true
+#| eval: false
+#| code-line-numbers: "1-2|5|12"
+
+mn <- mean(vdem2022$polyarchy)
+med <- median(vdem2022$polyarchy)
+
+ggplot(vdem2022, aes(x = polyarchy )) +
+  geom_histogram(binwidth = .05, fill = "steelblue") +
+   labs(
+    x = "Electoral Democracy",
+    y = "Frequency",
+    title = "Distribution of Electoral Democracy in 2022",
+    caption = "Source: V-Dem Institute"
+  ) +
+  geom_vline(xintercept = mn, linewidth = 1, color = "darkorange") +
+  theme_minimal()
+```
+
 ## Density Plots
+
+<br>
 
 - A **density plot** is a smoothed version of the histogram
 - Useful for showing the shape of the distribution without choosing bin sizes
 - Use `geom_density()` in ggplot2
+
+## Density Plots
 
 ```{r}
 #| label: density-plot
@@ -280,154 +432,6 @@ p2 <- ggplot(vdem2022, aes(x = polyarchy)) +
   theme_minimal()
 
 p1 + p2
-```
-
-## When is the Mean Useful?
-
-```{r}
-#| label: normal-distribution
-
-x <- tibble(x = rnorm(1000, 10))
-mean <- summarize(x, mn = mean(x))
-ggplot(x, aes(x = x )) +
-  geom_histogram(binwidth = .5, fill = "steelblue") + theme_bw() +
-   labs(
-    x = "A made up measure", 
-    y = "Frequency", 
-    title = "A Normal Distribution and the Mean"
-  ) +
-  geom_vline(xintercept = 9.98, linewidth = 2, color = "darkorange")
-```
-
-## When is the Mean Useful?
-
-```{r}
-#| label: mean-right-skew
- 
-x <- tibble(x = rbeta(10000,2, 100))
-mean <- summarize(x, mn = mean(x))
-ggplot(x, aes(x = x )) +
-  geom_histogram( fill = "steelblue") + theme_bw() +
-   labs(
-    x = "A made up measure", 
-    y = "Frequency", 
-    title = "A RIGHT Skewed Distribution and the Mean"
-  ) +
-  geom_vline(xintercept = 0.0197, linewidth = 2, color = "darkorange")
-```
-
-## When is the Mean Useful?
-
-```{r}
-#| label: mean-bimodal
-
-library(truncnorm)
-
-nn <- 1e4
-set.seed(1)
-sims <- c(rtruncnorm(nn/2, a=1, b=5, mean=2, sd=.5),
-                    rtruncnorm(nn/2, a=1, b=5, mean=4, sd=.5))
-mn <- mean(sims)
-x <- tibble(x = sims)
-ggplot(x, aes(x = x )) +
-  geom_histogram( fill = "steelblue") + theme_bw() +
-   labs(
-    x = "A made up measure", 
-    y = "Frequency", 
-    title = "A BIMODAL Distribution and the Mean"
-  ) +
-    geom_vline(xintercept = mn, linewidth = 2, color = "darkorange")
-
-```
-
-## When is the `mean` useful?
-
-<br>
-
--   The Mean works well as a summary statistic when the distribution is relatively symmetric
--   Not as well when distributions are skewed or bimodal (or multi-modal)
--   With skewed distributions, the mean is sensitive to extreme values
--   The median is more robust
-
-## Lesson
-
-::: incremental
--   Always look at your data!!
--   When reading or in a presentation, ask yourself:
-    -   Does the mean make sense given the distribution of the measure?
-    -   Could extreme values in a skewed distribution make the mean not as useful?
-    -   Have the analysts shown you the distribution? If not, ask about it!
-:::
-
-## Visualize Our Measure
-
-<br>
-
-```{r}
-#| label: visualize-polyarchy 
-
-mn <- mean(vdem2022$polyarchy)
-med <- median(vdem2022$polyarchy)
-
-ggplot(vdem2022, aes(x = polyarchy )) +
-  geom_histogram(binwidth = .05, fill = "steelblue") + 
-   labs(
-    x = "Electoral Democracy", 
-    y = "Frequency", 
-    title = "Distribution of Electoral Democracy in 2022", 
-    caption = "Source: V-Dem Institute"
-  ) + 
-  geom_vline(xintercept = mn, linewidth = 1, color = "darkorange") +
-  theme_minimal()
-```
-
-## Visualize Our Measure
-
-<br>
-
-```{r}
-#| label: visualize-polyarchy-2
-#| echo: true
-#| eval: false
-
-mn <- mean(vdem2022$polyarchy)
-med <- median(vdem2022$polyarchy)
-
-ggplot(vdem2022, aes(x = polyarchy )) +
-  geom_histogram(binwidth = .05, fill = "steelblue") +
-   labs(
-    x = "Electoral Democracy", 
-    y = "Frequency", 
-    title = "Distribution of Electoral Democracy in 2022", 
-    caption = "Source: V-Dem Institute"
-  ) + 
-  geom_vline(xintercept = mn, linewidth = 1, color = "darkorange") +
-  theme_minimal() 
-```
-
-## Visualize Our Measure
-
-<br>
-
-```{r}
-#| label: visualize-polyarchy-3
-#| echo: true
-#| eval: false
-#| code-line-numbers: "1-2|5|12" 
-
-mn <- mean(vdem2022$polyarchy)
-med <- median(vdem2022$polyarchy)
-
-ggplot(vdem2022, aes(x = polyarchy )) +
-  geom_histogram(binwidth = .05, fill = "steelblue") +
-   labs(
-    x = "Electoral Democracy", 
-    y = "Frequency", 
-    title = "Distribution of Electoral Democracy in 2022", 
-    caption = "Source: V-Dem Institute"
-  ) + 
-  geom_vline(xintercept = mn, linewidth = 1, color = "darkorange") +
-  theme_minimal() 
 ```
 
 ## Your Turn!

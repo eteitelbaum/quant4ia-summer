@@ -1693,7 +1693,7 @@
     "href": "slides/week-3.1.html#density-plots",
     "title": "Continuous Distributions",
     "section": "Density Plots",
-    "text": "Density Plots\n\nA density plot is a smoothed version of the histogram\nUseful for showing the shape of the distribution without choosing bin sizes\nUse geom_density() in ggplot2\n\n\n\nCode\nggplot(vdem2022, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Density\",\n    title = \"Distribution of Electoral Democracy in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
+    "text": "Density Plots\n\n\nA density plot is a smoothed version of the histogram\nUseful for showing the shape of the distribution without choosing bin sizes\nUse geom_density() in ggplot2"
   },
   {
     "objectID": "slides/week-3.1.html#histogram-vs.-density-plot",
@@ -1749,14 +1749,14 @@
     "href": "slides/week-3.1.html#visualize-our-measure-1",
     "title": "Continuous Distributions",
     "section": "Visualize Our Measure",
-    "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2022$polyarchy)\nmed &lt;- median(vdem2022$polyarchy)\n\nggplot(vdem2022, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\", \n    y = \"Frequency\", \n    title = \"Distribution of Electoral Democracy in 2022\", \n    caption = \"Source: V-Dem Institute\"\n  ) + \n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
+    "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2022$polyarchy)\nmed &lt;- median(vdem2022$polyarchy)\n\nggplot(vdem2022, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\",\n    y = \"Frequency\",\n    title = \"Distribution of Electoral Democracy in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#visualize-our-measure-2",
     "href": "slides/week-3.1.html#visualize-our-measure-2",
     "title": "Continuous Distributions",
     "section": "Visualize Our Measure",
-    "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2022$polyarchy)\nmed &lt;- median(vdem2022$polyarchy)\n\nggplot(vdem2022, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\", \n    y = \"Frequency\", \n    title = \"Distribution of Electoral Democracy in 2022\", \n    caption = \"Source: V-Dem Institute\"\n  ) + \n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
+    "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2022$polyarchy)\nmed &lt;- median(vdem2022$polyarchy)\n\nggplot(vdem2022, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\",\n    y = \"Frequency\",\n    title = \"Distribution of Electoral Democracy in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#your-turn-2",
@@ -6150,5 +6150,12 @@
     "title": "Sampling and Uncertainty",
     "section": "Visualize with infer",
     "text": "Visualize with infer"
+  },
+  {
+    "objectID": "slides/week-3.1.html#density-plots-1",
+    "href": "slides/week-3.1.html#density-plots-1",
+    "title": "Continuous Distributions",
+    "section": "Density Plots",
+    "text": "Density Plots\n\n\nCode\nggplot(vdem2022, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Density\",\n    title = \"Distribution of Electoral Democracy in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
   }
 ]
