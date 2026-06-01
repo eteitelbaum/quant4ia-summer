@@ -2225,7 +2225,7 @@
     "href": "slides/week-3.2.html#interpret-the-confidence-interval",
     "title": "Sampling and Uncertainty",
     "section": "Interpret the confidence interval",
-    "text": "Interpret the confidence interval\n\nThe 95% confidence interval was calculated as (lower_bound, upper_bound). Which of the following is the correct interpretation of this interval?\n\n(a) 95% of the time the percentage of Russian who believe that Russia interfered in the 2016 US elections is between lower_bound and upper_bound.\n(b) 95% of all Russians believe that the chance Russia interfered in the 2016 US elections is between lower_bound and upper_bound.\n(c) We are 95% confident that the proportion of Russians who believe that Russia interfered in the 2016 US election is between lower_bound and upper_bound.\n(d) We are 95% confident that the proportion of Russians who supported interfering in the 2016 US elections is between lower_bound and upper_bound."
+    "text": "Interpret the confidence interval\n\nThe 95% confidence interval was calculated as (0.119, 0.182). Which of the following is the correct interpretation of this interval?\n\n(a) 95% of the time the percentage of Russians who believe that Russia interfered in the 2016 US elections is between 0.119 and 0.182.\n(b) 95% of all Russians believe that the chance Russia interfered in the 2016 US elections is between 0.119 and 0.182.\n(c) We are 95% confident that the proportion of Russians who believe that Russia interfered in the 2016 US election is between 0.119 and 0.182.\n(d) We are 95% confident that the proportion of Russians who supported interfering in the 2016 US elections is between 0.119 and 0.182."
   },
   {
     "objectID": "slides/week-3.2.html#your-turn",
@@ -2239,7 +2239,7 @@
     "href": "slides/week-3.2.html#bias-vs-precision",
     "title": "Sampling and Uncertainty",
     "section": "Bias vs Precision",
-    "text": "Bias vs Precision\n\n\nA procedure is unbiased if it generates the “right” answer, on average\nPrecision refers to variability: procedures with less sampling variability will be more precise\n\nall else equal, a greater sample size will increase precision\n\nWhen we increase the sample size (number of reps), we increase precision\nAs a result our confidence interval will be narrower"
+    "text": "Bias vs Precision\n\nA procedure is unbiased if it generates the “right” answer, on average\nPrecision refers to variability: procedures with less sampling variability will be more precise\n\nall else equal, a greater sample size will increase precision\n\nWhen we increase the sample size (number of reps), we increase precision\nAs a result our confidence interval will be narrower"
   },
   {
     "objectID": "slides/week-3.2.html#why-did-we-do-these-simulations",
@@ -6129,5 +6129,26 @@
     "title": "Sampling and Uncertainty",
     "section": "Discussion",
     "text": "Discussion\n\n\nWhat is the histogram/distribution showing?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured?\nWhat do you think would happen if we kept adding more samples to the distribution?"
+  },
+  {
+    "objectID": "slides/week-3.2.html#confidence-interval-with-infer",
+    "href": "slides/week-3.2.html#confidence-interval-with-infer",
+    "title": "Sampling and Uncertainty",
+    "section": "Confidence Interval with infer",
+    "text": "Confidence Interval with infer\n\n\nci &lt;- boot_dist |&gt; get_ci(level = 0.95)\n\nci\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1    0.119    0.182"
+  },
+  {
+    "objectID": "slides/week-3.2.html#visualize-with-infer",
+    "href": "slides/week-3.2.html#visualize-with-infer",
+    "title": "Sampling and Uncertainty",
+    "section": "Visualize with infer",
+    "text": "Visualize with infer\n\n\nboot_dist |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs(\n    title = \"Bootstrap Distribution with 95% CI\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-3.2.html#visualize-with-infer-1",
+    "href": "slides/week-3.2.html#visualize-with-infer-1",
+    "title": "Sampling and Uncertainty",
+    "section": "Visualize with infer",
+    "text": "Visualize with infer"
   }
 ]
