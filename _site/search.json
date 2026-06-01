@@ -1446,23 +1446,23 @@
   {
     "objectID": "slides/week-3.1.html#todays-classwork",
     "href": "slides/week-3.1.html#todays-classwork",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Today’s Classwork",
     "text": "Today’s Classwork\n\nDownload classwork folder for today’s class from here"
   },
   {
     "objectID": "slides/week-3.1.html#section",
     "href": "slides/week-3.1.html#section",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "",
-    "text": "What are some ways we can classify data? 😎 💭\n\n\nanecdotal vs. representative\ncensus vs. sample\nobservational vs. experimental\ncategorical vs. numerical\ndiscrete vs. continuous\ncross-sectional vs. time series\nlongitudinal vs. panel\nunstructured vs. structured"
+    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the mean.\n\nvdem2022 |&gt;\n  summarize(mean_democracy = mean(polyarchy))\n\n  mean_democracy\n1      0.4955978\n\n\nThe mean is the average of the values. Common measure of central tendency but sensitive to outliers."
   },
   {
     "objectID": "slides/week-3.1.html#section-1",
     "href": "slides/week-3.1.html#section-1",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "",
-    "text": "What are some ways we can classify data? 😎 💭\n\nanecdotal vs. representative\ncensus vs. sample\nobservational vs. experimental\ncategorical vs. numerical\ndiscrete vs. continuous\ncross-sectional vs. time series\nlongitudinal vs. panel\nunstructured vs. structured"
+    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the median.\n\nvdem2022 |&gt;\n  summarize(median_democracy = median(polyarchy))\n\n  median_democracy\n1            0.504\n\n\nThe median is the value that separates the higher half from the lower half of the data."
   },
   {
     "objectID": "slides/week-3.1.html#variable-types",
@@ -1474,9 +1474,9 @@
   {
     "objectID": "slides/week-3.1.html#section-2",
     "href": "slides/week-3.1.html#section-2",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "",
-    "text": "What types of variables are these? 🤔\n\nIs a country a democracy? (yes/no)\nPolity (-10 to 10 in 1 unit increments)\nV-Dem Polyarchy (0-1 in 0.01 increments)\nV-Dem Regimes of the World Measure\n\nclosed autocracy | electoral autocracy | electoral democracy | democracy\n\nNumber of protest events\nProtest types (sit in, march, strike, etc.)"
+    "text": "We can also describe the shape of the distribution…\n\nsymmetric (e.g. normal)\nright-skewed\nleft-skewed\nunimodal (one peak)\nbimodal (multiple peaks)"
   },
   {
     "objectID": "slides/week-3.1.html#v-dem-regimes-of-the-world-measure",
@@ -1488,16 +1488,16 @@
   {
     "objectID": "slides/week-3.1.html#data-setup",
     "href": "slides/week-3.1.html#data-setup",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Data Setup",
-    "text": "Data Setup\n\nlibrary(tidyverse)\nlibrary(vdemdata)\n\nvdem2022 &lt;- vdem |&gt;\n  filter(year == 2022) |&gt;\n  select(\n    country = country_name, \n    regime = v2x_regime, \n    region = e_regionpol_6C\n    ) |&gt;\n  mutate(\n    region = case_match(region, # replace the values in region with country names\n                     1 ~ \"Eastern Europe\", \n                     2 ~ \"Latin America\",  \n                     3 ~ \"Middle East\",   \n                     4 ~ \"Africa\", \n                     5 ~ \"The West\", \n                     6 ~ \"Asia\")\n  ) |&gt;\n  mutate(regime = case_match(regime,\n                    0 ~ \"Closed Autocracy\",\n                    1 ~ \"Electoral Autocracy\",\n                    2 ~  \"Electoral Democracy\",\n                    3 ~  \"Liberal Democracy\")\n  )"
+    "text": "Data Setup\n\n\n# Load packages \nlibrary(vdemdata)\nlibrary(tidyverse)\n\n# Create dataset for year 2022, with country name, year, and electoral dem\nvdem2022 &lt;- vdem |&gt;\n  filter(year == 2022)  |&gt;\n  select(\n    country = country_name, \n    year, \n    polyarchy = v2x_polyarchy, \n    region = e_regionpol_6C \n    ) |&gt;\n  mutate(region = case_match(region, \n                        1 ~ \"Eastern Europe\", \n                        2 ~ \"Latin America\",  \n                        3 ~ \"Middle East\",   \n                        4 ~ \"Africa\", \n                        5 ~ \"The West\", \n                        6 ~ \"Asia\"))"
   },
   {
     "objectID": "slides/week-3.1.html#examine-the-data",
     "href": "slides/week-3.1.html#examine-the-data",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Examine the Data",
-    "text": "Examine the Data\n\n\nglimpse(vdem2022)\n\nRows: 179\nColumns: 3\n$ country &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"South…\n$ regime  &lt;chr&gt; \"Electoral Democracy\", \"Electoral Democracy\", \"Liberal Democra…\n$ region  &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"Afr…"
+    "text": "Examine the Data\n\n\nglimpse(vdem2022)\n\nRows: 179\nColumns: 4\n$ country   &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"Sou…\n$ year      &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, …\n$ polyarchy &lt;dbl&gt; 0.584, 0.781, 0.892, 0.893, 0.663, 0.718, 0.823, 0.087, 0.20…\n$ region    &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"A…"
   },
   {
     "objectID": "slides/week-3.1.html#section-3",
@@ -1537,9 +1537,9 @@
   {
     "objectID": "slides/week-3.1.html#your-turn",
     "href": "slides/week-3.1.html#your-turn",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nExpore the distribution of regimes for a different year\nPreprocess your data to include only the year you are interested in\nVisualize the distribution of regimes using geom_bar()\nUse the labs() function to change title\nWhat is different about the year that you chose relative to 2022?"
+    "text": "Your Turn!\n\nLook at the V-Dem codebook\nSelect a different high-level measure of democracy\nPreprocess your data to include tha measure in your data frame\nCalculate the mean and median and store as a variable\nVisualize the distribution of the measure\nInclude a vertical line for the mean\nNow try the median"
   },
   {
     "objectID": "slides/week-3.1.html#how-do-regimes-vary-by-region",
@@ -1593,9 +1593,9 @@
   {
     "objectID": "slides/week-3.1.html#your-turn-1",
     "href": "slides/week-3.1.html#your-turn-1",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nExplore the distribution of regimes by region for a different year\nPreprocess your data to include only the year you are interested in\nVisualize the distribution of regimes using geom_bar() and position = \"fill\"\nUse the labs() function to change title\nWhat is different about the year that you chose relative to 2022?"
+    "text": "Your Turn!\n\n\nCalculate measures of spread for the polyarchy variable in the V-Dem data (mean, median, IQR, standard deviation)\nHow would you interpret these measures?\nTry a box plot for the polyarchy variable\nTry another variable in the V-Dem data\nHow does it compare to polyarchy?"
   },
   {
     "objectID": "slides/week-3.1.html#electoral-democracy-measure",
@@ -1649,252 +1649,252 @@
   {
     "objectID": "slides/week-3.1.html#histograms",
     "href": "slides/week-3.1.html#histograms",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Histograms",
     "text": "Histograms\n\nUsed to represent the distribution of a continuous variable\nThe x-axis represents the range of values\nThe y-axis represents the frequency of each value\nThe bars represent the number of observations in each range or “bin”\nThe shape of the histogram can tell us a lot about the distribution of the data"
   },
   {
     "objectID": "slides/week-3.1.html#symmetric-distributions",
     "href": "slides/week-3.1.html#symmetric-distributions",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Symmetric Distributions",
     "text": "Symmetric Distributions"
   },
   {
     "objectID": "slides/week-3.1.html#symmetric-distributions-1",
     "href": "slides/week-3.1.html#symmetric-distributions-1",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Symmetric Distributions",
     "text": "Symmetric Distributions"
   },
   {
     "objectID": "slides/week-3.1.html#skewed-distributions",
     "href": "slides/week-3.1.html#skewed-distributions",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Skewed Distributions",
     "text": "Skewed Distributions"
   },
   {
     "objectID": "slides/week-3.1.html#skewed-distributions-1",
     "href": "slides/week-3.1.html#skewed-distributions-1",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Skewed Distributions",
     "text": "Skewed Distributions"
   },
   {
     "objectID": "slides/week-3.1.html#bimodal-distribution",
     "href": "slides/week-3.1.html#bimodal-distribution",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Bimodal Distribution",
     "text": "Bimodal Distribution"
   },
   {
     "objectID": "slides/week-3.1.html#density-plots",
     "href": "slides/week-3.1.html#density-plots",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Density Plots",
     "text": "Density Plots\n\nA density plot is a smoothed version of the histogram\nUseful for showing the shape of the distribution without choosing bin sizes\nUse geom_density() in ggplot2\n\n\n\nCode\nggplot(vdem2022, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Density\",\n    title = \"Distribution of Electoral Democracy in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#histogram-vs.-density-plot",
     "href": "slides/week-3.1.html#histogram-vs.-density-plot",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Histogram vs. Density Plot",
     "text": "Histogram vs. Density Plot\n\n\nCode\nlibrary(patchwork)\n\np1 &lt;- ggplot(vdem2022, aes(x = polyarchy)) +\n  geom_histogram(fill = \"steelblue\", bins = 30) +\n  labs(x = \"Electoral Democracy\", y = \"Count\", title = \"Histogram\") +\n  theme_minimal()\n\np2 &lt;- ggplot(vdem2022, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(x = \"Electoral Democracy\", y = \"Density\", title = \"Density Plot\") +\n  theme_minimal()\n\np1 + p2"
   },
   {
     "objectID": "slides/week-3.1.html#when-is-the-mean-useful",
     "href": "slides/week-3.1.html#when-is-the-mean-useful",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "When is the Mean Useful?",
     "text": "When is the Mean Useful?"
   },
   {
     "objectID": "slides/week-3.1.html#when-is-the-mean-useful-1",
     "href": "slides/week-3.1.html#when-is-the-mean-useful-1",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "When is the Mean Useful?",
     "text": "When is the Mean Useful?"
   },
   {
     "objectID": "slides/week-3.1.html#when-is-the-mean-useful-2",
     "href": "slides/week-3.1.html#when-is-the-mean-useful-2",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "When is the Mean Useful?",
     "text": "When is the Mean Useful?"
   },
   {
     "objectID": "slides/week-3.1.html#when-is-the-mean-useful-3",
     "href": "slides/week-3.1.html#when-is-the-mean-useful-3",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "When is the mean useful?",
     "text": "When is the mean useful?\n\n\nThe Mean works well as a summary statistic when the distribution is relatively symmetric\nNot as well when distributions are skewed or bimodal (or multi-modal)\nWith skewed distributions, the mean is sensitive to extreme values\nThe median is more robust"
   },
   {
     "objectID": "slides/week-3.1.html#lesson",
     "href": "slides/week-3.1.html#lesson",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Lesson",
     "text": "Lesson\n\nAlways look at your data!!\nWhen reading or in a presentation, ask yourself:\n\nDoes the mean make sense given the distribution of the measure?\nCould extreme values in a skewed distribution make the mean not as useful?\nHave the analysts shown you the distribution? If not, ask about it!"
   },
   {
     "objectID": "slides/week-3.1.html#visualize-our-measure",
     "href": "slides/week-3.1.html#visualize-our-measure",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Visualize Our Measure",
     "text": "Visualize Our Measure"
   },
   {
     "objectID": "slides/week-3.1.html#visualize-our-measure-1",
     "href": "slides/week-3.1.html#visualize-our-measure-1",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Visualize Our Measure",
     "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2022$polyarchy)\nmed &lt;- median(vdem2022$polyarchy)\n\nggplot(vdem2022, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\", \n    y = \"Frequency\", \n    title = \"Distribution of Electoral Democracy in 2022\", \n    caption = \"Source: V-Dem Institute\"\n  ) + \n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#visualize-our-measure-2",
     "href": "slides/week-3.1.html#visualize-our-measure-2",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Visualize Our Measure",
     "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2022$polyarchy)\nmed &lt;- median(vdem2022$polyarchy)\n\nggplot(vdem2022, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\", \n    y = \"Frequency\", \n    title = \"Distribution of Electoral Democracy in 2022\", \n    caption = \"Source: V-Dem Institute\"\n  ) + \n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#your-turn-2",
     "href": "slides/week-3.1.html#your-turn-2",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\nLook at the V-Dem codebook\nSelect a different high-level measure of democracy\nPreprocess your data to include tha measure in your data frame\nCalculate the mean and median and store as a variable\nVisualize the distribution of the measure\nInclude a vertical line for the mean\nNow try the median"
+    "text": "Your Turn!\n\n\nMake a bar chart summarizing polyarchy or some other V-Dem variable\nNow try your hand at a ridge plot"
   },
   {
     "objectID": "slides/week-3.1.html#recap",
     "href": "slides/week-3.1.html#recap",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Recap",
     "text": "Recap\n\n\nWe can use statistics like mean or median to describe the center of a variable\nWe can visualize the entire distribution to charachterize the distribution of the variable\nWe should also say something about the spread of the distribution"
   },
   {
     "objectID": "slides/week-3.1.html#why-measure-and-visualize-spread",
     "href": "slides/week-3.1.html#why-measure-and-visualize-spread",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Why Measure and Visualize Spread?",
     "text": "Why Measure and Visualize Spread?"
   },
   {
     "objectID": "slides/week-3.1.html#measures-of-spread-range",
     "href": "slides/week-3.1.html#measures-of-spread-range",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Measures of Spread: Range",
     "text": "Measures of Spread: Range\n\n\nRange (min and max values)\nNot ideal b/c does not tell us much about where most of the values are located\n\n\nvdem2022 |&gt;\n  summarize(min = min(polyarchy),\n            max = max(polyarchy))\n\n    min   max\n1 0.015 0.915"
   },
   {
     "objectID": "slides/week-3.1.html#measure-of-spread-interquartile-range",
     "href": "slides/week-3.1.html#measure-of-spread-interquartile-range",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Measure of Spread: Interquartile Range",
     "text": "Measure of Spread: Interquartile Range\nIQR: 25th percentile - 75th percentile"
   },
   {
     "objectID": "slides/week-3.1.html#interquartile-range",
     "href": "slides/week-3.1.html#interquartile-range",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Interquartile Range",
     "text": "Interquartile Range\n\nThe middle 50 percent of the countries in the data lie between 0.262 and 0.747\nThe IQR (0.485) is the difference between the Q3 and Q1 values\n\n\nvdem2022 |&gt;\n  summarize(IQRlow =  quantile(polyarchy, .25),\n            IQRhigh = quantile(polyarchy, .75),\n            IQRlength = IQR(polyarchy)\n          )\n\n  IQRlow IQRhigh IQRlength\n1 0.2585   0.734    0.4755"
   },
   {
     "objectID": "slides/week-3.1.html#box-plot",
     "href": "slides/week-3.1.html#box-plot",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Box Plot",
     "text": "Box Plot\n\nA box plot is a graphical representation of the distribution based on the median and quartiles\nIt is a standardized way of displaying the distribution of data based on a five number summary: minimum, first quartile, median, third quartile, and maximum"
   },
   {
     "objectID": "slides/week-3.1.html#box-plot-1",
     "href": "slides/week-3.1.html#box-plot-1",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Box Plot",
     "text": "Box Plot\n\n\nCode\nggplot(vdem2022, aes(x = \"\", y = polyarchy)) +\n  geom_boxplot(fill = \"steelblue\") + \n   labs(\n    x = \"\", \n    y = \"Electoral Democracy\", \n    title = \"Distribution of Electoral Democracy in 2022\", \n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#measure-of-spread-standard-deviation",
     "href": "slides/week-3.1.html#measure-of-spread-standard-deviation",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Measure of Spread: Standard Deviation",
     "text": "Measure of Spread: Standard Deviation\n\n\nCan think of it as something like the “average distance” of each data point from the mean\n\n\nvdem2022 |&gt;\n  summarize(mean = mean(polyarchy),\n            stdDev = sd(polyarchy))\n\n       mean   stdDev\n1 0.4955978 0.262777"
   },
   {
     "objectID": "slides/week-3.1.html#standard-deviation",
     "href": "slides/week-3.1.html#standard-deviation",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Standard Deviation",
     "text": "Standard Deviation\n\n\nA low standard deviation indicates that the values tend to be close to the mean\nA high standard deviation indicates that the values are spread out over a wider range"
   },
   {
     "objectID": "slides/week-3.1.html#starting-with-variance",
     "href": "slides/week-3.1.html#starting-with-variance",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Starting with Variance",
     "text": "Starting with Variance\n\n\nVariance is a step towards calculating the standard deviation.\nIt quantifies the average squared deviation of each number from the mean of the data set."
   },
   {
     "objectID": "slides/week-3.1.html#calculating-deviation-from-the-mean",
     "href": "slides/week-3.1.html#calculating-deviation-from-the-mean",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Calculating Deviation from the Mean",
     "text": "Calculating Deviation from the Mean\n\nFirst, calculate the mean (\\(\\bar{X}\\)) of the dataset.\nFor each data point (\\(X_i\\)), calculate its deviation from the mean: \\[e_i = X_i - \\bar{X}\\]\n\nExample with a mean of 5:\n\nFor a data point where \\((X_i = 0): (0 - 5 = -5)\\)\nFor a data point where \\((X_i = 10): (10 - 5 = 5)\\)"
   },
   {
     "objectID": "slides/week-3.1.html#squaring-the-deviations",
     "href": "slides/week-3.1.html#squaring-the-deviations",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Squaring the Deviations",
     "text": "Squaring the Deviations\n\nSquaring each deviation (\\(e_i\\)) to eliminate negative values: \\[e_i^2 = (X_i - \\bar{X})^2\\]\nSumming up all squared deviations: \\[\\sum_{i=1}^{n} (X_i - \\bar{X})^2\\]\nThis sum represents the total squared deviation from the mean."
   },
   {
     "objectID": "slides/week-3.1.html#calculating-the-variance",
     "href": "slides/week-3.1.html#calculating-the-variance",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Calculating the Variance",
     "text": "Calculating the Variance\n\nDivide the total squared deviation by \\((n-1)\\) (to account for the sample variance): \\[\\text{Variance} = \\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2\\]\nUsing \\((n-1)\\) ensures an unbiased estimate of the population variance when calculating from a sample."
   },
   {
     "objectID": "slides/week-3.1.html#deriving-the-standard-deviation",
     "href": "slides/week-3.1.html#deriving-the-standard-deviation",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Deriving the Standard Deviation",
     "text": "Deriving the Standard Deviation\n\n\nThe standard deviation is the square root of the variance: \\[s = \\sqrt{\\frac{1}{n-1} \\sum_{i=1}^{n} (X_i - \\bar{X})^2}\\]\nTaking the square root converts the variance back to the units of the original data."
   },
   {
     "objectID": "slides/week-3.1.html#standard-deviation-simple-example",
     "href": "slides/week-3.1.html#standard-deviation-simple-example",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Standard Deviation Simple Example",
     "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\ne &lt;- x - mean(x)\ne\n\n [1] -5 -4 -3 -2 -1  0  1  2  3  4  5"
   },
   {
     "objectID": "slides/week-3.1.html#standard-deviation-simple-example-1",
     "href": "slides/week-3.1.html#standard-deviation-simple-example-1",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Standard Deviation Simple Example",
     "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\ne_squared &lt;- e^2\ne_squared\n\n [1] 25 16  9  4  1  0  1  4  9 16 25"
   },
   {
     "objectID": "slides/week-3.1.html#standard-deviation-simple-example-2",
     "href": "slides/week-3.1.html#standard-deviation-simple-example-2",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Standard Deviation Simple Example",
     "text": "Standard Deviation Simple Example\n\n\nx = c(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nsum_e_squared &lt;- sum(e_squared)\nsum_e_squared\n\n[1] 110"
   },
   {
     "objectID": "slides/week-3.1.html#standard-deviation-simple-example-3",
     "href": "slides/week-3.1.html#standard-deviation-simple-example-3",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Standard Deviation Simple Example",
     "text": "Standard Deviation Simple Example\n\n\nvariance &lt;- sum_e_squared/(length(x)-1)\nvariance\n\n[1] 11"
   },
   {
     "objectID": "slides/week-3.1.html#standard-deviation-simple-example-4",
     "href": "slides/week-3.1.html#standard-deviation-simple-example-4",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Standard Deviation Simple Example",
     "text": "Standard Deviation Simple Example\n\n\nstandard_dev &lt;- sqrt(variance)\nstandard_dev\n\n[1] 3.316625\n\nsd(x)\n\n[1] 3.316625"
   },
@@ -1908,35 +1908,35 @@
   {
     "objectID": "slides/week-3.1.html#calculating-statistics-by-groups",
     "href": "slides/week-3.1.html#calculating-statistics-by-groups",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Calculating Statistics by groups",
     "text": "Calculating Statistics by groups\n\n\nWhat if we want to describe electoral democracy and see how it differs by some different variable? For example, by world region, or by year?\nIn this case we want to combine numerical summaries with categorical variables\nThis brings us back to bar chart"
   },
   {
     "objectID": "slides/week-3.1.html#calculating-statistics-by-groups-1",
     "href": "slides/week-3.1.html#calculating-statistics-by-groups-1",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Calculating Statistics by Groups",
     "text": "Calculating Statistics by Groups\n\nLet’s calculate the mean and median of electoral democracy in each world region\nFor this, we add the group_by() to our previous code\n\n\nvdem2022 |&gt;\n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.398      0.377\n2 Asia              0.425      0.404\n3 Eastern Europe    0.534      0.566\n4 Latin America     0.606      0.692\n5 Middle East       0.229      0.206\n6 The West          0.854      0.853"
   },
   {
     "objectID": "slides/week-3.1.html#calculating-statistics-by-groups-2",
     "href": "slides/week-3.1.html#calculating-statistics-by-groups-2",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Calculating Statistics by Groups",
     "text": "Calculating Statistics by Groups\n\nLet’s store our statistics as a new data object, democracy_region\n\n\ndemocracy_region &lt;- vdem2022 |&gt; \n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\ndemocracy_region\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.398      0.377\n2 Asia              0.425      0.404\n3 Eastern Europe    0.534      0.566\n4 Latin America     0.606      0.692\n5 Middle East       0.229      0.206\n6 The West          0.854      0.853"
   },
   {
     "objectID": "slides/week-3.1.html#visualize-using-our-bar-chart-skills",
     "href": "slides/week-3.1.html#visualize-using-our-bar-chart-skills",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Visualize using our Bar Chart Skills",
     "text": "Visualize using our Bar Chart Skills\n\n\nCode\nggplot(democracy_region, aes(x = reorder(region, -mean_dem), y = mean_dem)) +\n  geom_col(fill = \"steelblue\") + \n  labs(\n    x = \"Region\", \n    y = \"Mean Polyarchy Score\", \n    title = \"Democracy by region, 1990 - present\", \n    caption = \"Source: V-Dem Institute\"\n    ) + \n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#numerical-variable-by-group",
     "href": "slides/week-3.1.html#numerical-variable-by-group",
-    "title": "Categorical Data",
+    "title": "Continuous Distributions",
     "section": "Numerical Variable by Group",
     "text": "Numerical Variable by Group\nHow should we interpret this plot?\n\n\nCode\nlibrary(ggridges)\n#library(forcats)\n  ggplot(vdem2022, aes(x = polyarchy, y = region, fill = region)) +\n    geom_density_ridges() +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Region\",\n    title = \"A Ridge Plot\",\n    caption = \"Source: V-Dem Institute\",\n  ) +\n  scale_fill_viridis_d() +\n  theme_minimal()"
   },
@@ -6094,5 +6094,26 @@
       "Labs",
       "Lab 2"
     ]
+  },
+  {
+    "objectID": "slides/week-3.1.html#what-is-a-continuous-variable",
+    "href": "slides/week-3.1.html#what-is-a-continuous-variable",
+    "title": "Continuous Distributions",
+    "section": "What is a Continuous Variable?",
+    "text": "What is a Continuous Variable?\n\n\nA continuous variable can take any value within a range\nExamples: V-Dem Polyarchy (0–1), GDP per capita, income, temperature\nContrast with discrete (whole-number counts) and categorical (named groups)\nNeed tools to describe the distribution of the variable"
+  },
+  {
+    "objectID": "slides/week-3.1.html#describing-a-distribution",
+    "href": "slides/week-3.1.html#describing-a-distribution",
+    "title": "Continuous Distributions",
+    "section": "Describing a Distribution",
+    "text": "Describing a Distribution\n\nWe characterize distributions along three dimensions:\n\nCenter — where values tend to cluster: mean, median\nShape — the overall pattern: symmetric, skewed, bimodal\nSpread — how much values vary: range, IQR, standard deviation\n\n\nAlways visualize your data — summary statistics alone can hide the full story!"
+  },
+  {
+    "objectID": "slides/week-3.1.html#high-level-v-dem-measures",
+    "href": "slides/week-3.1.html#high-level-v-dem-measures",
+    "title": "Continuous Distributions",
+    "section": "High-Level V-Dem Measures",
+    "text": "High-Level V-Dem Measures\n\n\nElectoral Democracy (Polyarchy)\nLiberal Democracy\nEgalitarian Democracy\nParticipatory Democracy\nDeliberative Democracy\n\nAll continuous measures, ranging from 0 to 1. Let’s take a look at how to summarize data like this!"
   }
 ]
