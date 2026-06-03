@@ -253,8 +253,6 @@ ggplot(mnm_data, aes(x = proportion_blue)) +
 
 ## Target Population
 
-<br>
-
 In data analysis, we are usually interested in saying something about a **Target Population.**
 
 ::: incremental
