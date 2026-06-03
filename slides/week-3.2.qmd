@@ -241,8 +241,6 @@ ggplot(mnm_data, aes(x = proportion_blue)) +
 
 ## What did we just do?
 
-<br>
-
 ::: incremental
 -   We completed this task many times
 -   This produced a **sampling distribution** of our **estimates**
