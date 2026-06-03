@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-06-01">
+  <meta name="dcterms.date" content="2026-06-03">
   <title>IAFF 6501 -- Summer 2026 – Continuous Distributions</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -207,7 +207,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">June 1, 2026</p>
+  <p class="date">June 3, 2026</p>
 </section>
 <section>
 <section id="continuous-distributions" class="title-slide slide level1 center">
@@ -257,35 +257,37 @@
 <span id="cb1-2"><a></a><span class="fu">library</span>(vdemdata)</span>
 <span id="cb1-3"><a></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-4"><a></a></span>
-<span id="cb1-5"><a></a><span class="co"># Create dataset for year 2022, with country name, year, and electoral dem</span></span>
-<span id="cb1-6"><a></a>vdem2022 <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span></span>
-<span id="cb1-7"><a></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2022</span>)  <span class="sc">|&gt;</span></span>
+<span id="cb1-5"><a></a><span class="co"># Create dataset for year 2019, with country name, year, and electoral dem</span></span>
+<span id="cb1-6"><a></a>vdem2019 <span class="ot">&lt;-</span> vdem <span class="sc">|&gt;</span></span>
+<span id="cb1-7"><a></a>  <span class="fu">filter</span>(year <span class="sc">==</span> <span class="dv">2019</span>)  <span class="sc">|&gt;</span></span>
 <span id="cb1-8"><a></a>  <span class="fu">select</span>(</span>
-<span id="cb1-9"><a></a>    <span class="at">country =</span> country_name, </span>
-<span id="cb1-10"><a></a>    year, </span>
-<span id="cb1-11"><a></a>    <span class="at">polyarchy =</span> v2x_polyarchy, </span>
-<span id="cb1-12"><a></a>    <span class="at">region =</span> e_regionpol_6C </span>
-<span id="cb1-13"><a></a>    ) <span class="sc">|&gt;</span></span>
-<span id="cb1-14"><a></a>  <span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">case_match</span>(region, </span>
-<span id="cb1-15"><a></a>                        <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Eastern Europe"</span>, </span>
-<span id="cb1-16"><a></a>                        <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Latin America"</span>,  </span>
-<span id="cb1-17"><a></a>                        <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Middle East"</span>,   </span>
-<span id="cb1-18"><a></a>                        <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Africa"</span>, </span>
-<span id="cb1-19"><a></a>                        <span class="dv">5</span> <span class="sc">~</span> <span class="st">"The West"</span>, </span>
-<span id="cb1-20"><a></a>                        <span class="dv">6</span> <span class="sc">~</span> <span class="st">"Asia"</span>)) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb1-9"><a></a>    <span class="at">country =</span> country_name,</span>
+<span id="cb1-10"><a></a>    year,</span>
+<span id="cb1-11"><a></a>    <span class="at">polyarchy =</span> v2x_polyarchy,</span>
+<span id="cb1-12"><a></a>    <span class="at">gdppc =</span> e_gdppc,</span>
+<span id="cb1-13"><a></a>    <span class="at">region =</span> e_regionpol_6C</span>
+<span id="cb1-14"><a></a>    ) <span class="sc">|&gt;</span></span>
+<span id="cb1-15"><a></a>  <span class="fu">mutate</span>(<span class="at">region =</span> <span class="fu">case_match</span>(region,</span>
+<span id="cb1-16"><a></a>                        <span class="dv">1</span> <span class="sc">~</span> <span class="st">"Eastern Europe"</span>,</span>
+<span id="cb1-17"><a></a>                        <span class="dv">2</span> <span class="sc">~</span> <span class="st">"Latin America"</span>,</span>
+<span id="cb1-18"><a></a>                        <span class="dv">3</span> <span class="sc">~</span> <span class="st">"Middle East"</span>,</span>
+<span id="cb1-19"><a></a>                        <span class="dv">4</span> <span class="sc">~</span> <span class="st">"Africa"</span>,</span>
+<span id="cb1-20"><a></a>                        <span class="dv">5</span> <span class="sc">~</span> <span class="st">"The West"</span>,</span>
+<span id="cb1-21"><a></a>                        <span class="dv">6</span> <span class="sc">~</span> <span class="st">"Asia"</span>))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="examine-the-data" class="slide level2">
 <h2>Examine the Data</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">glimpse</span>(vdem2022)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a></a><span class="fu">glimpse</span>(vdem2019)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>Rows: 179
-Columns: 4
+Columns: 5
 $ country   &lt;chr&gt; "Mexico", "Suriname", "Sweden", "Switzerland", "Ghana", "Sou…
-$ year      &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, …
-$ polyarchy &lt;dbl&gt; 0.584, 0.781, 0.892, 0.893, 0.663, 0.718, 0.823, 0.087, 0.20…
+$ year      &lt;dbl&gt; 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, …
+$ polyarchy &lt;dbl&gt; 0.684, 0.741, 0.899, 0.902, 0.718, 0.727, 0.830, 0.421, 0.25…
+$ gdppc     &lt;dbl&gt; 34.308, 24.668, 106.746, 109.451, 10.820, 24.104, 88.837, 13…
 $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West", "A…</code></pre>
 </div>
 </div>
@@ -297,11 +299,11 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <p><br></p>
 <p>We could calculate the <strong>mean</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>vdem2022 <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a></a>vdem2019 <span class="sc">|&gt;</span></span>
 <span id="cb4-2"><a></a>  <span class="fu">summarize</span>(<span class="at">mean_democracy =</span> <span class="fu">mean</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  mean_democracy
-1      0.4955978</code></pre>
+1      0.5175698</code></pre>
 </div>
 </div>
 <p>The mean is the average of the values. Common measure of central tendency but sensitive to outliers.</p>
@@ -313,11 +315,11 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <p><br></p>
 <p>We could calculate the <strong>median</strong>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>vdem2022 <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>vdem2019 <span class="sc">|&gt;</span></span>
 <span id="cb6-2"><a></a>  <span class="fu">summarize</span>(<span class="at">median_democracy =</span> <span class="fu">median</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  median_democracy
-1            0.504</code></pre>
+1            0.524</code></pre>
 </div>
 </div>
 <p>The median is the value that separates the higher half from the lower half of the data.</p>
@@ -407,15 +409,15 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <h2>Visualize Our Measure</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>mn <span class="ot">&lt;-</span> <span class="fu">mean</span>(vdem2022<span class="sc">$</span>polyarchy)</span>
-<span id="cb8-2"><a></a>med <span class="ot">&lt;-</span> <span class="fu">median</span>(vdem2022<span class="sc">$</span>polyarchy)</span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>mn <span class="ot">&lt;-</span> <span class="fu">mean</span>(vdem2019<span class="sc">$</span>polyarchy)</span>
+<span id="cb8-2"><a></a>med <span class="ot">&lt;-</span> <span class="fu">median</span>(vdem2019<span class="sc">$</span>polyarchy)</span>
 <span id="cb8-3"><a></a></span>
-<span id="cb8-4"><a></a><span class="fu">ggplot</span>(vdem2022, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy )) <span class="sc">+</span></span>
+<span id="cb8-4"><a></a><span class="fu">ggplot</span>(vdem2019, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy )) <span class="sc">+</span></span>
 <span id="cb8-5"><a></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> .<span class="dv">05</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
 <span id="cb8-6"><a></a>   <span class="fu">labs</span>(</span>
 <span id="cb8-7"><a></a>    <span class="at">x =</span> <span class="st">"Electoral Democracy"</span>,</span>
 <span id="cb8-8"><a></a>    <span class="at">y =</span> <span class="st">"Frequency"</span>,</span>
-<span id="cb8-9"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of Electoral Democracy in 2022"</span>,</span>
+<span id="cb8-9"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of Electoral Democracy in 2019"</span>,</span>
 <span id="cb8-10"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span></span>
 <span id="cb8-11"><a></a>  ) <span class="sc">+</span></span>
 <span id="cb8-12"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mn, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"darkorange"</span>) <span class="sc">+</span></span>
@@ -426,15 +428,15 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <h2>Visualize Our Measure</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="1-2|5|12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>mn <span class="ot">&lt;-</span> <span class="fu">mean</span>(vdem2022<span class="sc">$</span>polyarchy)</span>
-<span id="cb9-2"><a></a>med <span class="ot">&lt;-</span> <span class="fu">median</span>(vdem2022<span class="sc">$</span>polyarchy)</span>
+<div class="sourceCode cell-code" id="cb9" data-code-line-numbers="1-2|5|12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>mn <span class="ot">&lt;-</span> <span class="fu">mean</span>(vdem2019<span class="sc">$</span>polyarchy)</span>
+<span id="cb9-2"><a></a>med <span class="ot">&lt;-</span> <span class="fu">median</span>(vdem2019<span class="sc">$</span>polyarchy)</span>
 <span id="cb9-3"><a></a></span>
-<span id="cb9-4"><a></a><span class="fu">ggplot</span>(vdem2022, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy )) <span class="sc">+</span></span>
+<span id="cb9-4"><a></a><span class="fu">ggplot</span>(vdem2019, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy )) <span class="sc">+</span></span>
 <span id="cb9-5"><a></a>  <span class="fu">geom_histogram</span>(<span class="at">binwidth =</span> .<span class="dv">05</span>, <span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span></span>
 <span id="cb9-6"><a></a>   <span class="fu">labs</span>(</span>
 <span id="cb9-7"><a></a>    <span class="at">x =</span> <span class="st">"Electoral Democracy"</span>,</span>
 <span id="cb9-8"><a></a>    <span class="at">y =</span> <span class="st">"Frequency"</span>,</span>
-<span id="cb9-9"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of Electoral Democracy in 2022"</span>,</span>
+<span id="cb9-9"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of Electoral Democracy in 2019"</span>,</span>
 <span id="cb9-10"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span></span>
 <span id="cb9-11"><a></a>  ) <span class="sc">+</span></span>
 <span id="cb9-12"><a></a>  <span class="fu">geom_vline</span>(<span class="at">xintercept =</span> mn, <span class="at">linewidth =</span> <span class="dv">1</span>, <span class="at">color =</span> <span class="st">"darkorange"</span>) <span class="sc">+</span></span>
@@ -455,12 +457,12 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="fu">ggplot</span>(vdem2022, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy)) <span class="sc">+</span></span>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a></a><span class="fu">ggplot</span>(vdem2019, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy)) <span class="sc">+</span></span>
 <span id="cb10-2"><a></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb10-3"><a></a>  <span class="fu">labs</span>(</span>
 <span id="cb10-4"><a></a>    <span class="at">x =</span> <span class="st">"Electoral Democracy"</span>,</span>
 <span id="cb10-5"><a></a>    <span class="at">y =</span> <span class="st">"Density"</span>,</span>
-<span id="cb10-6"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of Electoral Democracy in 2022"</span>,</span>
+<span id="cb10-6"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of Electoral Democracy in 2019"</span>,</span>
 <span id="cb10-7"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span></span>
 <span id="cb10-8"><a></a>  ) <span class="sc">+</span></span>
 <span id="cb10-9"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -475,12 +477,12 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a></a><span class="fu">library</span>(patchwork)</span>
 <span id="cb11-2"><a></a></span>
-<span id="cb11-3"><a></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(vdem2022, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy)) <span class="sc">+</span></span>
+<span id="cb11-3"><a></a>p1 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(vdem2019, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy)) <span class="sc">+</span></span>
 <span id="cb11-4"><a></a>  <span class="fu">geom_histogram</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">bins =</span> <span class="dv">30</span>) <span class="sc">+</span></span>
 <span id="cb11-5"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Electoral Democracy"</span>, <span class="at">y =</span> <span class="st">"Count"</span>, <span class="at">title =</span> <span class="st">"Histogram"</span>) <span class="sc">+</span></span>
 <span id="cb11-6"><a></a>  <span class="fu">theme_minimal</span>()</span>
 <span id="cb11-7"><a></a></span>
-<span id="cb11-8"><a></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(vdem2022, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy)) <span class="sc">+</span></span>
+<span id="cb11-8"><a></a>p2 <span class="ot">&lt;-</span> <span class="fu">ggplot</span>(vdem2019, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy)) <span class="sc">+</span></span>
 <span id="cb11-9"><a></a>  <span class="fu">geom_density</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>, <span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
 <span id="cb11-10"><a></a>  <span class="fu">labs</span>(<span class="at">x =</span> <span class="st">"Electoral Democracy"</span>, <span class="at">y =</span> <span class="st">"Density"</span>, <span class="at">title =</span> <span class="st">"Density Plot"</span>) <span class="sc">+</span></span>
 <span id="cb11-11"><a></a>  <span class="fu">theme_minimal</span>()</span>
@@ -528,12 +530,12 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <li>Not ideal b/c does not tell us much about where most of the values are located</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>vdem2022 <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb12-1"><a></a>vdem2019 <span class="sc">|&gt;</span></span>
 <span id="cb12-2"><a></a>  <span class="fu">summarize</span>(<span class="at">min =</span> <span class="fu">min</span>(polyarchy),</span>
 <span id="cb12-3"><a></a>            <span class="at">max =</span> <span class="fu">max</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>    min   max
-1 0.015 0.915</code></pre>
+1 0.015 0.916</code></pre>
 </div>
 </div>
 </section>
@@ -547,24 +549,26 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <ul>
 <li>The middle 50 percent of the countries in the data lie between 0.262 and 0.747</li>
 <li>The IQR (0.485) is the difference between the Q3 and Q1 values</li>
+<li>In a box plot, whiskers extend to the farthest point within <strong>1.5 × IQR</strong> from the box edges</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>vdem2022 <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a></a>vdem2019 <span class="sc">|&gt;</span></span>
 <span id="cb14-2"><a></a>  <span class="fu">summarize</span>(<span class="at">IQRlow =</span>  <span class="fu">quantile</span>(polyarchy, .<span class="dv">25</span>),</span>
 <span id="cb14-3"><a></a>            <span class="at">IQRhigh =</span> <span class="fu">quantile</span>(polyarchy, .<span class="dv">75</span>),</span>
 <span id="cb14-4"><a></a>            <span class="at">IQRlength =</span> <span class="fu">IQR</span>(polyarchy)</span>
 <span id="cb14-5"><a></a>          )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>  IQRlow IQRhigh IQRlength
-1 0.2585   0.734    0.4755</code></pre>
+1 0.2865  0.7455     0.459</code></pre>
 </div>
 </div>
 </section>
 <section id="box-plot" class="slide level2">
 <h2>Box Plot</h2>
 <ul>
-<li>A box plot is a graphical representation of the distribution based on the median and quartiles</li>
-<li>It is a standardized way of displaying the distribution of data based on a five number summary: minimum, first quartile, median, third quartile, and maximum</li>
+<li>A box plot visualizes the distribution using the <strong>median</strong>, <strong>IQR</strong> (the box), and <strong>whiskers</strong></li>
+<li>Whiskers extend to the farthest point within <strong>1.5 × IQR</strong> from the box edges</li>
+<li>Points beyond the whiskers are shown as individual <strong>outlier dots</strong></li>
 </ul>
 </section>
 <section id="box-plot-1" class="slide level2">
@@ -572,15 +576,18 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">ggplot</span>(vdem2022, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> polyarchy)) <span class="sc">+</span></span>
-<span id="cb16-2"><a></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>) <span class="sc">+</span> </span>
-<span id="cb16-3"><a></a>   <span class="fu">labs</span>(</span>
-<span id="cb16-4"><a></a>    <span class="at">x =</span> <span class="st">""</span>, </span>
-<span id="cb16-5"><a></a>    <span class="at">y =</span> <span class="st">"Electoral Democracy"</span>, </span>
-<span id="cb16-6"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of Electoral Democracy in 2022"</span>, </span>
-<span id="cb16-7"><a></a>    <span class="at">caption =</span> <span class="st">"Source: V-Dem Institute"</span></span>
-<span id="cb16-8"><a></a>  ) <span class="sc">+</span></span>
-<span id="cb16-9"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a></a><span class="fu">ggplot</span>(vdem2019, <span class="fu">aes</span>(<span class="at">x =</span> <span class="st">""</span>, <span class="at">y =</span> gdppc)) <span class="sc">+</span></span>
+<span id="cb16-2"><a></a>  <span class="fu">geom_boxplot</span>(<span class="at">fill =</span> <span class="st">"steelblue"</span>,</span>
+<span id="cb16-3"><a></a>               <span class="at">width =</span> <span class="fl">0.4</span>,</span>
+<span id="cb16-4"><a></a>               <span class="at">outlier.color =</span> <span class="st">"darkorange"</span>,</span>
+<span id="cb16-5"><a></a>               <span class="at">outlier.size =</span> <span class="dv">2</span>) <span class="sc">+</span></span>
+<span id="cb16-6"><a></a>  <span class="fu">labs</span>(</span>
+<span id="cb16-7"><a></a>    <span class="at">x =</span> <span class="st">""</span>,</span>
+<span id="cb16-8"><a></a>    <span class="at">y =</span> <span class="st">"GDP per Capita (2011 USD)"</span>,</span>
+<span id="cb16-9"><a></a>    <span class="at">title =</span> <span class="st">"Distribution of GDP per Capita in 2019"</span>,</span>
+<span id="cb16-10"><a></a>    <span class="at">caption =</span> <span class="st">"Whiskers extend to 1.5 × IQR; dots are outliers</span><span class="sc">\n</span><span class="st">Source: V-Dem Institute / Maddison Project"</span></span>
+<span id="cb16-11"><a></a>  ) <span class="sc">+</span></span>
+<span id="cb16-12"><a></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 
 </div>
@@ -592,12 +599,12 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <li>Can think of it as something like the “average distance” of each data point from the mean</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a>vdem2022 <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a></a>vdem2019 <span class="sc">|&gt;</span></span>
 <span id="cb17-2"><a></a>  <span class="fu">summarize</span>(<span class="at">mean =</span> <span class="fu">mean</span>(polyarchy),</span>
 <span id="cb17-3"><a></a>            <span class="at">stdDev =</span> <span class="fu">sd</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>       mean   stdDev
-1 0.4955978 0.262777</code></pre>
+<pre><code>       mean    stdDev
+1 0.5175698 0.2552938</code></pre>
 </div>
 </div>
 </section>
@@ -748,7 +755,7 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <li>For this, we add the <em>group_by()</em> to our previous code</li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb31" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a>vdem2022 <span class="sc">|&gt;</span></span>
+<div class="sourceCode cell-code" id="cb31" data-code-line-numbers="2"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb31-1"><a></a>vdem2019 <span class="sc">|&gt;</span></span>
 <span id="cb31-2"><a></a>  <span class="fu">group_by</span>(region) <span class="sc">|&gt;</span></span>
 <span id="cb31-3"><a></a>  <span class="fu">summarize</span>(<span class="at">mean_dem =</span> <span class="fu">mean</span>(polyarchy),</span>
 <span id="cb31-4"><a></a>            <span class="at">median_dem =</span> <span class="fu">median</span>(polyarchy))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
@@ -756,12 +763,12 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <pre><code># A tibble: 6 × 3
   region         mean_dem median_dem
   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;
-1 Africa            0.398      0.377
-2 Asia              0.425      0.404
-3 Eastern Europe    0.534      0.566
-4 Latin America     0.606      0.692
-5 Middle East       0.229      0.206
-6 The West          0.854      0.853</code></pre>
+1 Africa            0.425      0.395
+2 Asia              0.455      0.429
+3 Eastern Europe    0.550      0.595
+4 Latin America     0.622      0.651
+5 Middle East       0.257      0.257
+6 The West          0.866      0.868</code></pre>
 </div>
 </div>
 </section>
@@ -771,7 +778,7 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <li>Let’s store our statistics as a new data object, <em>democracy_region</em></li>
 </ul>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a>democracy_region <span class="ot">&lt;-</span> vdem2022 <span class="sc">|&gt;</span> </span>
+<div class="sourceCode cell-code" id="cb33"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb33-1"><a></a>democracy_region <span class="ot">&lt;-</span> vdem2019 <span class="sc">|&gt;</span> </span>
 <span id="cb33-2"><a></a>  <span class="fu">group_by</span>(region) <span class="sc">|&gt;</span></span>
 <span id="cb33-3"><a></a>  <span class="fu">summarize</span>(<span class="at">mean_dem =</span> <span class="fu">mean</span>(polyarchy),</span>
 <span id="cb33-4"><a></a>            <span class="at">median_dem =</span> <span class="fu">median</span>(polyarchy))</span>
@@ -781,12 +788,12 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <pre><code># A tibble: 6 × 3
   region         mean_dem median_dem
   &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;
-1 Africa            0.398      0.377
-2 Asia              0.425      0.404
-3 Eastern Europe    0.534      0.566
-4 Latin America     0.606      0.692
-5 Middle East       0.229      0.206
-6 The West          0.854      0.853</code></pre>
+1 Africa            0.425      0.395
+2 Asia              0.455      0.429
+3 Eastern Europe    0.550      0.595
+4 Latin America     0.622      0.651
+5 Middle East       0.257      0.257
+6 The West          0.866      0.868</code></pre>
 </div>
 </div>
 </section>
@@ -816,7 +823,7 @@ $ region    &lt;chr&gt; "Latin America", "Latin America", "The West", "The West"
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb36"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb36-1"><a></a><span class="fu">library</span>(ggridges)</span>
 <span id="cb36-2"><a></a><span class="co">#library(forcats)</span></span>
-<span id="cb36-3"><a></a>  <span class="fu">ggplot</span>(vdem2022, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy, <span class="at">y =</span> region, <span class="at">fill =</span> region)) <span class="sc">+</span></span>
+<span id="cb36-3"><a></a>  <span class="fu">ggplot</span>(vdem2019, <span class="fu">aes</span>(<span class="at">x =</span> polyarchy, <span class="at">y =</span> region, <span class="at">fill =</span> region)) <span class="sc">+</span></span>
 <span id="cb36-4"><a></a>    <span class="fu">geom_density_ridges</span>() <span class="sc">+</span></span>
 <span id="cb36-5"><a></a>  <span class="fu">labs</span>(</span>
 <span id="cb36-6"><a></a>    <span class="at">x =</span> <span class="st">"Electoral Democracy"</span>,</span>

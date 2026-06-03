@@ -68,22 +68,23 @@ All continuous measures, ranging from 0 to 1. Let's take a look at how to summar
 library(vdemdata)
 library(tidyverse)
 
-# Create dataset for year 2022, with country name, year, and electoral dem
-vdem2022 <- vdem |>
-  filter(year == 2022)  |>
+# Create dataset for year 2019, with country name, year, and electoral dem
+vdem2019 <- vdem |>
+  filter(year == 2019)  |>
   select(
-    country = country_name, 
-    year, 
-    polyarchy = v2x_polyarchy, 
-    region = e_regionpol_6C 
+    country = country_name,
+    year,
+    polyarchy = v2x_polyarchy,
+    gdppc = e_gdppc,
+    region = e_regionpol_6C
     ) |>
-  mutate(region = case_match(region, 
-                        1 ~ "Eastern Europe", 
-                        2 ~ "Latin America",  
-                        3 ~ "Middle East",   
-                        4 ~ "Africa", 
-                        5 ~ "The West", 
-                        6 ~ "Asia")) 
+  mutate(region = case_match(region,
+                        1 ~ "Eastern Europe",
+                        2 ~ "Latin America",
+                        3 ~ "Middle East",
+                        4 ~ "Africa",
+                        5 ~ "The West",
+                        6 ~ "Asia"))
 ```
 
 ## Examine the Data
@@ -94,7 +95,7 @@ vdem2022 <- vdem |>
 #| label: glimpse1
 #| echo: true
 
-glimpse(vdem2022)
+glimpse(vdem2019)
 ```
 
 ## 
@@ -111,7 +112,7 @@ We could calculate the **mean**.
 #| label: mean
 #| echo: true
 
-vdem2022 |>
+vdem2019 |>
   summarize(mean_democracy = mean(polyarchy))
 ```
 
@@ -130,7 +131,7 @@ We could calculate the **median**.
 ```{r}
 #| label: median
 #| echo: true
-vdem2022 |>
+vdem2019 |>
   summarize(median_democracy = median(polyarchy))
 ```
 
@@ -322,15 +323,15 @@ ggplot(x, aes(x = x )) +
 ```{r}
 #| label: visualize-polyarchy
 
-mn <- mean(vdem2022$polyarchy)
-med <- median(vdem2022$polyarchy)
+mn <- mean(vdem2019$polyarchy)
+med <- median(vdem2019$polyarchy)
 
-ggplot(vdem2022, aes(x = polyarchy )) +
+ggplot(vdem2019, aes(x = polyarchy )) +
   geom_histogram(binwidth = .05, fill = "steelblue") +
    labs(
     x = "Electoral Democracy",
     y = "Frequency",
-    title = "Distribution of Electoral Democracy in 2022",
+    title = "Distribution of Electoral Democracy in 2019",
     caption = "Source: V-Dem Institute"
   ) +
   geom_vline(xintercept = mn, linewidth = 1, color = "darkorange") +
@@ -346,15 +347,15 @@ ggplot(vdem2022, aes(x = polyarchy )) +
 #| echo: true
 #| eval: false
 
-mn <- mean(vdem2022$polyarchy)
-med <- median(vdem2022$polyarchy)
+mn <- mean(vdem2019$polyarchy)
+med <- median(vdem2019$polyarchy)
 
-ggplot(vdem2022, aes(x = polyarchy )) +
+ggplot(vdem2019, aes(x = polyarchy )) +
   geom_histogram(binwidth = .05, fill = "steelblue") +
    labs(
     x = "Electoral Democracy",
     y = "Frequency",
-    title = "Distribution of Electoral Democracy in 2022",
+    title = "Distribution of Electoral Democracy in 2019",
     caption = "Source: V-Dem Institute"
   ) +
   geom_vline(xintercept = mn, linewidth = 1, color = "darkorange") +
@@ -371,15 +372,15 @@ ggplot(vdem2022, aes(x = polyarchy )) +
 #| eval: false
 #| code-line-numbers: "1-2|5|12"
 
-mn <- mean(vdem2022$polyarchy)
-med <- median(vdem2022$polyarchy)
+mn <- mean(vdem2019$polyarchy)
+med <- median(vdem2019$polyarchy)
 
-ggplot(vdem2022, aes(x = polyarchy )) +
+ggplot(vdem2019, aes(x = polyarchy )) +
   geom_histogram(binwidth = .05, fill = "steelblue") +
    labs(
     x = "Electoral Democracy",
     y = "Frequency",
-    title = "Distribution of Electoral Democracy in 2022",
+    title = "Distribution of Electoral Democracy in 2019",
     caption = "Source: V-Dem Institute"
   ) +
   geom_vline(xintercept = mn, linewidth = 1, color = "darkorange") +
@@ -401,12 +402,12 @@ ggplot(vdem2022, aes(x = polyarchy )) +
 #| echo: true
 #| code-fold: true
 
-ggplot(vdem2022, aes(x = polyarchy)) +
+ggplot(vdem2019, aes(x = polyarchy)) +
   geom_density(fill = "steelblue", alpha = 0.5) +
   labs(
     x = "Electoral Democracy",
     y = "Density",
-    title = "Distribution of Electoral Democracy in 2022",
+    title = "Distribution of Electoral Democracy in 2019",
     caption = "Source: V-Dem Institute"
   ) +
   theme_minimal()
@@ -421,12 +422,12 @@ ggplot(vdem2022, aes(x = polyarchy)) +
 
 library(patchwork)
 
-p1 <- ggplot(vdem2022, aes(x = polyarchy)) +
+p1 <- ggplot(vdem2019, aes(x = polyarchy)) +
   geom_histogram(fill = "steelblue", bins = 30) +
   labs(x = "Electoral Democracy", y = "Count", title = "Histogram") +
   theme_minimal()
 
-p2 <- ggplot(vdem2022, aes(x = polyarchy)) +
+p2 <- ggplot(vdem2019, aes(x = polyarchy)) +
   geom_density(fill = "steelblue", alpha = 0.5) +
   labs(x = "Electoral Democracy", y = "Density", title = "Density Plot") +
   theme_minimal()
@@ -499,7 +500,7 @@ a + b
 #| label: min-max
 #| echo: true
 
-vdem2022 |>
+vdem2019 |>
   summarize(min = min(polyarchy),
             max = max(polyarchy))
 ```
@@ -510,14 +511,14 @@ IQR: 25th percentile - 75th percentile
 
 ```{r}
 #| echo: false
-low <- quantile(vdem2022$polyarchy, .25)
-high <- quantile(vdem2022$polyarchy, .75)
-ggplot(vdem2022, aes(x = polyarchy )) +
+low <- quantile(vdem2019$polyarchy, .25)
+high <- quantile(vdem2019$polyarchy, .75)
+ggplot(vdem2019, aes(x = polyarchy )) +
   geom_histogram(binwidth = .05, fill = "steelblue") + theme_bw() +
    labs(
     x = "Electoral Democracy", 
     y = "Frequency", 
-    title = "Distribution of Electoral Democracy in 2022", 
+    title = "Distribution of Electoral Democracy in 2019", 
     caption = "Source: V-Dem Institute"
   ) + 
   geom_vline(xintercept = low, linewidth = 2, color = "darkorange") + 
@@ -527,13 +528,14 @@ ggplot(vdem2022, aes(x = polyarchy )) +
 ## Interquartile Range
 
 - The middle 50 percent of the countries in the data lie between 0.262 and 0.747
-- The IQR (0.485) is the difference between the Q3 and Q1 values 
+- The IQR (0.485) is the difference between the Q3 and Q1 values
+- In a box plot, whiskers extend to the farthest point within **1.5 × IQR** from the box edges
 
 ```{r}
 #| label: iqr
 #| echo: true
 
-vdem2022 |>
+vdem2019 |>
   summarize(IQRlow =  quantile(polyarchy, .25),
             IQRhigh = quantile(polyarchy, .75),
             IQRlength = IQR(polyarchy)
@@ -542,8 +544,9 @@ vdem2022 |>
 
 ## Box Plot
 
-- A box plot is a graphical representation of the distribution based on the median and quartiles
-- It is a standardized way of displaying the distribution of data based on a five number summary: minimum, first quartile, median, third quartile, and maximum
+- A box plot visualizes the distribution using the **median**, **IQR** (the box), and **whiskers**
+- Whiskers extend to the farthest point within **1.5 × IQR** from the box edges
+- Points beyond the whiskers are shown as individual **outlier dots**
 
 ## Box Plot
 
@@ -552,13 +555,16 @@ vdem2022 |>
 #| echo: true
 #| code-fold: true
 
-ggplot(vdem2022, aes(x = "", y = polyarchy)) +
-  geom_boxplot(fill = "steelblue") + 
-   labs(
-    x = "", 
-    y = "Electoral Democracy", 
-    title = "Distribution of Electoral Democracy in 2022", 
-    caption = "Source: V-Dem Institute"
+ggplot(vdem2019, aes(x = "", y = gdppc)) +
+  geom_boxplot(fill = "steelblue",
+               width = 0.4,
+               outlier.color = "darkorange",
+               outlier.size = 2) +
+  labs(
+    x = "",
+    y = "GDP per Capita (2011 USD)",
+    title = "Distribution of GDP per Capita in 2019",
+    caption = "Whiskers extend to 1.5 × IQR; dots are outliers\nSource: V-Dem Institute / Maddison Project"
   ) +
   theme_minimal()
 ```
@@ -571,7 +577,7 @@ ggplot(vdem2022, aes(x = "", y = polyarchy)) +
 
 ```{r}
 #| echo: true
-vdem2022 |>
+vdem2019 |>
   summarize(mean = mean(polyarchy),
             stdDev = sd(polyarchy))
 ```
@@ -712,7 +718,7 @@ countdown(minutes = 5,
 #| label: group-by-1
 #| echo: true
 #| code-line-numbers: "2"
-vdem2022 |>
+vdem2019 |>
   group_by(region) |>
   summarize(mean_dem = mean(polyarchy),
             median_dem = median(polyarchy))
@@ -726,7 +732,7 @@ vdem2022 |>
 #| label: group-by-2
 #| echo: true
 #| code-line-numbers: "1"
-democracy_region <- vdem2022 |> 
+democracy_region <- vdem2019 |> 
   group_by(region) |>
   summarize(mean_dem = mean(polyarchy),
             median_dem = median(polyarchy))
@@ -760,7 +766,7 @@ How should we interpret this plot?
 #| code-fold: true
 library(ggridges)
 #library(forcats)
-  ggplot(vdem2022, aes(x = polyarchy, y = region, fill = region)) +
+  ggplot(vdem2019, aes(x = polyarchy, y = region, fill = region)) +
     geom_density_ridges() +
   labs(
     x = "Electoral Democracy",

@@ -1455,14 +1455,14 @@
     "href": "slides/week-3.1.html#section",
     "title": "Continuous Distributions",
     "section": "",
-    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the mean.\n\nvdem2022 |&gt;\n  summarize(mean_democracy = mean(polyarchy))\n\n  mean_democracy\n1      0.4955978\n\n\nThe mean is the average of the values. Common measure of central tendency but sensitive to outliers."
+    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the mean.\n\nvdem2019 |&gt;\n  summarize(mean_democracy = mean(polyarchy))\n\n  mean_democracy\n1      0.5175698\n\n\nThe mean is the average of the values. Common measure of central tendency but sensitive to outliers."
   },
   {
     "objectID": "slides/week-3.1.html#section-1",
     "href": "slides/week-3.1.html#section-1",
     "title": "Continuous Distributions",
     "section": "",
-    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the median.\n\nvdem2022 |&gt;\n  summarize(median_democracy = median(polyarchy))\n\n  median_democracy\n1            0.504\n\n\nThe median is the value that separates the higher half from the lower half of the data."
+    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the median.\n\nvdem2019 |&gt;\n  summarize(median_democracy = median(polyarchy))\n\n  median_democracy\n1            0.524\n\n\nThe median is the value that separates the higher half from the lower half of the data."
   },
   {
     "objectID": "slides/week-3.1.html#variable-types",
@@ -1490,14 +1490,14 @@
     "href": "slides/week-3.1.html#data-setup",
     "title": "Continuous Distributions",
     "section": "Data Setup",
-    "text": "Data Setup\n\n\n# Load packages \nlibrary(vdemdata)\nlibrary(tidyverse)\n\n# Create dataset for year 2022, with country name, year, and electoral dem\nvdem2022 &lt;- vdem |&gt;\n  filter(year == 2022)  |&gt;\n  select(\n    country = country_name, \n    year, \n    polyarchy = v2x_polyarchy, \n    region = e_regionpol_6C \n    ) |&gt;\n  mutate(region = case_match(region, \n                        1 ~ \"Eastern Europe\", \n                        2 ~ \"Latin America\",  \n                        3 ~ \"Middle East\",   \n                        4 ~ \"Africa\", \n                        5 ~ \"The West\", \n                        6 ~ \"Asia\"))"
+    "text": "Data Setup\n\n\n# Load packages \nlibrary(vdemdata)\nlibrary(tidyverse)\n\n# Create dataset for year 2019, with country name, year, and electoral dem\nvdem2019 &lt;- vdem |&gt;\n  filter(year == 2019)  |&gt;\n  select(\n    country = country_name,\n    year,\n    polyarchy = v2x_polyarchy,\n    gdppc = e_gdppc,\n    region = e_regionpol_6C\n    ) |&gt;\n  mutate(region = case_match(region,\n                        1 ~ \"Eastern Europe\",\n                        2 ~ \"Latin America\",\n                        3 ~ \"Middle East\",\n                        4 ~ \"Africa\",\n                        5 ~ \"The West\",\n                        6 ~ \"Asia\"))"
   },
   {
     "objectID": "slides/week-3.1.html#examine-the-data",
     "href": "slides/week-3.1.html#examine-the-data",
     "title": "Continuous Distributions",
     "section": "Examine the Data",
-    "text": "Examine the Data\n\n\nglimpse(vdem2022)\n\nRows: 179\nColumns: 4\n$ country   &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"Sou…\n$ year      &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, …\n$ polyarchy &lt;dbl&gt; 0.584, 0.781, 0.892, 0.893, 0.663, 0.718, 0.823, 0.087, 0.20…\n$ region    &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"A…"
+    "text": "Examine the Data\n\n\nglimpse(vdem2019)\n\nRows: 179\nColumns: 5\n$ country   &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"Sou…\n$ year      &lt;dbl&gt; 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, …\n$ polyarchy &lt;dbl&gt; 0.684, 0.741, 0.899, 0.902, 0.718, 0.727, 0.830, 0.421, 0.25…\n$ gdppc     &lt;dbl&gt; 34.308, 24.668, 106.746, 109.451, 10.820, 24.104, 88.837, 13…\n$ region    &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"A…"
   },
   {
     "objectID": "slides/week-3.1.html#section-3",
@@ -1700,7 +1700,7 @@
     "href": "slides/week-3.1.html#histogram-vs.-density-plot",
     "title": "Continuous Distributions",
     "section": "Histogram vs. Density Plot",
-    "text": "Histogram vs. Density Plot\n\n\nCode\nlibrary(patchwork)\n\np1 &lt;- ggplot(vdem2022, aes(x = polyarchy)) +\n  geom_histogram(fill = \"steelblue\", bins = 30) +\n  labs(x = \"Electoral Democracy\", y = \"Count\", title = \"Histogram\") +\n  theme_minimal()\n\np2 &lt;- ggplot(vdem2022, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(x = \"Electoral Democracy\", y = \"Density\", title = \"Density Plot\") +\n  theme_minimal()\n\np1 + p2"
+    "text": "Histogram vs. Density Plot\n\n\nCode\nlibrary(patchwork)\n\np1 &lt;- ggplot(vdem2019, aes(x = polyarchy)) +\n  geom_histogram(fill = \"steelblue\", bins = 30) +\n  labs(x = \"Electoral Democracy\", y = \"Count\", title = \"Histogram\") +\n  theme_minimal()\n\np2 &lt;- ggplot(vdem2019, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(x = \"Electoral Democracy\", y = \"Density\", title = \"Density Plot\") +\n  theme_minimal()\n\np1 + p2"
   },
   {
     "objectID": "slides/week-3.1.html#when-is-the-mean-useful",
@@ -1749,14 +1749,14 @@
     "href": "slides/week-3.1.html#visualize-our-measure-1",
     "title": "Continuous Distributions",
     "section": "Visualize Our Measure",
-    "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2022$polyarchy)\nmed &lt;- median(vdem2022$polyarchy)\n\nggplot(vdem2022, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\",\n    y = \"Frequency\",\n    title = \"Distribution of Electoral Democracy in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
+    "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2019$polyarchy)\nmed &lt;- median(vdem2019$polyarchy)\n\nggplot(vdem2019, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\",\n    y = \"Frequency\",\n    title = \"Distribution of Electoral Democracy in 2019\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#visualize-our-measure-2",
     "href": "slides/week-3.1.html#visualize-our-measure-2",
     "title": "Continuous Distributions",
     "section": "Visualize Our Measure",
-    "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2022$polyarchy)\nmed &lt;- median(vdem2022$polyarchy)\n\nggplot(vdem2022, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\",\n    y = \"Frequency\",\n    title = \"Distribution of Electoral Democracy in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
+    "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2019$polyarchy)\nmed &lt;- median(vdem2019$polyarchy)\n\nggplot(vdem2019, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\",\n    y = \"Frequency\",\n    title = \"Distribution of Electoral Democracy in 2019\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#your-turn-2",
@@ -1784,7 +1784,7 @@
     "href": "slides/week-3.1.html#measures-of-spread-range",
     "title": "Continuous Distributions",
     "section": "Measures of Spread: Range",
-    "text": "Measures of Spread: Range\n\n\nRange (min and max values)\nNot ideal b/c does not tell us much about where most of the values are located\n\n\nvdem2022 |&gt;\n  summarize(min = min(polyarchy),\n            max = max(polyarchy))\n\n    min   max\n1 0.015 0.915"
+    "text": "Measures of Spread: Range\n\n\nRange (min and max values)\nNot ideal b/c does not tell us much about where most of the values are located\n\n\nvdem2019 |&gt;\n  summarize(min = min(polyarchy),\n            max = max(polyarchy))\n\n    min   max\n1 0.015 0.916"
   },
   {
     "objectID": "slides/week-3.1.html#measure-of-spread-interquartile-range",
@@ -1798,28 +1798,28 @@
     "href": "slides/week-3.1.html#interquartile-range",
     "title": "Continuous Distributions",
     "section": "Interquartile Range",
-    "text": "Interquartile Range\n\nThe middle 50 percent of the countries in the data lie between 0.262 and 0.747\nThe IQR (0.485) is the difference between the Q3 and Q1 values\n\n\nvdem2022 |&gt;\n  summarize(IQRlow =  quantile(polyarchy, .25),\n            IQRhigh = quantile(polyarchy, .75),\n            IQRlength = IQR(polyarchy)\n          )\n\n  IQRlow IQRhigh IQRlength\n1 0.2585   0.734    0.4755"
+    "text": "Interquartile Range\n\nThe middle 50 percent of the countries in the data lie between 0.262 and 0.747\nThe IQR (0.485) is the difference between the Q3 and Q1 values\nIn a box plot, whiskers extend to the farthest point within 1.5 × IQR from the box edges\n\n\nvdem2019 |&gt;\n  summarize(IQRlow =  quantile(polyarchy, .25),\n            IQRhigh = quantile(polyarchy, .75),\n            IQRlength = IQR(polyarchy)\n          )\n\n  IQRlow IQRhigh IQRlength\n1 0.2865  0.7455     0.459"
   },
   {
     "objectID": "slides/week-3.1.html#box-plot",
     "href": "slides/week-3.1.html#box-plot",
     "title": "Continuous Distributions",
     "section": "Box Plot",
-    "text": "Box Plot\n\nA box plot is a graphical representation of the distribution based on the median and quartiles\nIt is a standardized way of displaying the distribution of data based on a five number summary: minimum, first quartile, median, third quartile, and maximum"
+    "text": "Box Plot\n\nA box plot visualizes the distribution using the median, IQR (the box), and whiskers\nWhiskers extend to the farthest point within 1.5 × IQR from the box edges\nPoints beyond the whiskers are shown as individual outlier dots"
   },
   {
     "objectID": "slides/week-3.1.html#box-plot-1",
     "href": "slides/week-3.1.html#box-plot-1",
     "title": "Continuous Distributions",
     "section": "Box Plot",
-    "text": "Box Plot\n\n\nCode\nggplot(vdem2022, aes(x = \"\", y = polyarchy)) +\n  geom_boxplot(fill = \"steelblue\") + \n   labs(\n    x = \"\", \n    y = \"Electoral Democracy\", \n    title = \"Distribution of Electoral Democracy in 2022\", \n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
+    "text": "Box Plot\n\n\nCode\nggplot(vdem2019, aes(x = \"\", y = gdppc)) +\n  geom_boxplot(fill = \"steelblue\",\n               width = 0.4,\n               outlier.color = \"darkorange\",\n               outlier.size = 2) +\n  labs(\n    x = \"\",\n    y = \"GDP per Capita (2011 USD)\",\n    title = \"Distribution of GDP per Capita in 2019\",\n    caption = \"Whiskers extend to 1.5 × IQR; dots are outliers\\nSource: V-Dem Institute / Maddison Project\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#measure-of-spread-standard-deviation",
     "href": "slides/week-3.1.html#measure-of-spread-standard-deviation",
     "title": "Continuous Distributions",
     "section": "Measure of Spread: Standard Deviation",
-    "text": "Measure of Spread: Standard Deviation\n\n\nCan think of it as something like the “average distance” of each data point from the mean\n\n\nvdem2022 |&gt;\n  summarize(mean = mean(polyarchy),\n            stdDev = sd(polyarchy))\n\n       mean   stdDev\n1 0.4955978 0.262777"
+    "text": "Measure of Spread: Standard Deviation\n\n\nCan think of it as something like the “average distance” of each data point from the mean\n\n\nvdem2019 |&gt;\n  summarize(mean = mean(polyarchy),\n            stdDev = sd(polyarchy))\n\n       mean    stdDev\n1 0.5175698 0.2552938"
   },
   {
     "objectID": "slides/week-3.1.html#standard-deviation",
@@ -1917,14 +1917,14 @@
     "href": "slides/week-3.1.html#calculating-statistics-by-groups-1",
     "title": "Continuous Distributions",
     "section": "Calculating Statistics by Groups",
-    "text": "Calculating Statistics by Groups\n\nLet’s calculate the mean and median of electoral democracy in each world region\nFor this, we add the group_by() to our previous code\n\n\nvdem2022 |&gt;\n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.398      0.377\n2 Asia              0.425      0.404\n3 Eastern Europe    0.534      0.566\n4 Latin America     0.606      0.692\n5 Middle East       0.229      0.206\n6 The West          0.854      0.853"
+    "text": "Calculating Statistics by Groups\n\nLet’s calculate the mean and median of electoral democracy in each world region\nFor this, we add the group_by() to our previous code\n\n\nvdem2019 |&gt;\n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.425      0.395\n2 Asia              0.455      0.429\n3 Eastern Europe    0.550      0.595\n4 Latin America     0.622      0.651\n5 Middle East       0.257      0.257\n6 The West          0.866      0.868"
   },
   {
     "objectID": "slides/week-3.1.html#calculating-statistics-by-groups-2",
     "href": "slides/week-3.1.html#calculating-statistics-by-groups-2",
     "title": "Continuous Distributions",
     "section": "Calculating Statistics by Groups",
-    "text": "Calculating Statistics by Groups\n\nLet’s store our statistics as a new data object, democracy_region\n\n\ndemocracy_region &lt;- vdem2022 |&gt; \n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\ndemocracy_region\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.398      0.377\n2 Asia              0.425      0.404\n3 Eastern Europe    0.534      0.566\n4 Latin America     0.606      0.692\n5 Middle East       0.229      0.206\n6 The West          0.854      0.853"
+    "text": "Calculating Statistics by Groups\n\nLet’s store our statistics as a new data object, democracy_region\n\n\ndemocracy_region &lt;- vdem2019 |&gt; \n  group_by(region) |&gt;\n  summarize(mean_dem = mean(polyarchy),\n            median_dem = median(polyarchy))\n\ndemocracy_region\n\n# A tibble: 6 × 3\n  region         mean_dem median_dem\n  &lt;chr&gt;             &lt;dbl&gt;      &lt;dbl&gt;\n1 Africa            0.425      0.395\n2 Asia              0.455      0.429\n3 Eastern Europe    0.550      0.595\n4 Latin America     0.622      0.651\n5 Middle East       0.257      0.257\n6 The West          0.866      0.868"
   },
   {
     "objectID": "slides/week-3.1.html#visualize-using-our-bar-chart-skills",
@@ -1938,7 +1938,7 @@
     "href": "slides/week-3.1.html#numerical-variable-by-group",
     "title": "Continuous Distributions",
     "section": "Numerical Variable by Group",
-    "text": "Numerical Variable by Group\nHow should we interpret this plot?\n\n\nCode\nlibrary(ggridges)\n#library(forcats)\n  ggplot(vdem2022, aes(x = polyarchy, y = region, fill = region)) +\n    geom_density_ridges() +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Region\",\n    title = \"A Ridge Plot\",\n    caption = \"Source: V-Dem Institute\",\n  ) +\n  scale_fill_viridis_d() +\n  theme_minimal()"
+    "text": "Numerical Variable by Group\nHow should we interpret this plot?\n\n\nCode\nlibrary(ggridges)\n#library(forcats)\n  ggplot(vdem2019, aes(x = polyarchy, y = region, fill = region)) +\n    geom_density_ridges() +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Region\",\n    title = \"A Ridge Plot\",\n    caption = \"Source: V-Dem Institute\",\n  ) +\n  scale_fill_viridis_d() +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-3.1.html#your-turn-4",
@@ -6156,6 +6156,6 @@
     "href": "slides/week-3.1.html#density-plots-1",
     "title": "Continuous Distributions",
     "section": "Density Plots",
-    "text": "Density Plots\n\n\nCode\nggplot(vdem2022, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Density\",\n    title = \"Distribution of Electoral Democracy in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
+    "text": "Density Plots\n\n\nCode\nggplot(vdem2019, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Density\",\n    title = \"Distribution of Electoral Democracy in 2019\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
   }
 ]
