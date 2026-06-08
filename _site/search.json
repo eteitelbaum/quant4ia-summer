@@ -636,21 +636,35 @@
     "href": "slides/week-4.2.html#section-3",
     "title": "Hypothesis Testing 2",
     "section": "",
-    "text": "First, let’s make the CIs for the white applicants.\n\n\nlibrary(tidymodels)\nboot_df_white &lt;- myDat |&gt;\n  filter(race == \"white\") |&gt; \n  specify(response = received_callback) |&gt;  \n  generate(reps = 15000, type = \"bootstrap\") |&gt; \n  calculate(stat = \"mean\")\nlower_bound_white &lt;- boot_df_white |&gt; summarize(lower_bound_white = quantile(stat, 0.025)) |&gt; pull() \nupper_bound_white &lt;- boot_df_white |&gt; summarize(upper_bound_white = quantile(stat, 0.975)) |&gt; pull()"
+    "text": "First, let’s make the CIs for the white applicants.\n\n\nlibrary(tidymodels)\nboot_df_white &lt;- myDat |&gt;\n  filter(race == \"white\") |&gt;\n  specify(response = received_callback) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\")\nci_white &lt;- boot_df_white |&gt; get_ci(level = 0.95)\nci_white\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1   0.0850    0.108"
   },
   {
     "objectID": "slides/week-4.2.html#section-4",
     "href": "slides/week-4.2.html#section-4",
     "title": "Hypothesis Testing 2",
     "section": "",
-    "text": "Now, let’s create the CIs for black applicants.\n\n\nboot_df_black &lt;- myDat |&gt;\n  filter(race == \"black\") |&gt; \n  specify(response = received_callback) |&gt;  \n  generate(reps = 15000, type = \"bootstrap\") |&gt; \n  calculate(stat = \"mean\")\nlower_bound_black &lt;- boot_df_black |&gt; summarize(lower_bound_black = quantile(stat, 0.025)) |&gt; pull() \nupper_bound_black &lt;- boot_df_black |&gt; summarize(upper_bound_black = quantile(stat, 0.975)) |&gt; pull()"
+    "text": "Visualize the bootstrap distribution and CI for white applicants.\n\n\n\nCode\nboot_df_white |&gt;\n  visualize() +\n  shade_ci(ci_white, color = \"red\", fill = \"red\") +\n  labs(\n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "slides/week-4.2.html#section-5",
     "href": "slides/week-4.2.html#section-5",
     "title": "Hypothesis Testing 2",
     "section": "",
-    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(lower_bound_black, lower_bound_white),\n  upper95 = c(upper_bound_black, upper_bound_white)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0743\n2 White    0.0965  0.0850  0.108"
+    "text": "Now, let’s create the CIs for black applicants.\n\n\nboot_df_black &lt;- myDat |&gt;\n  filter(race == \"black\") |&gt;\n  specify(response = received_callback) |&gt;\n  generate(reps = 15000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"mean\")\nci_black &lt;- boot_df_black |&gt; get_ci(level = 0.95)\nci_black\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1   0.0550   0.0743"
+  },
+  {
+    "objectID": "slides/week-4.2.html#section-6",
+    "href": "slides/week-4.2.html#section-6",
+    "title": "Hypothesis Testing 2",
+    "section": "",
+    "text": "Visualize the bootstrap distribution and CI for black applicants.\n\n\n\nCode\nboot_df_black |&gt;\n  visualize() +\n  shade_ci(ci_black, color = \"red\", fill = \"red\") +\n  labs(\n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-4.2.html#section-7",
+    "href": "slides/week-4.2.html#section-7",
+    "title": "Hypothesis Testing 2",
+    "section": "",
+    "text": "Now, let’s tidy the data for plotting.\n\n\nplotData &lt;- tibble(\n  race = c(\"Black\", \"White\"),\n  meanCalls = c(mean_black, mean_white),\n  lower95 = c(ci_black$lower_ci, ci_white$lower_ci),\n  upper95 = c(ci_black$upper_ci, ci_white$upper_ci)\n)\nplotData\n\n# A tibble: 2 × 4\n  race  meanCalls lower95 upper95\n  &lt;chr&gt;     &lt;dbl&gt;   &lt;dbl&gt;   &lt;dbl&gt;\n1 Black    0.0645  0.0550  0.0743\n2 White    0.0965  0.0850  0.108"
   },
   {
     "objectID": "slides/week-4.2.html#plot",
@@ -734,14 +748,14 @@
     "href": "slides/week-4.2.html#get-the-p-value",
     "title": "Hypothesis Testing 2",
     "section": "Get the p-value",
-    "text": "Get the p-value\n\nLet’s get the p-value with get_pvalue from the infer package.\n\n\nget_p_value(null_dist, obs_stat = teffect, direction = \"greater\")\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1       0"
+    "text": "Get the p-value\n\nLet’s get the p-value with get_p_value from the infer package.\n\n\nnull_dist |&gt;\n  get_p_value(obs_stat = teffect, direction = \"greater\")\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1       0"
   },
   {
     "objectID": "slides/week-4.2.html#visualize-the-null-distribution",
     "href": "slides/week-4.2.html#visualize-the-null-distribution",
     "title": "Hypothesis Testing 2",
     "section": "Visualize the Null Distribution",
-    "text": "Visualize the Null Distribution\n\n\nvisualize(null_dist) +\n  shade_p_value(obs_stat = teffect, direction = \"greater\") +\n  labs(\n    x = \"Estimated Difference under the Null\",\n    y = \"Count\"\n  ) + \n  theme_bw()"
+    "text": "Visualize the Null Distribution\n\n\n\nCode\nnull_dist |&gt;\n  visualize() +\n  shade_p_value(obs_stat = teffect, direction = \"greater\") +\n  labs(\n    x = \"Estimated Difference under the Null\",\n    y = \"Count\"\n  ) +\n  theme_bw()"
   },
   {
     "objectID": "slides/week-4.2.html#what-should-we-conclude",
@@ -769,7 +783,7 @@
     "href": "slides/week-4.1.html#todays-code",
     "title": "Hypothesis Testing 1",
     "section": "Today’s Code",
-    "text": "Today’s Code\nhttps://www.dropbox.com/scl/fo/k6q8n5lbwbff6j0h5vvs1/AK9Ibhnd8t3rxV5FneYf8AU?rlkey=zo2rejko587tfvoq8tterd44r&dl=0"
+    "text": "Today’s Code\nOpen the Week 4 project in the course space on Posit Cloud"
   },
   {
     "objectID": "slides/week-4.1.html#section",
@@ -930,28 +944,14 @@
     "href": "slides/week-4.1.html#calculate-the-p-value",
     "title": "Hypothesis Testing 1",
     "section": "Calculate the p-value",
-    "text": "Calculate the p-value\n p-value–in what % of the simulations was the simulated sample proportion at least as extreme as the observed sample proportion?\n\nnull_dist |&gt;\n  # select out the value in the null distribution that are less that 0.25\n  filter(stat &lt;= (15/60)) |&gt;\n  # calculate the proportion - (number less divided by all values in null_dist)\n  summarise(p_value = n()/nrow(null_dist))\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1   0.238"
+    "text": "Calculate the p-value\n\np-value–in what % of the simulations was the simulated sample proportion at least as extreme as the observed sample proportion?\n\np_value &lt;- null_dist |&gt;\n  get_p_value(obs_stat = 15/60, direction = \"less\")\n\np_value\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1   0.238"
   },
   {
-    "objectID": "slides/week-4.1.html#visualizing-the-p-value",
-    "href": "slides/week-4.1.html#visualizing-the-p-value",
+    "objectID": "slides/week-4.1.html#visualize-the-p-value",
+    "href": "slides/week-4.1.html#visualize-the-p-value",
     "title": "Hypothesis Testing 1",
-    "section": "Visualizing the p-value",
-    "text": "Visualizing the p-value"
-  },
-  {
-    "objectID": "slides/week-4.1.html#p-value-using-infer",
-    "href": "slides/week-4.1.html#p-value-using-infer",
-    "title": "Hypothesis Testing 1",
-    "section": "p-value using infer",
-    "text": "p-value using infer\n\n\nlibrary(infer)\n\n# calculate the p-value from null distribution\np_value &lt;- null_dist |&gt;\n  get_p_value(obs_stat = 15/60, direction = \"less\")\n\np_value\n\n# A tibble: 1 × 1\n  p_value\n    &lt;dbl&gt;\n1   0.238"
-  },
-  {
-    "objectID": "slides/week-4.1.html#visualing-the-p-value-using-infer",
-    "href": "slides/week-4.1.html#visualing-the-p-value-using-infer",
-    "title": "Hypothesis Testing 1",
-    "section": "Visualing the p-value using infer",
-    "text": "Visualing the p-value using infer\n\n\nvisualize(null_dist) +\n  shade_p_value(obs_stat = 15/60, direction = \"less\")"
+    "section": "Visualize the p-value",
+    "text": "Visualize the p-value\n\n\n\nCode\nnull_dist |&gt;\n  visualize() +\n  shade_p_value(obs_stat = 15/60, direction = \"less\")"
   },
   {
     "objectID": "slides/week-4.1.html#significance-level",
@@ -1108,6 +1108,13 @@
     "text": "Some Common Arithmetic Operators\n\n\n+ addition\n- subtraction\n* multiplication\n/ division\n^ exponentiation (also **)"
   },
   {
+    "objectID": "slides/week-2.1.html#chaining-steps-with",
+    "href": "slides/week-2.1.html#chaining-steps-with",
+    "title": "Wrangling Data",
+    "section": "Chaining Steps with |>",
+    "text": "Chaining Steps with |&gt;\n\nWe often need to do more than one thing to the same dataset\nThe pipe operator |&gt; lets us chain those steps together\nRead it from top to bottom: take the result from one step and pass it to the next\nThis makes code easier to read because each line does one job\n\n\n\nNext example: filter rows, select columns, then create or recode variables"
+  },
+  {
     "objectID": "slides/week-2.1.html#vdemdata-example",
     "href": "slides/week-2.1.html#vdemdata-example",
     "title": "Wrangling Data",
@@ -1143,18 +1150,109 @@
     "text": "Save It!\n\n\nwrite_csv(democracy, \"democracy.csv\")"
   },
   {
-    "objectID": "slides/week-2.1.html#visualize-it",
-    "href": "slides/week-2.1.html#visualize-it",
-    "title": "Working with V-Dem Data",
-    "section": "Visualize It!",
-    "text": "Visualize It!\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy in 2015\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n    ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
+    "objectID": "slides/week-2.1.html#your-turn",
+    "href": "slides/week-2.1.html#your-turn",
+    "title": "Wrangling Data",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\n\nKeep only observations from 2010\nSelect country_name, year, and v2x_polyarchy\nRename them to country, year, and polyarchy\nUse mutate() to create polyarchy_triple and polyarchy_sq\nRun glimpse() to check your work"
   },
   {
-    "objectID": "slides/week-2.1.html#visualize-it-1",
-    "href": "slides/week-2.1.html#visualize-it-1",
-    "title": "Working with V-Dem Data",
-    "section": "Visualize It!",
-    "text": "Visualize It!"
+    "objectID": "slides/week-2.1.html#from-wrangling-to-visualization",
+    "href": "slides/week-2.1.html#from-wrangling-to-visualization",
+    "title": "Wrangling Data",
+    "section": "From Wrangling to Visualization",
+    "text": "From Wrangling to Visualization\n\n\nfilter(), select(), and mutate() helped us build the dataset we want\nNow we pass that cleaned dataset to ggplot2\nSame grammar of graphics idea as before: data + aesthetics + geom + labels\nFor a scatter plot, we usually map one variable to the x-axis and one to the y-axis"
+  },
+  {
+    "objectID": "slides/week-2.1.html#build-the-scatter-plot",
+    "href": "slides/week-2.1.html#build-the-scatter-plot",
+    "title": "Wrangling Data",
+    "section": "Build the Scatter Plot",
+    "text": "Build the Scatter Plot\n\n\nStart with the data and the aesthetics\nPut gdp_pc on the x-axis\nPut polyarchy on the y-axis\nThis sets up the plot before we add any points\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy))"
+  },
+  {
+    "objectID": "slides/week-2.1.html#build-the-scatter-plot-1",
+    "href": "slides/week-2.1.html#build-the-scatter-plot-1",
+    "title": "Wrangling Data",
+    "section": "Build the Scatter Plot",
+    "text": "Build the Scatter Plot\nThis gives us the axes and plotting space:"
+  },
+  {
+    "objectID": "slides/week-2.1.html#add-the-points",
+    "href": "slides/week-2.1.html#add-the-points",
+    "title": "Wrangling Data",
+    "section": "Add the Points",
+    "text": "Add the Points\n\n\nA scatter plot uses geom_point()\nWe can also map region to color to add one more dimension\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region))"
+  },
+  {
+    "objectID": "slides/week-2.1.html#add-the-points-1",
+    "href": "slides/week-2.1.html#add-the-points-1",
+    "title": "Wrangling Data",
+    "section": "Add the Points",
+    "text": "Add the Points"
+  },
+  {
+    "objectID": "slides/week-2.1.html#add-a-trend-line",
+    "href": "slides/week-2.1.html#add-a-trend-line",
+    "title": "Wrangling Data",
+    "section": "Add a Trend Line",
+    "text": "Add a Trend Line\n\n\nThen we can improve readability step by step\nAdd a trend line with geom_smooth()\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1)"
+  },
+  {
+    "objectID": "slides/week-2.1.html#add-a-trend-line-1",
+    "href": "slides/week-2.1.html#add-a-trend-line-1",
+    "title": "Wrangling Data",
+    "section": "Add a Trend Line",
+    "text": "Add a Trend Line"
+  },
+  {
+    "objectID": "slides/week-2.1.html#stretch-the-x-axis",
+    "href": "slides/week-2.1.html#stretch-the-x-axis",
+    "title": "Wrangling Data",
+    "section": "Stretch the X-Axis",
+    "text": "Stretch the X-Axis\n\n\nGDP values are very spread out\nA log scale makes the x-axis easier to read\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\"))"
+  },
+  {
+    "objectID": "slides/week-2.1.html#stretch-the-x-axis-1",
+    "href": "slides/week-2.1.html#stretch-the-x-axis-1",
+    "title": "Wrangling Data",
+    "section": "Stretch the X-Axis",
+    "text": "Stretch the X-Axis"
+  },
+  {
+    "objectID": "slides/week-2.1.html#add-labels",
+    "href": "slides/week-2.1.html#add-labels",
+    "title": "Wrangling Data",
+    "section": "Add Labels",
+    "text": "Add Labels\n\n\nThen give the plot clearer axis labels, a title, and a legend label\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x = \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy in 2015\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n  )"
+  },
+  {
+    "objectID": "slides/week-2.1.html#add-labels-1",
+    "href": "slides/week-2.1.html#add-labels-1",
+    "title": "Wrangling Data",
+    "section": "Add Labels",
+    "text": "Add Labels"
+  },
+  {
+    "objectID": "slides/week-2.1.html#improve-the-color-palette",
+    "href": "slides/week-2.1.html#improve-the-color-palette",
+    "title": "Wrangling Data",
+    "section": "Improve the Color Palette",
+    "text": "Improve the Color Palette\n\n\nNow swap in a more readable color palette\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x = \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy in 2015\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n  ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
+  },
+  {
+    "objectID": "slides/week-2.1.html#improve-the-color-palette-1",
+    "href": "slides/week-2.1.html#improve-the-color-palette-1",
+    "title": "Wrangling Data",
+    "section": "Improve the Color Palette",
+    "text": "Improve the Color Palette"
+  },
+  {
+    "objectID": "slides/week-2.1.html#finished-scatter-plot",
+    "href": "slides/week-2.1.html#finished-scatter-plot",
+    "title": "Wrangling Data",
+    "section": "Finished Scatter Plot",
+    "text": "Finished Scatter Plot"
   },
   {
     "objectID": "slides/week-2.1.html#try-it-yourself",
@@ -1444,46 +1542,25 @@
     "text": "Your Turn!\n\n\nUsing model2 or model3 from earlier in the session, run augment() to identify influential points\nWhich countries are flagged? Do they make substantive sense?\nRemove the influential observations and re-fit the model\nHow much do the coefficients change? What does that tell you about the robustness of your results?"
   },
   {
-    "objectID": "slides/week-3.1.html#todays-classwork",
-    "href": "slides/week-3.1.html#todays-classwork",
+    "objectID": "slides/week-3.1.html#what-is-a-continuous-variable",
+    "href": "slides/week-3.1.html#what-is-a-continuous-variable",
     "title": "Continuous Distributions",
-    "section": "Today’s Classwork",
-    "text": "Today’s Classwork\n\nDownload classwork folder for today’s class from here"
+    "section": "What is a Continuous Variable?",
+    "text": "What is a Continuous Variable?\n\n\nA continuous variable can take any value within a range\nExamples: V-Dem Polyarchy (0–1), GDP per capita, income, temperature\nContrast with discrete (whole-number counts) and categorical (named groups)\nNeed tools to describe the distribution of the variable"
   },
   {
-    "objectID": "slides/week-3.1.html#section",
-    "href": "slides/week-3.1.html#section",
+    "objectID": "slides/week-3.1.html#describing-a-distribution",
+    "href": "slides/week-3.1.html#describing-a-distribution",
     "title": "Continuous Distributions",
-    "section": "",
-    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the mean.\n\nvdem2019 |&gt;\n  summarize(mean_democracy = mean(polyarchy))\n\n  mean_democracy\n1      0.5175698\n\n\nThe mean is the average of the values. Common measure of central tendency but sensitive to outliers."
+    "section": "Describing a Distribution",
+    "text": "Describing a Distribution\n\nWe characterize distributions along three dimensions:\n\nCenter — where values tend to cluster: mean, median\nShape — the overall pattern: symmetric, skewed, bimodal\nSpread — how much values vary: range, IQR, standard deviation\n\n\nAlways visualize your data — summary statistics alone can hide the full story!"
   },
   {
-    "objectID": "slides/week-3.1.html#section-1",
-    "href": "slides/week-3.1.html#section-1",
+    "objectID": "slides/week-3.1.html#high-level-v-dem-measures",
+    "href": "slides/week-3.1.html#high-level-v-dem-measures",
     "title": "Continuous Distributions",
-    "section": "",
-    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the median.\n\nvdem2019 |&gt;\n  summarize(median_democracy = median(polyarchy))\n\n  median_democracy\n1            0.524\n\n\nThe median is the value that separates the higher half from the lower half of the data."
-  },
-  {
-    "objectID": "slides/week-3.1.html#variable-types",
-    "href": "slides/week-3.1.html#variable-types",
-    "title": "Categorical Data",
-    "section": "Variable Types",
-    "text": "Variable Types\n\nCategorical\n\nBinary - two categories\nNominal - multiple unordered categories\nOrdinal - multiple ordered categories\n\nNumerical\n\nContinuous - fractional values (measurement data)\nDiscrete - non-negative whole numbers (count data)"
-  },
-  {
-    "objectID": "slides/week-3.1.html#section-2",
-    "href": "slides/week-3.1.html#section-2",
-    "title": "Continuous Distributions",
-    "section": "",
-    "text": "We can also describe the shape of the distribution…\n\nsymmetric (e.g. normal)\nright-skewed\nleft-skewed\nunimodal (one peak)\nbimodal (multiple peaks)"
-  },
-  {
-    "objectID": "slides/week-3.1.html#v-dem-regimes-of-the-world-measure",
-    "href": "slides/week-3.1.html#v-dem-regimes-of-the-world-measure",
-    "title": "Categorical Data",
-    "section": "V-Dem Regimes of the World Measure",
-    "text": "V-Dem Regimes of the World Measure\n\n\nClosed Autocracy\nElectoral Autocracy\nElectoral Democracy\nLiberal Democracy"
+    "section": "High-Level V-Dem Measures",
+    "text": "High-Level V-Dem Measures\n\n\nElectoral Democracy (Polyarchy)\nLiberal Democracy\nEgalitarian Democracy\nParticipatory Democracy\nDeliberative Democracy\n\nAll continuous measures, ranging from 0 to 1. Let’s take a look at how to summarize data like this!"
   },
   {
     "objectID": "slides/week-3.1.html#data-setup",
@@ -1500,149 +1577,23 @@
     "text": "Examine the Data\n\n\nglimpse(vdem2019)\n\nRows: 179\nColumns: 5\n$ country   &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"Sou…\n$ year      &lt;dbl&gt; 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, 2019, …\n$ polyarchy &lt;dbl&gt; 0.684, 0.741, 0.899, 0.902, 0.718, 0.727, 0.830, 0.421, 0.25…\n$ gdppc     &lt;dbl&gt; 34.308, 24.668, 106.746, 109.451, 10.820, 24.104, 88.837, 13…\n$ region    &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"A…"
   },
   {
-    "objectID": "slides/week-3.1.html#section-3",
-    "href": "slides/week-3.1.html#section-3",
-    "title": "Categorical Data",
-    "section": "",
-    "text": "Let’s count the number of regimes by type…\n\n\nvdem2022 |&gt;\n  count(regime)\n\n               regime  n\n1    Closed Autocracy 33\n2 Electoral Autocracy 55\n3 Electoral Democracy 54\n4   Liberal Democracy 37"
-  },
-  {
-    "objectID": "slides/week-3.1.html#section-4",
-    "href": "slides/week-3.1.html#section-4",
-    "title": "Categorical Data",
-    "section": "",
-    "text": "Now let’s visualize the distribution of regimes with a bar plot…"
-  },
-  {
-    "objectID": "slides/week-3.1.html#section-5",
-    "href": "slides/week-3.1.html#section-5",
-    "title": "Categorical Data",
-    "section": "",
-    "text": "Now let’s visualize the distribution of regimes with a bar plot…\n\n\nvdem2022 |&gt;\n  ggplot(aes(x = regime)) +\n  geom_bar(fill = \"steelblue\") +\n  labs(\n    x = \"Regime\",\n    y = \"Frequency\",\n    title = \"Regimes of the World in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "slides/week-3.1.html#section-6",
-    "href": "slides/week-3.1.html#section-6",
-    "title": "Categorical Data",
-    "section": "",
-    "text": "Now let’s visualize the distribution of regimes with a bar plot…\n\n\nvdem2022 |&gt;\n  ggplot(aes(x = regime)) +\n  geom_bar(fill = \"steelblue\") +\n  labs(\n    x = \"Regime\",\n    y = \"Frequency\",\n    title = \"Regimes of the World in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "slides/week-3.1.html#more-about-geom_bar",
-    "href": "slides/week-3.1.html#more-about-geom_bar",
-    "title": "Categorical Data",
-    "section": "More about geom_bar()",
-    "text": "More about geom_bar()\n\n\ngeom_bar() is different from geom_col()\nUsed to create bar plots where the height of the bar represents counts or frequencies of categorical variable\nBy default, geom_bar() counts the number of occurrences of each category or group and plots it as the height of the bar\nLike geom_histogram(), geom_bar() only requires the x aesthetic (y is automatically calcualted for you)"
-  },
-  {
-    "objectID": "slides/week-3.1.html#your-turn",
-    "href": "slides/week-3.1.html#your-turn",
+    "objectID": "slides/week-3.1.html#section",
+    "href": "slides/week-3.1.html#section",
     "title": "Continuous Distributions",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\nLook at the V-Dem codebook\nSelect a different high-level measure of democracy\nPreprocess your data to include tha measure in your data frame\nCalculate the mean and median and store as a variable\nVisualize the distribution of the measure\nInclude a vertical line for the mean\nNow try the median"
-  },
-  {
-    "objectID": "slides/week-3.1.html#how-do-regimes-vary-by-region",
-    "href": "slides/week-3.1.html#how-do-regimes-vary-by-region",
-    "title": "Categorical Data",
-    "section": "How do Regimes Vary by Region?",
-    "text": "How do Regimes Vary by Region?"
-  },
-  {
-    "objectID": "slides/week-3.1.html#how-do-regimes-vary-by-region-1",
-    "href": "slides/week-3.1.html#how-do-regimes-vary-by-region-1",
-    "title": "Categorical Data",
-    "section": "How do Regimes Vary by Region?",
-    "text": "How do Regimes Vary by Region?\n\n\nvdem2022 |&gt;\n  ggplot(aes(x = region, fill = regime)) +\n      geom_bar() +\n  theme_minimal() +\n  labs(\n    x = \"Region\",\n    y = \"Frequency\",\n    title = \"Regimes of the World by World Region in 2022\",\n    caption = \"Source: V-Dem Institute\",\n    fill = \"Regime\"\n  ) +\n  scale_fill_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-3.1.html#how-do-regimes-vary-by-region-2",
-    "href": "slides/week-3.1.html#how-do-regimes-vary-by-region-2",
-    "title": "Categorical Data",
-    "section": "How do Regimes Vary by Region?",
-    "text": "How do Regimes Vary by Region?\n\n\nvdem2022 |&gt;\n  ggplot(aes(x = region, fill = regime)) +\n      geom_bar() +\n  theme_minimal() +\n  labs(\n    x = \"Region\",\n    y = \"Frequency\",\n    title = \"Regimes of the World by World Region in 2022\",\n    caption = \"Source: V-Dem Institute\",\n    fill = \"Regime\"\n  ) +\n  scale_fill_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-3.1.html#what-did-we-just-do",
-    "href": "slides/week-3.1.html#what-did-we-just-do",
-    "title": "Categorical Data",
-    "section": "What Did We Just Do?",
-    "text": "What Did We Just Do?\n\n\nWe used geom_bar() to visualize the distribution of regimes by region\nEssentially, we used two categorical variables to create a bar plot\nRegime type is…\n\n…an ordered categorical variable\n\nRegion is…\n\n…a nominal categorical variable"
-  },
-  {
-    "objectID": "slides/week-3.1.html#section-7",
-    "href": "slides/week-3.1.html#section-7",
-    "title": "Categorical Data",
     "section": "",
-    "text": "Some regions have more countries than others. Why does this create an issue for telling a story with our data here?"
+    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the mean.\n\nvdem2019 |&gt;\n  summarize(mean_democracy = mean(polyarchy))\n\n  mean_democracy\n1      0.5175698\n\n\nThe mean is the average of the values. Common measure of central tendency but sensitive to outliers."
   },
   {
-    "objectID": "slides/week-3.1.html#show-proportions-instead",
-    "href": "slides/week-3.1.html#show-proportions-instead",
-    "title": "Categorical Data",
-    "section": "Show Proportions Instead",
-    "text": "Show Proportions Instead"
-  },
-  {
-    "objectID": "slides/week-3.1.html#section-8",
-    "href": "slides/week-3.1.html#section-8",
-    "title": "Categorical Data",
-    "section": "",
-    "text": "We use position = \"fill\" to normalize the data and make the plot more interpretable…\n\n\nvdem2022 |&gt;\n  ggplot(aes(x = region, fill = regime)) +\n      geom_bar(position = \"fill\") +\n  theme_minimal() +\n  labs(\n    x = \"Region\",\n    y = \"Proportion\",\n    title = \"Regimes of the World by World Region in 2022\",\n    caption = \"Source: V-Dem Institute\",\n    fill = \"Regime\"\n  ) +\n  scale_fill_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-3.1.html#your-turn-1",
-    "href": "slides/week-3.1.html#your-turn-1",
+    "objectID": "slides/week-3.1.html#section-1",
+    "href": "slides/week-3.1.html#section-1",
     "title": "Continuous Distributions",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nCalculate measures of spread for the polyarchy variable in the V-Dem data (mean, median, IQR, standard deviation)\nHow would you interpret these measures?\nTry a box plot for the polyarchy variable\nTry another variable in the V-Dem data\nHow does it compare to polyarchy?"
-  },
-  {
-    "objectID": "slides/week-3.1.html#electoral-democracy-measure",
-    "href": "slides/week-3.1.html#electoral-democracy-measure",
-    "title": "Categorical Data",
-    "section": "Electoral Democracy Measure",
-    "text": "Electoral Democracy Measure\n\n\nTo what extent is the ideal of electoral democracy in its fullest sense achieved?\nMeasure runs from 0 (lowest) to 1 (highest)\n0.5 is a cutoff for distinguishing electoral democracy from electoral autocracy\n\n\nThe electoral principle of democracy seeks to embody the core value of making rulers responsive to citizens, achieved through electoral competition for the electorate’s approval under circumstances when suffrage is extensive; political and civil society organizations can operate freely; elections are clean and not marred by fraud or systematic irregularities; and elections affect the composition of the chief executive of the country. In between elections, there is freedom of expression and an independent media capable of presenting alternative views on matters of political relevance. – V-Dem Codebook"
-  },
-  {
-    "objectID": "slides/week-3.1.html#other-high-level-v-dem-measures",
-    "href": "slides/week-3.1.html#other-high-level-v-dem-measures",
-    "title": "Categorical Data",
-    "section": "Other High-Level V-Dem Measures",
-    "text": "Other High-Level V-Dem Measures\n\n\nLiberal Democracy\nEgalitarian Democracy\nParticipatory Democracy\nDeliberative Democracy\n\nAll continuous measures, ranging from 0 to 1. Let’s take a look at how to summarize data like this!"
-  },
-  {
-    "objectID": "slides/week-3.1.html#data-setup-1",
-    "href": "slides/week-3.1.html#data-setup-1",
-    "title": "Categorical Data",
-    "section": "Data Setup",
-    "text": "Data Setup\n\n\n# Load packages \nlibrary(vdemdata)\nlibrary(tidyverse)\n\n# Create dataset for year 2022, with country name, year, and electoral dem\nvdem2022 &lt;- vdem |&gt;\n  filter(year == 2022)  |&gt;\n  select(\n    country = country_name, \n    year, \n    polyarchy = v2x_polyarchy, \n    region = e_regionpol_6C \n    ) |&gt;\n  mutate(region = case_match(region, \n                        1 ~ \"Eastern Europe\", \n                        2 ~ \"Latin America\",  \n                        3 ~ \"Middle East\",   \n                        4 ~ \"Africa\", \n                        5 ~ \"The West\", \n                        6 ~ \"Asia\"))"
-  },
-  {
-    "objectID": "slides/week-3.1.html#examine-the-data-1",
-    "href": "slides/week-3.1.html#examine-the-data-1",
-    "title": "Categorical Data",
-    "section": "Examine the Data",
-    "text": "Examine the Data\n\n\nglimpse(vdem2022)\n\nRows: 179\nColumns: 4\n$ country   &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"Sou…\n$ year      &lt;dbl&gt; 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, 2022, …\n$ polyarchy &lt;dbl&gt; 0.584, 0.781, 0.892, 0.893, 0.663, 0.718, 0.823, 0.087, 0.20…\n$ region    &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"A…"
-  },
-  {
-    "objectID": "slides/week-3.1.html#section-9",
-    "href": "slides/week-3.1.html#section-9",
-    "title": "Categorical Data",
     "section": "",
-    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the mean.\n\nvdem2022 |&gt;\n  summarize(mean_democracy = mean(polyarchy))\n\n  mean_democracy\n1      0.4955978\n\n\nThe mean is the average of the values. Common measure of central tendency but sensitive to outliers."
+    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the median.\n\nvdem2019 |&gt;\n  summarize(median_democracy = median(polyarchy))\n\n  median_democracy\n1            0.524\n\n\nThe median is the value that separates the higher half from the lower half of the data."
   },
   {
-    "objectID": "slides/week-3.1.html#section-10",
-    "href": "slides/week-3.1.html#section-10",
-    "title": "Categorical Data",
-    "section": "",
-    "text": "How can we summarize measures of democracy? 🤔\n\nWe could calculate the median.\n\nvdem2022 |&gt;\n  summarize(median_democracy = median(polyarchy))\n\n  median_democracy\n1            0.504\n\n\nThe median is the value that separates the higher half from the lower half of the data."
-  },
-  {
-    "objectID": "slides/week-3.1.html#section-11",
-    "href": "slides/week-3.1.html#section-11",
-    "title": "Categorical Data",
+    "objectID": "slides/week-3.1.html#section-2",
+    "href": "slides/week-3.1.html#section-2",
+    "title": "Continuous Distributions",
     "section": "",
     "text": "We can also describe the shape of the distribution…\n\nsymmetric (e.g. normal)\nright-skewed\nleft-skewed\nunimodal (one peak)\nbimodal (multiple peaks)"
   },
@@ -1687,20 +1638,6 @@
     "title": "Continuous Distributions",
     "section": "Bimodal Distribution",
     "text": "Bimodal Distribution"
-  },
-  {
-    "objectID": "slides/week-3.1.html#density-plots",
-    "href": "slides/week-3.1.html#density-plots",
-    "title": "Continuous Distributions",
-    "section": "Density Plots",
-    "text": "Density Plots\n\n\nA density plot is a smoothed version of the histogram\nUseful for showing the shape of the distribution without choosing bin sizes\nUse geom_density() in ggplot2"
-  },
-  {
-    "objectID": "slides/week-3.1.html#histogram-vs.-density-plot",
-    "href": "slides/week-3.1.html#histogram-vs.-density-plot",
-    "title": "Continuous Distributions",
-    "section": "Histogram vs. Density Plot",
-    "text": "Histogram vs. Density Plot\n\n\nCode\nlibrary(patchwork)\n\np1 &lt;- ggplot(vdem2019, aes(x = polyarchy)) +\n  geom_histogram(fill = \"steelblue\", bins = 30) +\n  labs(x = \"Electoral Democracy\", y = \"Count\", title = \"Histogram\") +\n  theme_minimal()\n\np2 &lt;- ggplot(vdem2019, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(x = \"Electoral Democracy\", y = \"Density\", title = \"Density Plot\") +\n  theme_minimal()\n\np1 + p2"
   },
   {
     "objectID": "slides/week-3.1.html#when-is-the-mean-useful",
@@ -1759,11 +1696,32 @@
     "text": "Visualize Our Measure\n\n\nmn &lt;- mean(vdem2019$polyarchy)\nmed &lt;- median(vdem2019$polyarchy)\n\nggplot(vdem2019, aes(x = polyarchy )) +\n  geom_histogram(binwidth = .05, fill = \"steelblue\") +\n   labs(\n    x = \"Electoral Democracy\",\n    y = \"Frequency\",\n    title = \"Distribution of Electoral Democracy in 2019\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  geom_vline(xintercept = mn, linewidth = 1, color = \"darkorange\") +\n  theme_minimal()"
   },
   {
-    "objectID": "slides/week-3.1.html#your-turn-2",
-    "href": "slides/week-3.1.html#your-turn-2",
+    "objectID": "slides/week-3.1.html#density-plots",
+    "href": "slides/week-3.1.html#density-plots",
+    "title": "Continuous Distributions",
+    "section": "Density Plots",
+    "text": "Density Plots\n\n\nA density plot is a smoothed version of the histogram\nUseful for showing the shape of the distribution without choosing bin sizes\nUse geom_density() in ggplot2"
+  },
+  {
+    "objectID": "slides/week-3.1.html#density-plots-1",
+    "href": "slides/week-3.1.html#density-plots-1",
+    "title": "Continuous Distributions",
+    "section": "Density Plots",
+    "text": "Density Plots\n\n\nCode\nggplot(vdem2019, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Density\",\n    title = \"Distribution of Electoral Democracy in 2019\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-3.1.html#histogram-vs.-density-plot",
+    "href": "slides/week-3.1.html#histogram-vs.-density-plot",
+    "title": "Continuous Distributions",
+    "section": "Histogram vs. Density Plot",
+    "text": "Histogram vs. Density Plot\n\n\nCode\nlibrary(patchwork)\n\np1 &lt;- ggplot(vdem2019, aes(x = polyarchy)) +\n  geom_histogram(fill = \"steelblue\", bins = 30) +\n  labs(x = \"Electoral Democracy\", y = \"Count\", title = \"Histogram\") +\n  theme_minimal()\n\np2 &lt;- ggplot(vdem2019, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(x = \"Electoral Democracy\", y = \"Density\", title = \"Density Plot\") +\n  theme_minimal()\n\np1 + p2"
+  },
+  {
+    "objectID": "slides/week-3.1.html#your-turn",
+    "href": "slides/week-3.1.html#your-turn",
     "title": "Continuous Distributions",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nMake a bar chart summarizing polyarchy or some other V-Dem variable\nNow try your hand at a ridge plot"
+    "text": "Your Turn!\n\nLook at the V-Dem codebook\nSelect a different high-level measure of democracy\nPreprocess your data to include tha measure in your data frame\nCalculate the mean and median and store as a variable\nVisualize the distribution of the measure\nInclude a vertical line for the mean\nNow try the median"
   },
   {
     "objectID": "slides/week-3.1.html#recap",
@@ -1899,9 +1857,9 @@
     "text": "Standard Deviation Simple Example\n\n\nstandard_dev &lt;- sqrt(variance)\nstandard_dev\n\n[1] 3.316625\n\nsd(x)\n\n[1] 3.316625"
   },
   {
-    "objectID": "slides/week-3.1.html#your-turn-3",
-    "href": "slides/week-3.1.html#your-turn-3",
-    "title": "Categorical Data",
+    "objectID": "slides/week-3.1.html#your-turn-1",
+    "href": "slides/week-3.1.html#your-turn-1",
+    "title": "Continuous Distributions",
     "section": "Your Turn!",
     "text": "Your Turn!\n\n\nCalculate measures of spread for the polyarchy variable in the V-Dem data (mean, median, IQR, standard deviation)\nHow would you interpret these measures?\nTry a box plot for the polyarchy variable\nTry another variable in the V-Dem data\nHow does it compare to polyarchy?"
   },
@@ -1941,9 +1899,9 @@
     "text": "Numerical Variable by Group\nHow should we interpret this plot?\n\n\nCode\nlibrary(ggridges)\n#library(forcats)\n  ggplot(vdem2019, aes(x = polyarchy, y = region, fill = region)) +\n    geom_density_ridges() +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Region\",\n    title = \"A Ridge Plot\",\n    caption = \"Source: V-Dem Institute\",\n  ) +\n  scale_fill_viridis_d() +\n  theme_minimal()"
   },
   {
-    "objectID": "slides/week-3.1.html#your-turn-4",
-    "href": "slides/week-3.1.html#your-turn-4",
-    "title": "Categorical Data",
+    "objectID": "slides/week-3.1.html#your-turn-2",
+    "href": "slides/week-3.1.html#your-turn-2",
+    "title": "Continuous Distributions",
     "section": "Your Turn!",
     "text": "Your Turn!\n\n\nMake a bar chart summarizing polyarchy or some other V-Dem variable\nNow try your hand at a ridge plot"
   },
@@ -1969,11 +1927,11 @@
     "text": "Activity\n\n\nUse the virtual bag sampler on the next slide\nClick Open a New Bag three or four times — each click is one sample from the M&M population\nRecord your proportion estimates (the app tracks them for you)\nAdd your estimates to the class Google Sheet — we will analyze the class data together"
   },
   {
-    "objectID": "slides/week-3.2.html#activity-1",
-    "href": "slides/week-3.2.html#activity-1",
+    "objectID": "slides/week-3.2.html#virtual-mm-bag-sampler",
+    "href": "slides/week-3.2.html#virtual-mm-bag-sampler",
     "title": "Sampling and Uncertainty",
-    "section": "Activity",
-    "text": "Activity\n\nDo the same as above for the rest of your bags (you should have 4-5 estimates written down)\nDraw a histogram of your estimates (by hand)\nAdd your estimates to this Google Sheet\nAdd your estimates to the class histogram on the whiteboard"
+    "section": "Virtual M&M Bag Sampler",
+    "text": "Virtual M&M Bag Sampler\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n#| viewerHeight: 540\n\nlibrary(shiny)\n\ntrue_prop_blue &lt;- 0.24\nmm_probs &lt;- c(blue = 0.24, orange = 0.20, green = 0.16,\n              yellow = 0.14, red = 0.13, brown = 0.13)\nbag_size &lt;- 56\n\nui &lt;- fluidPage(\n  fluidRow(\n    column(4,\n      wellPanel(\n        actionButton(\"open_bag\", \"Open a New Bag\",\n                     class = \"btn-primary btn-lg\",\n                     style = \"width:100%; margin-bottom:12px;\"),\n        conditionalPanel(\"input.open_bag &gt; 0\",\n          h4(\"Your Estimates\"),\n          tableOutput(\"estimates_table\"),\n          hr(),\n          strong(textOutput(\"running_mean\"))\n        )\n      )\n    ),\n    column(8,\n      plotOutput(\"bag_plot\", height = \"270px\"),\n      conditionalPanel(\"input.open_bag &gt; 1\",\n        plotOutput(\"hist_plot\", height = \"190px\")\n      )\n    )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n\n  estimates   &lt;- reactiveVal(numeric(0))\n  current_bag &lt;- reactiveVal(NULL)\n\n  observeEvent(input$open_bag, {\n    bag &lt;- sample(names(mm_probs), size = bag_size, replace = TRUE,\n                  prob = mm_probs)\n    current_bag(bag)\n    estimates(c(estimates(), mean(bag == \"blue\")))\n  })\n\n  output$bag_plot &lt;- renderPlot({\n    req(current_bag())\n    colors  &lt;- current_bag()\n    n       &lt;- length(colors)\n    ncols   &lt;- 8\n    nrows   &lt;- ceiling(n / ncols)\n    x &lt;- rep(1:ncols, length.out = n)\n    y &lt;- rep(nrows:1, each = ncols)[1:n]\n    prop_blue &lt;- mean(colors == \"blue\")\n\n    par(mar = c(1, 1, 3, 1))\n    plot(x, y,\n         xlim = c(0.5, ncols + 0.5), ylim = c(0.5, nrows + 0.5),\n         type = \"n\", axes = FALSE, xlab = \"\", ylab = \"\",\n         main = sprintf(\"Bag #%d  —  Proportion Blue: %.3f  (%d / %d)\",\n                        input$open_bag, prop_blue,\n                        sum(colors == \"blue\"), n))\n    for (i in seq_along(colors)) {\n      symbols(x[i], y[i], circles = 0.35,\n              fg = if (colors[i] == \"blue\") \"navy\" else \"gray60\",\n              bg = colors[i],\n              add = TRUE, inches = FALSE,\n              lwd = if (colors[i] == \"blue\") 2.5 else 1)\n    }\n  })\n\n  output$estimates_table &lt;- renderTable({\n    req(length(estimates()) &gt; 0)\n    e &lt;- estimates()\n    data.frame(Bag = paste0(\"#\", seq_along(e)),\n               `Prop. Blue` = round(e, 3), check.names = FALSE)\n  }, striped = TRUE, bordered = TRUE, spacing = \"s\")\n\n  output$running_mean &lt;- renderText({\n    e &lt;- estimates()\n    req(length(e) &gt; 0)\n    sprintf(\"Mean of %d bags: %.3f\", length(e), mean(e))\n  })\n\n  output$hist_plot &lt;- renderPlot({\n    req(length(estimates()) &gt; 1)\n    e &lt;- estimates()\n    par(mar = c(4, 4, 3, 1))\n    hist(e,\n         breaks = seq(0, 0.65, by = 0.05),\n         col = \"steelblue3\", border = \"white\",\n         xlim = c(0, 0.6),\n         xlab = \"Proportion Blue\", ylab = \"Count\",\n         main = \"Your sampling distribution so far\",\n         xaxt = \"n\")\n    axis(1, at = seq(0, 0.6, by = 0.1),\n         labels = paste0(seq(0, 60, by = 10), \"%\"))\n    abline(v = true_prop_blue, col = \"red\", lty = 2, lwd = 2)\n    text(true_prop_blue + 0.02, par(\"usr\")[4] * 0.85,\n         \"True: 24%\", col = \"red\", adj = 0, cex = 0.9)\n  })\n}\n\nshinyApp(ui, server)"
   },
   {
     "objectID": "slides/week-3.2.html#lets-analyze-the-data",
@@ -1997,11 +1955,11 @@
     "text": "Now Let’s Make a Histogram\n\n\nggplot(mnm_data, aes(x = proportion_blue)) +\n  geom_histogram(fill = \"steelblue\") +\n  labs(\n    title = \"Percentage of Blue M&Ms\",\n    x = \"Proportion Blue\",\n    y = \"Count\"\n  )"
   },
   {
-    "objectID": "slides/week-3.2.html#discuss-with-neighbor",
-    "href": "slides/week-3.2.html#discuss-with-neighbor",
+    "objectID": "slides/week-3.2.html#discussion",
+    "href": "slides/week-3.2.html#discussion",
     "title": "Sampling and Uncertainty",
-    "section": "Discuss with Neighbor",
-    "text": "Discuss with Neighbor\n\nWhat is the histogram/distribution showing?\nBased on the class histogram, what is your answer to the question of what proportion of all milk chocolate M&Ms are blue? Why do you give that answer?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured (ask Google or ChatGPT)"
+    "section": "Discussion",
+    "text": "Discussion\n\n\nWhat is the histogram/distribution showing?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured?\nWhat do you think would happen if we kept adding more samples to the distribution?"
   },
   {
     "objectID": "slides/week-3.2.html#what-did-we-just-do",
@@ -2186,39 +2144,25 @@
     "text": "Calculate the confidence interval. A 95% confidence interval is bounded by the middle 95% of the bootstrap distribution.\n\n\nboot_dist |&gt;\n  summarize(lower = quantile(stat, 0.025),\n            upper = quantile(stat, 0.975))\n\n# A tibble: 1 × 2\n  lower upper\n  &lt;dbl&gt; &lt;dbl&gt;\n1 0.119 0.182"
   },
   {
-    "objectID": "slides/week-3.2.html#section-11",
-    "href": "slides/week-3.2.html#section-11",
+    "objectID": "slides/week-3.2.html#confidence-interval-with-infer",
+    "href": "slides/week-3.2.html#confidence-interval-with-infer",
     "title": "Sampling and Uncertainty",
-    "section": "",
-    "text": "Create upper and lower bounds for visualization.\n\n\n# for using these values later\nlower_bound &lt;- boot_dist |&gt; summarize(lower_bound = quantile(stat, 0.025)) |&gt; pull() \nupper_bound &lt;- boot_dist |&gt; summarize(upper_bound = quantile(stat, 0.975)) |&gt; pull()"
+    "section": "Confidence Interval with infer",
+    "text": "Confidence Interval with infer\n\n\nci &lt;- boot_dist |&gt; get_ci(level = 0.95)\n\nci\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1    0.119    0.182"
   },
   {
-    "objectID": "slides/week-3.2.html#section-12",
-    "href": "slides/week-3.2.html#section-12",
+    "objectID": "slides/week-3.2.html#visualize-with-infer",
+    "href": "slides/week-3.2.html#visualize-with-infer",
     "title": "Sampling and Uncertainty",
-    "section": "",
-    "text": "Visualize with a histogram\n\n\nggplot(data = boot_dist, mapping = aes(x = stat)) +\n  geom_histogram(binwidth =.01, fill = \"steelblue4\") +\n  geom_vline(xintercept = c(lower_bound, upper_bound), color = \"darkgrey\", linewidth = 1, linetype = \"dashed\") +\n  labs(title = \"Bootstrap distribution of means\",\n       subtitle = \"and 95% confidence interval\",\n       x = \"Estimate\",\n       y = \"Frequency\") +\n  theme_bw()"
+    "section": "Visualize with infer",
+    "text": "Visualize with infer\n\n\nboot_dist |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs(\n    title = \"Bootstrap Distribution with 95% CI\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
   },
   {
-    "objectID": "slides/week-3.2.html#or-use-the-infer-package",
-    "href": "slides/week-3.2.html#or-use-the-infer-package",
+    "objectID": "slides/week-3.2.html#visualize-with-infer-1",
+    "href": "slides/week-3.2.html#visualize-with-infer-1",
     "title": "Sampling and Uncertainty",
-    "section": "Or use the infer package",
-    "text": "Or use the infer package\n\n\nci &lt;- boot_dist |&gt; get_ci(level = 0.95) \n\nci\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1    0.119    0.182"
-  },
-  {
-    "objectID": "slides/week-3.2.html#or-use-the-infer-package-1",
-    "href": "slides/week-3.2.html#or-use-the-infer-package-1",
-    "title": "Sampling and Uncertainty",
-    "section": "Or use the infer package",
-    "text": "Or use the infer package\n\n\nboot_dist |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs( \n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "slides/week-3.2.html#or-use-the-infer-package-2",
-    "href": "slides/week-3.2.html#or-use-the-infer-package-2",
-    "title": "Sampling and Uncertainty",
-    "section": "Or use the infer package",
-    "text": "Or use the infer package\n\n\nboot_dist |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs( \n    title = \"Distribution of the Means of the Bootstrap Samples\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
+    "section": "Visualize with infer",
+    "text": "Visualize with infer"
   },
   {
     "objectID": "slides/week-3.2.html#interpret-the-confidence-interval",
@@ -2232,14 +2176,14 @@
     "href": "slides/week-3.2.html#your-turn",
     "title": "Sampling and Uncertainty",
     "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nChange the reps argument in the generate() function to something way smaller, like 100. What happens to your estimates?\nTry progressively higher numbers. What happens to your estimates as the number of reps increases?"
+    "text": "Your Turn!\n\n\nChange the confidence level with get_ci() to .90. What happens to the width of the confidence interval?\nVisualize the new confidence interval\nHow would you interpret this CI?\nNow try changing the confidence level to .99. What happens to the width of the confidence interval and how would you interpret it?"
   },
   {
     "objectID": "slides/week-3.2.html#bias-vs-precision",
     "href": "slides/week-3.2.html#bias-vs-precision",
     "title": "Sampling and Uncertainty",
     "section": "Bias vs Precision",
-    "text": "Bias vs Precision\n\nA procedure is unbiased if it generates the “right” answer, on average\nPrecision refers to variability: procedures with less sampling variability will be more precise\n\nall else equal, a greater sample size will increase precision\n\nWhen we increase the sample size (number of reps), we increase precision\nAs a result our confidence interval will be narrower"
+    "text": "Bias vs Precision\n\nA procedure is unbiased if it generates the “right” answer, on average\nPrecision refers to variability: procedures with less sampling variability will be more precise\n\nall else equal, a greater sample size (n) will increase precision and produce narrower CIs\n\nIncreasing the number of bootstrap reps does not narrow the CI — it only makes the bootstrap distribution smoother and the CI estimate more stable\nTo get a genuinely narrower CI, you need more data, not more resamples"
   },
   {
     "objectID": "slides/week-3.2.html#why-did-we-do-these-simulations",
@@ -2790,11 +2734,11 @@
     ]
   },
   {
-    "objectID": "labs/lab-1/lab1.html#part-2-histogram-50-pts",
-    "href": "labs/lab-1/lab1.html#part-2-histogram-50-pts",
+    "objectID": "labs/lab-1/lab1.html#part-2-line-chart-50-pts",
+    "href": "labs/lab-1/lab1.html#part-2-line-chart-50-pts",
     "title": "Lab 1",
-    "section": "Part 2: Histogram (50 pts)",
-    "text": "Part 2: Histogram (50 pts)\n\nStep 1: Load and Explore the Full Dataset (10 pts)\nNow let’s work with the full Gapminder dataset for 2007:\n\ngapminder &lt;- read_csv(\"gapminder_2007.csv\")\n\nRows: 142 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (2): country, continent\ndbl (4): year, population, life_exp, gdp_cap\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n# Use glimpse() to explore this data\n\nDescribe these data? How many variables are there? How many countries are represented?\nYOUR ANSWER HERE\n\n\nStep 2: Create a Histogram (20 pts)\nUsing the histogram code from Lesson 2.1 as a template, create a histogram showing the distribution of life expectancy across all countries.\nRemember: histograms use geom_histogram() and only need an x variable in aes().\n\n# Write your histogram code here\n\n\n\nStep 3: Interpret Your Histogram (10 pts)\nWrite 2-3 sentences about what you see. Is life expectancy spread evenly across countries, or are there clusters? What range do most countries fall into?\nYOUR INTERPRETATION HERE\n\n\n\n\n\n\nRender as PDF and Submit Your Work (20 pts)\n\n\n\n\nReplace “YOUR NAME HERE” at the top with your actual name\nMake sure all your code chunks run without errors\nChange format: html to format: pdf in the YAML header\nClick “Render” to create your PDF\nSubmit the PDF to Blackboard",
+    "section": "Part 2: Line Chart (50 pts)",
+    "text": "Part 2: Line Chart (50 pts)\n\nStep 1: Load and Explore the Data (10 pts)\nLoad the full Gapminder dataset and use glimpse() to explore it.\n\ngapminder &lt;- read_csv(\"gapminder_full.csv\")\n\nRows: 1704 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (2): country, continent\ndbl (4): year, population, life_exp, gdp_cap\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n# Use glimpse() to explore the data\n\nQuestion: What variables are in this dataset? What years are covered? What does each row represent?\nYOUR ANSWER HERE\n\n\nStep 2: Filter the Data (10 pts)\nChoose three countries you’re interested in and filter the data to include only those countries. Replace the ___ placeholders with real country names — spelling must match exactly what you saw in glimpse().\n\ngapminder_ctrs &lt;- gapminder |&gt;\n  filter(country %in% c(\"___\", \"___\", \"___\"))\n\n\n\nStep 3: Create a Line Chart (20 pts)\nUsing the line chart code from Lesson 1.2 as a template, create a line chart showing how life expectancy (life_exp) has changed over time for your three countries. Use year on the x-axis and life_exp on the y-axis.\n\n# Write your line chart code here\n\n\n\nStep 4: Interpret Your Chart (10 pts)\nWrite 2-3 sentences describing what you see. How has life expectancy changed over time in your chosen countries? Are there differences across them?\nYOUR INTERPRETATION HERE\n\n\n\n\n\n\nRender as PDF and Submit Your Work (20 pts)\n\n\n\n\nReplace “YOUR NAME HERE” at the top with your actual name\nMake sure all your code chunks run without errors\nChange format: html to format: pdf in the YAML header\nClick “Render” to create your PDF\nSubmit the PDF to Blackboard",
     "crumbs": [
       "Labs",
       "Lab 1"
@@ -2922,44 +2866,33 @@
     ]
   },
   {
-    "objectID": "labs/lab-2/lab2.html#the-data",
-    "href": "labs/lab-2/lab2.html#the-data",
+    "objectID": "labs/lab-2/lab2.html#part-1-wrangle-democracy-data-30-points",
+    "href": "labs/lab-2/lab2.html#part-1-wrangle-democracy-data-30-points",
     "title": "Lab 2",
-    "section": "The Data",
-    "text": "The Data\nToday we’ll work with two data sources:\n\nThe vdem dataset from the vdemdata package, which contains hundreds of democracy indicators for countries over time\ndem_women.csv, which contains a subset of V-Dem data along with economic and women’s representation variables",
+    "section": "Part 1: Wrangle Democracy Data (30 points)",
+    "text": "Part 1: Wrangle Democracy Data (30 points)\nIn this part, you will build a clean dataset from V-Dem using filter(), select(), and mutate().\n\nStep 1: Create a Wrangled Dataset (20 pts)\nFilter the data to one year, select the variables you need, and recode the region variable into readable labels.\n\ndemocracy &lt;- vdem |&gt;\n  ???(year == ???) |&gt;\n  ???(\n    country = ???,\n    year,\n    polyarchy = ???,\n    libdem = ???,\n    gdp_pc = ???,\n    region = ???\n  ) |&gt;\n  ???(\n    region = case_match(region,\n      1 ~ \"Eastern Europe\",\n      2 ~ \"Latin America\",\n      3 ~ \"Middle East\",\n      4 ~ \"Africa\",\n      5 ~ \"The West\",\n      6 ~ \"Asia\")\n  )\n\n\n\nStep 2: Examine the Data (5 pts)\nRun glimpse() on your new data frame.\n\nglimpse(???)\n\n\n\nStep 3: Brief Response (5 pts)\nWrite 2-3 sentences answering these questions:\n\nWhat year did you choose?\nHow many rows and columns does your wrangled dataset have?\nWhy is it useful to recode region before plotting?\n\nYOUR RESPONSE HERE",
     "crumbs": [
       "Labs",
       "Lab 2"
     ]
   },
   {
-    "objectID": "labs/lab-2/lab2.html#part-1-line-chart-of-democracy-trends-30-points",
-    "href": "labs/lab-2/lab2.html#part-1-line-chart-of-democracy-trends-30-points",
+    "objectID": "labs/lab-2/lab2.html#part-2-summarize-and-visualize-by-region-35-points",
+    "href": "labs/lab-2/lab2.html#part-2-summarize-and-visualize-by-region-35-points",
     "title": "Lab 2",
-    "section": "Part 1: Line Chart of Democracy Trends (30 points)",
-    "text": "Part 1: Line Chart of Democracy Trends (30 points)\nFor this part, you will use the V-Dem dataset to visualize how democracy has changed over time in a few countries of your choosing.\n\nStep 1: Wrangle the Data (15 pts)\nFirst, you need to wrangle the vdem data to select only the variables and countries you want. Consult the V-Dem codebook to choose a high-level democracy indicator (such as v2x_polyarchy, v2x_libdem, v2x_partipdem, or another measure that interests you).\nFill in the blanks in the code below:\n\ndem_waves_ctrs &lt;- vdem |&gt;\n  select(                               # selects columns?\n    country = country_name,\n    year,\n    delibdem = v2x_delibdem             # choose a V-Dem variable and rename it\n  ) |&gt;\n  filter(\n    country %in% c(\"???\",             # select/filter countries to visualize\n                   \"???\",             # don't forget to put names in \"\"\n                   \"???\")\n    )\n\n\n\nStep 2: Create a Line Chart (10 pts)\nUsing the line chart code from Module 1.2 as a template, create a line chart showing how your chosen democracy indicator has changed over time in your selected countries. Make sure each country is represented by a different colored line.\nThink about what needs to go in the aes():\n\nWhat variable should go on the x-axis (time)?\nWhat variable should go on the y-axis (democracy measure)?\nWhat variable should determine the color of the lines?\n\n\n# Write your line chart code here\n\n\n\nStep 3: Interpret Your Chart (5 pts)\nWrite 2-3 sentences describing what you see. How have democracy levels changed over time in your selected countries? Are there any interesting patterns or divergences?\nYOUR INTERPRETATION HERE",
+    "section": "Part 2: Summarize and Visualize by Region (35 points)",
+    "text": "Part 2: Summarize and Visualize by Region (35 points)\nIn this part, you will practice group_by(), summarize(), arrange(), and geom_col().\n\nStep 1: Summarize the Data (15 pts)\nCreate a regional summary dataset. Use mean() for polyarchy and gdp_pc, and sort from highest to lowest polyarchy.\n\ndem_summary &lt;- democracy |&gt;\n  ???(region) |&gt;\n  ???(\n    polyarchy = ???(polyarchy, na.rm = TRUE),\n    gdp_pc = ???(gdp_pc, na.rm = TRUE)\n  ) |&gt;\n  ???(desc(polyarchy))\n\n\n\nStep 2: Print the Summary (5 pts)\nPrint your summarized data frame.\n\n???\n\n\n\nStep 3: Create a Column Chart (10 pts)\nCreate a column chart of average polyarchy by region. Reorder the bars from highest to lowest.\n\n# Write your code here\n\n\n\nStep 4: Brief Interpretation (5 pts)\nWrite 2-3 sentences describing what you see.\n\nWhich region has the highest average polyarchy score?\nWhich region has the lowest?\nDoes the ranking make sense to you?\n\nYOUR RESPONSE HERE",
     "crumbs": [
       "Labs",
       "Lab 2"
     ]
   },
   {
-    "objectID": "labs/lab-2/lab2.html#part-2-scatter-plot-of-wealth-and-democracy-35-points",
-    "href": "labs/lab-2/lab2.html#part-2-scatter-plot-of-wealth-and-democracy-35-points",
+    "objectID": "labs/lab-2/lab2.html#part-3-explore-categorical-regime-data-35-points",
+    "href": "labs/lab-2/lab2.html#part-3-explore-categorical-regime-data-35-points",
     "title": "Lab 2",
-    "section": "Part 2: Scatter Plot of Wealth and Democracy (35 points)",
-    "text": "Part 2: Scatter Plot of Wealth and Democracy (35 points)\nFor this part, you will explore the relationship between economic development (GDP per capita) and democracy (polyarchy) using the dem_women dataset.\n\nStep 1: Load and Wrangle the Data (15 pts)\nLoad the data and calculate average values for each country across all years. Fill in the blanks:\n\ndem_women &lt;- read_csv(\"dem_women.csv\")\n\ngdp_polyarchy_ctry &lt;- dem_women |&gt;\n  group_by(???, ???) |&gt;              # group by country, keep region\n  summarize(\n    polyarchy = ???(polyarchy, na.rm = TRUE), # summarize by mean (or median)\n    gdp_pc = ???(gdp_pc, na.rm = TRUE)        # summarize by mean (or median)\n  )\n\n\n\nStep 2: Create a Scatter Plot (15 pts)\nUsing the scatter plot code from Module 1.2 as a template, create a scatter plot with GDP per capita on the x-axis and polyarchy on the y-axis. Consider coloring the points by region to see if there are regional patterns.\n\n# Write your scatter plot code here\n\n\n\nStep 3: Interpret Your Scatter Plot (5 pts)\nWrite 2-3 sentences describing what you see. Is there a relationship between wealth and democracy? Do you notice any regional patterns?\nYOUR INTERPRETATION HERE",
-    "crumbs": [
-      "Labs",
-      "Lab 2"
-    ]
-  },
-  {
-    "objectID": "labs/lab-2/lab2.html#part-3-column-chart-of-womens-representation-35-points",
-    "href": "labs/lab-2/lab2.html#part-3-column-chart-of-womens-representation-35-points",
-    "title": "Lab 2",
-    "section": "Part 3: Column Chart of Women’s Representation (35 points)",
-    "text": "Part 3: Column Chart of Women’s Representation (35 points)\nFor this part, you will create a column chart showing average women’s representation in parliament by region.\n\nStep 1: Wrangle the Data (15 pts)\nSummarize the data to get average women’s representation by region. Fill in the blanks:\n\nwomen_rep_region &lt;- dem_women |&gt;\n  ???(???) |&gt;                                      # group by region\n  ???(\n    women_rep = ???(women_rep, na.rm = TRUE)       # summarize by mean (or median)\n  )\n\n\n\nStep 2: Create a Column Chart (15 pts)\nUsing the column chart code from Module 1.1 as a template, create a column chart showing women’s representation by region. For a cleaner visualization, try to arrange the columns in descending order by level of women’s representation.\nHint: To reorder the bars, you can use reorder(region, -women_rep) or fct_reorder(region, women_rep, .desc = TRUE) in your aes() for the x variable.\n\n# Write your column chart code here\n\n\n\nStep 3: Interpret Your Chart (5 pts)\nWrite 2-3 sentences describing what you see. Which region has the highest level of women’s representation in parliament? Which has the lowest? Are you surprised by any of the results?\nYOUR INTERPRETATION HERE\n\n\n\n\n\n\nSubmission (Completion)\n\n\n\n\nReplace “YOUR NAME HERE” at the top with your actual name\nMake sure all your code chunks run without errors\nClick “Render” to create your PDF\nSubmit the PDF to Blackboard",
+    "section": "Part 3: Explore Categorical Regime Data (35 points)",
+    "text": "Part 3: Explore Categorical Regime Data (35 points)\nIn this part, you will work with V-Dem’s v2x_regime variable and use count() and geom_bar().\n\nStep 1: Build a Regime Dataset (15 pts)\nFilter the data to 2022, select country, regime, and region, and recode both region and regime.\n\nvdem2022_regime &lt;- vdem |&gt;\n  ???(year == ???) |&gt;\n  ???(\n    country = ???,\n    regime = ???,\n    region = ???\n  ) |&gt;\n  ???(\n    region = case_match(region,\n      1 ~ \"Eastern Europe\",\n      2 ~ \"Latin America\",\n      3 ~ \"Middle East\",\n      4 ~ \"Africa\",\n      5 ~ \"The West\",\n      6 ~ \"Asia\"),\n    regime = case_match(regime,\n      0 ~ \"Closed Autocracy\",\n      1 ~ \"Electoral Autocracy\",\n      2 ~ \"Electoral Democracy\",\n      3 ~ \"Liberal Democracy\")\n  )\n\n\n\nStep 2: Count Regime Types (5 pts)\nCreate a frequency table of regime types.\n\nvdem2022_regime |&gt;\n  ???(regime)\n\n\n\nStep 3: Create a Bar Chart of Regime Types (5 pts)\nUse geom_bar() to plot the distribution of regime types.\n\n# Write your code here\n\n\n\nStep 4: Compare Regions with Proportions (5 pts)\nNow create a second bar chart comparing regime types across regions using position = \"fill\".\n\n# Write your code here\n\n\n\nStep 5: Brief Interpretation (5 pts)\nWrite 2-3 sentences describing what you see.\n\nWhich regime type is most common overall?\nWhich region appears to have the largest share of liberal democracies?\nWhy is position = \"fill\" useful here?\n\nYOUR RESPONSE HERE\n\n\n\n\n\n\nSubmission\n\n\n\n\nReplace “YOUR NAME HERE” at the top with your actual name\nMake sure all code chunks run without errors\nChange completed: false to completed: true\nRender to HTML to check your work\nChange format: html to format: pdf\nSubmit the PDF to Blackboard",
     "crumbs": [
       "Labs",
       "Lab 2"
@@ -3036,7 +2969,7 @@
     "href": "labs/lab-4/lab4.html#part-2-bootstrap-confidence-interval-45-points",
     "title": "Lab 4",
     "section": "Part 2: Bootstrap Confidence Interval (45 points)",
-    "text": "Part 2: Bootstrap Confidence Interval (45 points)\nEstimate a 95% bootstrap confidence interval for the payment-request rate.\n\nBootstrap distribution (20 pts)\nFill in the blanks:\n\nset.seed(66)\n\nboot_df &lt;- permit_office |&gt;\n  specify(response = ???, success = ???) |&gt;\n  generate(reps = 5000, type = ???) |&gt;\n  calculate(stat = ???)\n\nboot_df\n\n\n\nCI estimate and plot (15 pts)\nUse get_ci() and shade_ci() to estimate and visualize the 95% CI.\n\nci_95 &lt;- boot_df |&gt;\n  get_ci(level = 0.95)\n\nboot_df |&gt;\n  visualize() +\n  ??? +\n  labs(\n    title = \"Bootstrap Distribution of the Payment-Request Rate\",\n    x = \"Sample proportion asked for unofficial payment\",\n    y = \"Count\"\n  ) +\n  theme_minimal()\n\n\n\nCI interpretation (10 pts)\nWrite 2-3 sentences interpreting the 95% confidence interval in context.\nYOUR INTERPRETATION HERE",
+    "text": "Part 2: Bootstrap Confidence Interval (45 points)\nEstimate a 95% bootstrap confidence interval for the payment-request rate.\n\nBootstrap distribution (20 pts)\nFill in the blanks:\n\nset.seed(66)\n\nboot_df &lt;- permit_office |&gt;\n  specify(response = ???, success = ???) |&gt;\n  generate(reps = 5000, type = ???) |&gt;\n  calculate(stat = ???)\n\nboot_df\n\n\n\nCI estimate and plot (15 pts)\nUse get_ci() and shade_ci() to estimate and visualize the 95% CI.\n\nci_95 &lt;- boot_df |&gt;\n  get_ci(level = 0.95)\n\nboot_df |&gt;\n  visualize() +\n  ??? +\n  labs(\n    title = \"Bootstrap Distribution of the Payment-Request Rate\",\n    x = \"Sample proportion asked for unofficial payment\",\n    y = \"Count\"\n  ) +\n  theme_minimal()\n\n\n\nCI interpretation (10 pts)\nWrite 2-3 sentences interpreting the 95% confidence interval in context.\nYOUR INTERPRETATION HERE\n\n\nConfidence level comparison (10 pts)\nChange the confidence level in get_ci() to 0.90 and re-run the visualization.\n\nci_90 &lt;- boot_df |&gt;\n  get_ci(level = 0.90)\n\nboot_df |&gt;\n  visualize() +\n  shade_ci(ci_90, color = \"red\", fill = NULL) +\n  labs(\n    title = \"Bootstrap Distribution with 90% CI\",\n    x = \"Sample proportion asked for unofficial payment\",\n    y = \"Count\"\n  ) +\n  theme_minimal()\n\nQuestion: Is the 90% CI wider or narrower than the 95% CI? Explain in 1-2 sentences why that makes sense.",
     "crumbs": [
       "Labs",
       "Lab 4"
@@ -3047,7 +2980,7 @@
     "href": "labs/lab-4/lab4.html#part-3-single-proportion-hypothesis-test-50-points",
     "title": "Lab 4",
     "section": "Part 3: Single-Proportion Hypothesis Test (50 points)",
-    "text": "Part 3: Single-Proportion Hypothesis Test (50 points)\nSuppose the office’s historical payment-request rate is 20%, and the null hypothesis says the reform had no effect.\n\nHypotheses (10 pts)\nQuestion: Is the payment-request rate after the reform lower than 20%?\n\nNull hypothesis (\\(H_0\\)):\nAlternative hypothesis (\\(H_A\\)):\n\nYOUR ANSWERS HERE\n\n\nSimulate the null distribution (20 pts)\nFill in the blanks for a simulation under \\(H_0: p = 0.20\\).\n\nset.seed(71)\n\nnull_dist &lt;- permit_office |&gt;\n  specify(response = ???, success = ???) |&gt;\n  hypothesize(null = \"point\", p = c(\"asked_payment\" = ???, \"not_asked\" = ???)) |&gt;\n  generate(reps = 2000, type = ???) |&gt;\n  calculate(stat = ???)\n\nnull_dist\n\n\n\nNull distribution plot (5 pts)\nCreate a histogram of null_dist and add a vertical line at the observed sample proportion.\n\n# Write your plot code here\n\n\n\nOne-sided p-value (10 pts)\nBecause \\(H_A\\) is “lower than 0.20,” calculate the proportion of simulated values less than or equal to the observed sample proportion.\n\nnull_dist |&gt;\n  filter(stat &lt;= ???) |&gt;\n  summarize(p_value = ???)\n\n\n\nConclusion (5 pts)\nUsing \\(\\alpha = 0.05\\), state whether you reject or do not reject \\(H_0\\), then explain your conclusion in 2-3 sentences.\nYOUR CONCLUSION HERE\n\n\n\n\n\n\nSubmission (20 points)\n\n\n\n\nReplace “YOUR NAME HERE” with your name\nMake sure all code chunks run without errors\nRender to PDF\nSubmit the PDF to Blackboard",
+    "text": "Part 3: Single-Proportion Hypothesis Test (50 points)\nSuppose the office’s historical payment-request rate is 20%, and the null hypothesis says the reform had no effect.\n\nHypotheses (10 pts)\nQuestion: Is the payment-request rate after the reform lower than 20%?\n\nNull hypothesis (\\(H_0\\)):\nAlternative hypothesis (\\(H_A\\)):\n\nYOUR ANSWERS HERE\n\n\nSimulate the null distribution (20 pts)\nFill in the blanks for a simulation under \\(H_0: p = 0.20\\).\n\nset.seed(71)\n\nnull_dist &lt;- permit_office |&gt;\n  specify(response = ???, success = ???) |&gt;\n  hypothesize(null = \"point\", p = c(\"asked_payment\" = ???, \"not_asked\" = ???)) |&gt;\n  generate(reps = 2000, type = ???) |&gt;\n  calculate(stat = ???)\n\nnull_dist\n\n\n\nNull distribution plot (5 pts)\nVisualize the null distribution and shade the p-value region.\n\nnull_dist |&gt;\n  visualize() +\n  shade_p_value(obs_stat = ???, direction = ???)\n\n\n\nCalculate the p-value (10 pts)\nUse get_p_value() to calculate the p-value.\n\nnull_dist |&gt;\n  get_p_value(obs_stat = ???, direction = ???)\n\n\n\nConclusion (5 pts)\nUsing \\(\\alpha = 0.05\\), state whether you reject or do not reject \\(H_0\\), then explain your conclusion in 2-3 sentences.\nYOUR CONCLUSION HERE\n\n\n\n\n\n\nSubmission (20 points)\n\n\n\n\nReplace “YOUR NAME HERE” with your name\nMake sure all code chunks run without errors\nRender to PDF\nSubmit the PDF to Blackboard",
     "crumbs": [
       "Labs",
       "Lab 4"
@@ -3058,7 +2991,7 @@
     "href": "labs/lab-4/lab4.html#hints-short-version",
     "title": "Lab 4",
     "section": "Hints (Short Version)",
-    "text": "Hints (Short Version)\nObserved proportion\npermit_office |&gt;\n  summarize(p_hat = mean(outcome == \"asked_payment\"))\nBootstrap workflow\npermit_office |&gt;\n  specify(response = outcome, success = \"asked_payment\") |&gt;\n  generate(reps = 5000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"prop\")\nNull distribution workflow\npermit_office |&gt;\n  specify(response = outcome, success = \"asked_payment\") |&gt;\n  hypothesize(null = \"point\", p = c(\"asked_payment\" = 0.20, \"not_asked\" = 0.80)) |&gt;\n  generate(reps = 2000, type = \"draw\") |&gt;\n  calculate(stat = \"prop\")\nSimulation p-value\nnull_dist |&gt;\n  filter(stat &lt;= 0.12) |&gt;\n  summarize(p_value = n() / nrow(null_dist))",
+    "text": "Hints (Short Version)\nObserved proportion\npermit_office |&gt;\n  summarize(p_hat = mean(outcome == \"asked_payment\"))\nBootstrap workflow\npermit_office |&gt;\n  specify(response = outcome, success = \"asked_payment\") |&gt;\n  generate(reps = 5000, type = \"bootstrap\") |&gt;\n  calculate(stat = \"prop\")\nNull distribution workflow\npermit_office |&gt;\n  specify(response = outcome, success = \"asked_payment\") |&gt;\n  hypothesize(null = \"point\", p = c(\"asked_payment\" = 0.20, \"not_asked\" = 0.80)) |&gt;\n  generate(reps = 2000, type = \"draw\") |&gt;\n  calculate(stat = \"prop\")\nNull distribution visualization\nnull_dist |&gt;\n  visualize() +\n  shade_p_value(obs_stat = 0.12, direction = \"less\")\nSimulation p-value\nnull_dist |&gt;\n  get_p_value(obs_stat = 0.12, direction = \"less\")",
     "crumbs": [
       "Labs",
       "Lab 4"
@@ -3910,32 +3843,32 @@
     "text": "Your Turn!\n\nglimpse() the data\nFind a new variable to visualize\nMake a bar chart with it\nChange the color of the bars\nOrder the bars\nAdd labels\nAdd a theme\nTry saving your plot as an object\nThen change the labels and/or theme"
   },
   {
-    "objectID": "slides/week-1.2.html#purpose-of-histograms",
-    "href": "slides/week-1.2.html#purpose-of-histograms",
+    "objectID": "slides/week-1.2.html#link-to-classwork-folder",
+    "href": "slides/week-1.2.html#link-to-classwork-folder",
     "title": "Visualizing Data",
-    "section": "Purpose of Histograms",
-    "text": "Purpose of Histograms\n\nHistograms are used to visualize the distribution of a single variable\nThey are used for continuous variables (e.g., income, age, etc.)\nA continuous variable is one that can take on any value within a range (e.g., 0.5, 1.2, 3.7, etc.)\nA discrete variable is one that can only take on certain values (e.g., 1, 2, 3, etc.)\nx-axis represents value of variable of interest\ny-axis represents the frequency of that value"
+    "section": "Link to Classwork Folder",
+    "text": "Link to Classwork Folder\n\nDropbox"
   },
   {
-    "objectID": "slides/week-1.2.html#example-1",
-    "href": "slides/week-1.2.html#example-1",
+    "objectID": "slides/week-1.2.html#huntingtons-three-waves",
+    "href": "slides/week-1.2.html#huntingtons-three-waves",
     "title": "Visualizing Data",
-    "section": "Example",
-    "text": "Example"
+    "section": "Huntington’s Three Waves",
+    "text": "Huntington’s Three Waves"
   },
   {
-    "objectID": "slides/week-1.2.html#histogram-code",
-    "href": "slides/week-1.2.html#histogram-code",
+    "objectID": "slides/week-1.2.html#setup",
+    "href": "slides/week-1.2.html#setup",
     "title": "Visualizing Data",
-    "section": "Histogram Code",
-    "text": "Histogram Code\n\n\n# load data\ndem_women &lt;- read_csv(\"data/dem_women.csv\")\n\n# filter to 2022\ndem_women_2022 &lt;- dem_women |&gt;\n  filter(year == 2022)\n\n# create histogram\nggplot(dem_women_2022, aes(x = flfp)) +\n  geom_histogram(fill = \"steelblue\") +\n  labs(\n    x = \"Percentage of Working Aged Women in Labor Force\",\n    y = \"Number of Countries\",\n    title = \"Female labor force participation rates, 2022\",\n    caption = \"Source: World Bank\"\n    ) + theme_minimal()"
+    "section": "Setup",
+    "text": "Setup\n\nlibrary(vdemdata)\nlibrary(tidyverse)\n\ndem_waves_ctrs &lt;- vdem |&gt;\n  select(\n    country = country_name,     \n    year, \n    polyarchy = v2x_polyarchy, \n  ) |&gt;\n  filter( \n    country %in% c(\"United States of America\", # select countries in this list\n                   \"Japan\", \n                   \"Portugal\")\n    )\n\nwrite_csv(dem_waves_ctrs, \"data/dem_waves_ctrs.csv\")"
   },
   {
-    "objectID": "slides/week-1.2.html#change-number-of-bins",
-    "href": "slides/week-1.2.html#change-number-of-bins",
+    "objectID": "slides/week-1.2.html#line-chart",
+    "href": "slides/week-1.2.html#line-chart",
     "title": "Visualizing Data",
-    "section": "Change Number of Bins",
-    "text": "Change Number of Bins\n\nChange number of bins (bars) using bins or binwidth arguments (default number of bins = 30):\n\n\nggplot(dem_women_2022, aes(x = flfp)) +\n  geom_histogram(bins = 50, fill = \"steelblue\") +\n  labs(\n    x = \"Percentage of Working Aged Women in Labor Force\",\n    y = \"Number of Countries\",\n    title = \"Female labor force participation rates, 2022\",\n    caption = \"Source: World Bank\"\n    ) + theme_minimal()"
+    "section": "Line Chart",
+    "text": "Line Chart"
   },
   {
     "objectID": "slides/week-1.2.html#section-20",
@@ -3966,83 +3899,6 @@
     "text": "Modify the legend title…\n\n\n# in this ggplot() call, we add a third dimension for line color\nggplot(dem_waves_ctrs, aes(x = year, y = polyarchy, color = country)) +\n  geom_line(linewidth = 1) + # our geom is a line with a width of 1\n  labs(\n    x = \"Year\", \n    y = \"Polyarchy Score\", \n    title = 'Democracy in countries representing three different \"waves\"', \n    caption = \"Source: V-Dem Institute\", \n    color = \"Country\" # make title of legend to upper case\n  )"
   },
   {
-    "objectID": "slides/week-1.2.html#change-from-count-to-density",
-    "href": "slides/week-1.2.html#change-from-count-to-density",
-    "title": "Visualizing Data",
-    "section": "Change from Count to Density",
-    "text": "Change from Count to Density\n\n\nggplot(dem_women_2022, aes(after_stat(density), x = flfp)) +\n  geom_histogram(fill = \"steelblue\") +\n  labs(\n    x = \"Percentage of Working Aged Women in Labor Force\",\n    y = \"Density\",\n    title = \"Female labor force participation rates, 2022\",\n    caption = \"Source: World Bank\"\n    ) + theme_minimal()"
-  },
-  {
-    "objectID": "slides/week-1.2.html#section-24",
-    "href": "slides/week-1.2.html#section-24",
-    "title": "Visualizing Data",
-    "section": "",
-    "text": "Solution: Use a colorblind safe color scheme like viridis…"
-  },
-  {
-    "objectID": "slides/week-1.2.html#your-turn-1",
-    "href": "slides/week-1.2.html#your-turn-1",
-    "title": "Visualizing Data",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nSee table three of this article\nSelect three countries to visualize\nAdjust setup code to filter data on those countries\nVisualize with geom_line()\nUse scale_color_viridis_d() to specify a viridis color scheme"
-  },
-  {
-    "objectID": "slides/week-1.2.html#link-to-classwork-folder",
-    "href": "slides/week-1.2.html#link-to-classwork-folder",
-    "title": "Visualizing Data",
-    "section": "Link to Classwork Folder",
-    "text": "Link to Classwork Folder\n\nDropbox"
-  },
-  {
-    "objectID": "slides/week-1.2.html#huntingtons-three-waves",
-    "href": "slides/week-1.2.html#huntingtons-three-waves",
-    "title": "Visualizing Data",
-    "section": "Huntington’s Three Waves",
-    "text": "Huntington’s Three Waves"
-  },
-  {
-    "objectID": "slides/week-1.2.html#setup",
-    "href": "slides/week-1.2.html#setup",
-    "title": "Visualizing Data",
-    "section": "Setup",
-    "text": "Setup\n\nlibrary(vdemdata)\nlibrary(tidyverse)\n\ndem_waves_ctrs &lt;- vdem |&gt;\n  select(\n    country = country_name,     \n    year, \n    polyarchy = v2x_polyarchy, \n  ) |&gt;\n  filter( \n    country %in% c(\"United States of America\", # select countries in this list\n                   \"Japan\", \n                   \"Portugal\")\n    )\n\nwrite_csv(dem_waves_ctrs, \"data/dem_waves_ctrs.csv\")"
-  },
-  {
-    "objectID": "slides/week-1.2.html#line-chart",
-    "href": "slides/week-1.2.html#line-chart",
-    "title": "Visualizing Data",
-    "section": "Line Chart",
-    "text": "Line Chart"
-  },
-  {
-    "objectID": "slides/week-1.2.html#section-25",
-    "href": "slides/week-1.2.html#section-25",
-    "title": "Visualizing Data",
-    "section": "",
-    "text": "Use scale_color_viridis_d() in this case to specify the viridis color scheme…\n\n# in this ggplot() call, we add a third dimension for line color\nggplot(dem_waves_ctrs, aes(x = year, y = polyarchy, color = country)) +\n  geom_line(linewidth = 1) + # our geom is a line with a width of 1\n  labs(\n    x = \"Year\", \n    y = \"Polyarchy Score\", \n    title = 'Democracy in countries representing three different \"waves\"', \n    caption = \"Source: V-Dem Institute\", \n    color = \"Country\" # make title of legend to upper case\n  ) +\n  scale_color_viridis_d(option = \"mako\", end = .8) # use viridis color palette"
-  },
-  {
-    "objectID": "slides/week-1.2.html#section-26",
-    "href": "slides/week-1.2.html#section-26",
-    "title": "Visualizing Data",
-    "section": "",
-    "text": "Use geom_line() to specify a line chart…\n\n\n# in this ggplot() call, we add a third dimension for line color\nggplot(dem_waves_ctrs, aes(x = year, y = polyarchy, color = country)) +\n  geom_line(linewidth = 1) + # our geom is a line with a width of 1\n  labs(\n    x = \"Year\", \n    y = \"Polyarchy Score\", \n    title = 'Democracy in countries representing three different \"waves\"', \n    caption = \"Source: V-Dem Institute\", \n    color = \"Country\" # make title of legend to upper case\n  )"
-  },
-  {
-    "objectID": "slides/week-1.2.html#section-27",
-    "href": "slides/week-1.2.html#section-27",
-    "title": "Visualizing Data",
-    "section": "",
-    "text": "Add third dimension to the aes() call for line color…\n\n\n# in this ggplot() call, we add a third dimension for line color\nggplot(dem_waves_ctrs, aes(x = year, y = polyarchy, color = country)) +\n  geom_line(linewidth = 1) + # our geom is a line with a width of 1\n  labs(\n    x = \"Year\", \n    y = \"Polyarchy Score\", \n    title = 'Democracy in countries representing three different \"waves\"', \n    caption = \"Source: V-Dem Institute\", \n    color = \"Country\" # make title of legend to upper case\n  )"
-  },
-  {
-    "objectID": "slides/week-1.2.html#section-28",
-    "href": "slides/week-1.2.html#section-28",
-    "title": "Visualizing Data",
-    "section": "",
-    "text": "Modify the legend title…\n\n\n# in this ggplot() call, we add a third dimension for line color\nggplot(dem_waves_ctrs, aes(x = year, y = polyarchy, color = country)) +\n  geom_line(linewidth = 1) + # our geom is a line with a width of 1\n  labs(\n    x = \"Year\", \n    y = \"Polyarchy Score\", \n    title = 'Democracy in countries representing three different \"waves\"', \n    caption = \"Source: V-Dem Institute\", \n    color = \"Country\" # make title of legend to upper case\n  )"
-  },
-  {
     "objectID": "slides/week-1.2.html#problem",
     "href": "slides/week-1.2.html#problem",
     "title": "Visualizing Data",
@@ -4057,15 +3913,15 @@
     "text": "Color Blindness\n\n\nColor Vision Deficiency (CVD) or color blindness affects 8 percent of men and 1 in 200 women\nThere are different types of CVD but most common is red-green color blindness\nTherefore, don’t include red and green in the same chart!\nLook for color blind safe palettes"
   },
   {
-    "objectID": "slides/week-1.2.html#section-29",
-    "href": "slides/week-1.2.html#section-29",
+    "objectID": "slides/week-1.2.html#section-24",
+    "href": "slides/week-1.2.html#section-24",
     "title": "Visualizing Data",
     "section": "",
     "text": "Solution: Use a colorblind safe color scheme like viridis…"
   },
   {
-    "objectID": "slides/week-1.2.html#section-30",
-    "href": "slides/week-1.2.html#section-30",
+    "objectID": "slides/week-1.2.html#section-25",
+    "href": "slides/week-1.2.html#section-25",
     "title": "Visualizing Data",
     "section": "",
     "text": "Use scale_color_viridis_d() in this case to specify the viridis color scheme…\n\n# in this ggplot() call, we add a third dimension for line color\nggplot(dem_waves_ctrs, aes(x = year, y = polyarchy, color = country)) +\n  geom_line(linewidth = 1) + # our geom is a line with a width of 1\n  labs(\n    x = \"Year\", \n    y = \"Polyarchy Score\", \n    title = 'Democracy in countries representing three different \"waves\"', \n    caption = \"Source: V-Dem Institute\", \n    color = \"Country\" # make title of legend to upper case\n  ) +\n  scale_color_viridis_d(option = \"mako\", end = .8) # use viridis color palette"
@@ -4085,165 +3941,11 @@
     "text": "Palettes\n\n\nThere are a number of viridis palettes\nSee this reference to view different palettes and options\nYou can also use scale_color_viridis_c() to specify a continuous color scale\nAlso check out the paletteer package for easy access to many more palettes"
   },
   {
-    "objectID": "slides/week-1.2.html#your-turn-2",
-    "href": "slides/week-1.2.html#your-turn-2",
+    "objectID": "slides/week-1.2.html#your-turn-1",
+    "href": "slides/week-1.2.html#your-turn-1",
     "title": "Visualizing Data",
     "section": "Your Turn!",
     "text": "Your Turn!\n\n\nSee table three of this article\nSelect three countries to visualize\nAdjust setup code to filter data on those countries\nVisualize with geom_line()\nUse scale_color_viridis_d() to specify a viridis color scheme"
-  },
-  {
-    "objectID": "slides/week-1.2.html#scatter-plot-setup",
-    "href": "slides/week-1.2.html#scatter-plot-setup",
-    "title": "Visualizing Data",
-    "section": "Scatter Plot Setup",
-    "text": "Scatter Plot Setup\n\n\ndem_summary_ctry &lt;- read_csv(\"data/dem_women.csv\") |&gt;\n  group_by(country, region) |&gt; # group by country, keep region\n  summarize(\n    polyarchy = mean(polyarchy, na.rm = TRUE),\n    gdp_pc = mean(gdp_pc, na.rm = TRUE), \n    flfp = mean(flfp, na.rm = TRUE), \n    women_rep = mean(women_rep, na.rm = TRUE)\n  )"
-  },
-  {
-    "objectID": "slides/week-1.2.html#scatter-plot",
-    "href": "slides/week-1.2.html#scatter-plot",
-    "title": "Visualizing Data",
-    "section": "Scatter Plot",
-    "text": "Scatter Plot"
-  },
-  {
-    "objectID": "slides/week-1.2.html#scatter-plot-1",
-    "href": "slides/week-1.2.html#scatter-plot-1",
-    "title": "Visualizing Data",
-    "section": "Scatter Plot",
-    "text": "Scatter Plot\n\nUse geom_point()…\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy, color = region, size = women_rep)) +\n  geom_point() + # use geom_point() for scatter plots\n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\",\n    size = \"Women Reps\"\n    ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-1.2.html#scatter-plot-2",
-    "href": "slides/week-1.2.html#scatter-plot-2",
-    "title": "Visualizing Data",
-    "section": "Scatter Plot",
-    "text": "Scatter Plot\n\nFour dimensions…\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy, color = region, size = women_rep)) + \n  geom_point() + # use geom_point() for scatter plots\n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\",\n    size = \"Women Reps\"\n    ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-1.2.html#scatter-plot-3",
-    "href": "slides/week-1.2.html#scatter-plot-3",
-    "title": "Visualizing Data",
-    "section": "Scatter Plot",
-    "text": "Scatter Plot\n\nStretch axis on log scale and use scales package to adjust labels…\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy, color = region, size = women_rep)) + \n  geom_point() + # use geom_point() for scatter plots\n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\",\n    size = \"Women Reps\"\n    ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-1.2.html#scatter-plot-4",
-    "href": "slides/week-1.2.html#scatter-plot-4",
-    "title": "Visualizing Data",
-    "section": "Scatter Plot",
-    "text": "Scatter Plot\n\nChange legend titles…\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy, color = region, size = women_rep)) + \n  geom_point() + # use geom_point() for scatter plots\n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\",\n    size = \"Women Reps\"\n    ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-1.2.html#your-turn-3",
-    "href": "slides/week-1.2.html#your-turn-3",
-    "title": "Visualizing Data",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\nThere are four variables in dem_summary_ctry\nPick one related to women’s empowerment\nVisualize it on the y-axis with gdp_pc or polyarchy on the x-axis\nChange labels and legend titles to match your visualization\nInterpret your plot"
-  },
-  {
-    "objectID": "slides/week-1.2.html#add-a-trend-line",
-    "href": "slides/week-1.2.html#add-a-trend-line",
-    "title": "Visualizing Data",
-    "section": "Add a Trend Line",
-    "text": "Add a Trend Line"
-  },
-  {
-    "objectID": "slides/week-1.2.html#add-a-trend-line-1",
-    "href": "slides/week-1.2.html#add-a-trend-line-1",
-    "title": "Visualizing Data",
-    "section": "Add a Trend Line",
-    "text": "Add a Trend Line\n\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n    ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-1.2.html#add-a-trend-line-2",
-    "href": "slides/week-1.2.html#add-a-trend-line-2",
-    "title": "Visualizing Data",
-    "section": "Add a Trend Line",
-    "text": "Add a Trend Line\n\nTaking out size and adding color to geom_point() call…\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n    ) + \n  scale_color_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-1.2.html#add-a-trend-line-3",
-    "href": "slides/week-1.2.html#add-a-trend-line-3",
-    "title": "Visualizing Data",
-    "section": "Add a Trend Line",
-    "text": "Add a Trend Line\n\nChanging legend titles…\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n    ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-1.2.html#your-turn-4",
-    "href": "slides/week-1.2.html#your-turn-4",
-    "title": "Visualizing Data",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nAdd a trendline to your plot\nChange the labels accordingly\nTry using method = \"loess\" instead of a “lm”"
-  },
-  {
-    "objectID": "slides/week-1.2.html#facet-wrapping",
-    "href": "slides/week-1.2.html#facet-wrapping",
-    "title": "Visualizing Data",
-    "section": "Facet Wrapping",
-    "text": "Facet Wrapping"
-  },
-  {
-    "objectID": "slides/week-1.2.html#facet-wrapping-1",
-    "href": "slides/week-1.2.html#facet-wrapping-1",
-    "title": "Visualizing Data",
-    "section": "Facet Wrapping",
-    "text": "Facet Wrapping\n\nUse facet_wrap() with ~ before variable you want to wrap on…\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point() + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  facet_wrap(~ region) +\n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\"\n    )"
-  },
-  {
-    "objectID": "slides/week-1.2.html#facet-wrapping-2",
-    "href": "slides/week-1.2.html#facet-wrapping-2",
-    "title": "Visualizing Data",
-    "section": "Facet Wrapping",
-    "text": "Facet Wrapping\n\nWhat else changes? Back down to two dimensions…\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point() + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  facet_wrap(~ region) +\n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\"\n    )"
-  },
-  {
-    "objectID": "slides/week-1.2.html#facet-wrapping-3",
-    "href": "slides/week-1.2.html#facet-wrapping-3",
-    "title": "Visualizing Data",
-    "section": "Facet Wrapping",
-    "text": "Facet Wrapping\n\nDon’t forget to take the legend title out of the captions…\n\nggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point() + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  facet_wrap(~ region) +\n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\"\n    )"
-  },
-  {
-    "objectID": "slides/week-1.2.html#your-turn-5",
-    "href": "slides/week-1.2.html#your-turn-5",
-    "title": "Visualizing Data",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nFacet wrap your scatter plot\nUse scales = \"free\" in facet_wrap call to fix the West\n\nfacet_wrap(~ region, scales = \"free\")"
-  },
-  {
-    "objectID": "slides/week-1.2.html#labeling-points",
-    "href": "slides/week-1.2.html#labeling-points",
-    "title": "Visualizing Data",
-    "section": "Labeling Points",
-    "text": "Labeling Points"
-  },
-  {
-    "objectID": "slides/week-1.2.html#labeling-points-1",
-    "href": "slides/week-1.2.html#labeling-points-1",
-    "title": "Visualizing Data",
-    "section": "Labeling Points",
-    "text": "Labeling Points\n\nFilter for Asia, add labels with geom_text()…\n\ndem_summary_ctry |&gt; \n  filter(region == \"Asia\") |&gt;\n  ggplot(aes(x = gdp_pc, y = polyarchy)) + \n    geom_point() + \n    geom_text(aes(label = country), size = 2, vjust = 2) +\n    geom_smooth(method = \"lm\", linewidth = 1) +\n    scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n      labs(\n        x= \"GDP Per Capita\", \n        y = \"Polyarchy Score\",\n        title = \"Wealth and democracy in Asia, 1990 - present\", \n        caption = \"Source: V-Dem Institute\"\n        )"
-  },
-  {
-    "objectID": "slides/week-1.2.html#your-turn-6",
-    "href": "slides/week-1.2.html#your-turn-6",
-    "title": "Visualizing Data",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nFilter for Asia or another region\nUse geom_text() to add labels to your points\nPlay with size and vjust paramters"
-  },
-  {
-    "objectID": "slides/week-1.2.html#make-it-interactive",
-    "href": "slides/week-1.2.html#make-it-interactive",
-    "title": "Visualizing Data",
-    "section": "Make it Interactive",
-    "text": "Make it Interactive"
-  },
-  {
-    "objectID": "slides/week-1.2.html#section-31",
-    "href": "slides/week-1.2.html#section-31",
-    "title": "Visualizing Data",
-    "section": "",
-    "text": "Use plotly to make any plot interactive…\n\nlibrary(plotly)\n\nmodernization_plot &lt;- ggplot(dem_summary_ctry, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  aes(label = country) +\n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy, 1990 - present\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n    ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)\n\nggplotly(modernization_plot, tooltip = c(\"country\", \"gdp_pc\", \"polyarchy\"))"
   },
   {
     "objectID": "slides/week-5.1.html#modeling",
@@ -4701,11 +4403,18 @@
     "text": "Try it Yourself\n\nRun the code and a bar chart with the dem_summary data you wrangled, again grouping by region (instead of country)\nTry visualizing different variables, e.g. libdem, corruption, gdp_pc\nTry different summary statistics, e.g. mean, median, standard deviation, etc.\nTry grouping by country instead of region and visualizing that"
   },
   {
-    "objectID": "slides/week-2.2.html#messages-warnings-and-errors",
-    "href": "slides/week-2.2.html#messages-warnings-and-errors",
+    "objectID": "slides/week-2.2.html#thinking-about-data",
+    "href": "slides/week-2.2.html#thinking-about-data",
     "title": "Summarizing Data",
-    "section": "Messages, Warnings and Errors",
-    "text": "Messages, Warnings and Errors\n\n\nMessages tell you what R is doing\nWarnings tell you that something might be wrong\nErrors tell you that something is definitely wrong\n\nLocate the error line number in the console and check your code\nError line tells you about where the error occurred, not exact\nErrors are normal, don’t freak out!\nIn fact, you should practice making errors to learn how to fix them"
+    "section": "Thinking About Data",
+    "text": "Thinking About Data\n\nWhat are some ways we can classify data? 😎 💭\n\n\ncategorical vs. numerical\ndiscrete vs. continuous\ncross-sectional vs. panel\nnominal vs. ordinal"
+  },
+  {
+    "objectID": "slides/week-2.2.html#variable-types",
+    "href": "slides/week-2.2.html#variable-types",
+    "title": "Summarizing Data",
+    "section": "Variable Types",
+    "text": "Variable Types\n\n\nCategorical\n\nBinary: two categories\nNominal: multiple unordered categories\nOrdinal: multiple ordered categories\n\nNumerical\n\nContinuous: fractional values\nDiscrete: whole-number counts"
   },
   {
     "objectID": "slides/week-2.2.html#section-4",
@@ -4715,11 +4424,137 @@
     "text": "What types of variables are these? 🤔\n\nIs a country a democracy? (yes/no)\nPolity score (-10 to 10)\nV-Dem Polyarchy (0 to 1)\nV-Dem Regimes of the World\nNumber of protest events\nProtest type (sit-in, march, strike, etc.)"
   },
   {
-    "objectID": "slides/week-2.2.html#could-you-reproduce-it",
-    "href": "slides/week-2.2.html#could-you-reproduce-it",
+    "objectID": "slides/week-2.2.html#categorical-data",
+    "href": "slides/week-2.2.html#categorical-data",
     "title": "Summarizing Data",
-    "section": "Could You Reproduce It?",
-    "text": "Could You Reproduce It?\n\n\nHave a look at my “Democracy Around the World” Shiny app\nCan you reproduce the visualizations in the app using the V-Dem data?\nWhat are the steps you would take to do so?"
+    "section": "Categorical Data",
+    "text": "Categorical Data\n\n\nNow let’s focus on categorical data\nThese variables place observations into groups\nToday we will use V-Dem’s v2x_regime variable\nIt classifies each country into a regime type"
+  },
+  {
+    "objectID": "slides/week-2.2.html#v-dem-regimes-of-the-world",
+    "href": "slides/week-2.2.html#v-dem-regimes-of-the-world",
+    "title": "Summarizing Data",
+    "section": "V-Dem Regimes of the World",
+    "text": "V-Dem Regimes of the World\n\n\nClosed Autocracy\nElectoral Autocracy\nElectoral Democracy\nLiberal Democracy"
+  },
+  {
+    "objectID": "slides/week-2.2.html#data-setup",
+    "href": "slides/week-2.2.html#data-setup",
+    "title": "Summarizing Data",
+    "section": "Data Setup",
+    "text": "Data Setup\n\nlibrary(tidyverse)\nlibrary(vdemdata)\n\nvdem2022_regime &lt;- vdem |&gt;\n  filter(year == 2022) |&gt;\n  select(\n    country = country_name,\n    regime = v2x_regime,\n    region = e_regionpol_6C\n  ) |&gt;\n  mutate(\n    region = case_match(region,\n      1 ~ \"Eastern Europe\",\n      2 ~ \"Latin America\",\n      3 ~ \"Middle East\",\n      4 ~ \"Africa\",\n      5 ~ \"The West\",\n      6 ~ \"Asia\"),\n    regime = case_match(regime,\n      0 ~ \"Closed Autocracy\",\n      1 ~ \"Electoral Autocracy\",\n      2 ~ \"Electoral Democracy\",\n      3 ~ \"Liberal Democracy\")\n  )"
+  },
+  {
+    "objectID": "slides/week-2.2.html#examine-the-data",
+    "href": "slides/week-2.2.html#examine-the-data",
+    "title": "Summarizing Data",
+    "section": "Examine the Data",
+    "text": "Examine the Data\n\n\nglimpse(vdem2022_regime)\n\nRows: 179\nColumns: 3\n$ country &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"South…\n$ regime  &lt;chr&gt; \"Electoral Democracy\", \"Electoral Democracy\", \"Liberal Democra…\n$ region  &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"Afr…"
+  },
+  {
+    "objectID": "slides/week-2.2.html#section-5",
+    "href": "slides/week-2.2.html#section-5",
+    "title": "Summarizing Data",
+    "section": "",
+    "text": "Let’s count the number of regimes by type…\n\n\nvdem2022_regime |&gt;\n  count(regime)\n\n               regime  n\n1    Closed Autocracy 33\n2 Electoral Autocracy 55\n3 Electoral Democracy 54\n4   Liberal Democracy 37"
+  },
+  {
+    "objectID": "slides/week-2.2.html#distribution-of-regime-types",
+    "href": "slides/week-2.2.html#distribution-of-regime-types",
+    "title": "Summarizing Data",
+    "section": "Distribution of Regime Types",
+    "text": "Distribution of Regime Types"
+  },
+  {
+    "objectID": "slides/week-2.2.html#distribution-of-regime-types-1",
+    "href": "slides/week-2.2.html#distribution-of-regime-types-1",
+    "title": "Summarizing Data",
+    "section": "Distribution of Regime Types",
+    "text": "Distribution of Regime Types\n\n\nvdem2022_regime |&gt;\n  ggplot(aes(x = regime)) +\n  geom_bar(fill = \"steelblue\") +\n  labs(\n    x = \"Regime Type\",\n    y = \"Frequency\",\n    title = \"Regimes of the World in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "slides/week-2.2.html#more-about-geom_bar",
+    "href": "slides/week-2.2.html#more-about-geom_bar",
+    "title": "Summarizing Data",
+    "section": "More about geom_bar()",
+    "text": "More about geom_bar()\n\n\ngeom_bar() is different from geom_col()\ngeom_bar() counts observations automatically\nYou only need to specify the x aesthetic\ngeom_col() is for pre-computed values like the regional means we graphed earlier"
+  },
+  {
+    "objectID": "slides/week-2.2.html#your-turn",
+    "href": "slides/week-2.2.html#your-turn",
+    "title": "Summarizing Data",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\nChange the year and re-run the setup\nVisualize the distribution of regime types with geom_bar()\nUpdate the plot title to match your year\nWhat is different about your year relative to 2022?"
+  },
+  {
+    "objectID": "slides/week-2.2.html#regime-variation-by-region",
+    "href": "slides/week-2.2.html#regime-variation-by-region",
+    "title": "Summarizing Data",
+    "section": "Regime Variation by Region",
+    "text": "Regime Variation by Region"
+  },
+  {
+    "objectID": "slides/week-2.2.html#regime-variation-by-region-1",
+    "href": "slides/week-2.2.html#regime-variation-by-region-1",
+    "title": "Summarizing Data",
+    "section": "Regime Variation by Region",
+    "text": "Regime Variation by Region\n\n\nvdem2022_regime |&gt;\n  ggplot(aes(x = region, fill = regime)) +\n  geom_bar() +\n  theme_minimal() +\n  labs(\n    x = \"Region\",\n    y = \"Frequency\",\n    title = \"Regimes of the World by Region in 2022\",\n    caption = \"Source: V-Dem Institute\",\n    fill = \"Regime\"\n  ) +\n  scale_fill_viridis_d(option = \"inferno\", end = .8)"
+  },
+  {
+    "objectID": "slides/week-2.2.html#what-did-we-just-do",
+    "href": "slides/week-2.2.html#what-did-we-just-do",
+    "title": "Summarizing Data",
+    "section": "What Did We Just Do?",
+    "text": "What Did We Just Do?\n\n\nWe used geom_bar() with two categorical variables\nregime is an ordinal categorical variable\nregion is a nominal categorical variable\nThe plot shows counts, not proportions"
+  },
+  {
+    "objectID": "slides/week-2.2.html#section-6",
+    "href": "slides/week-2.2.html#section-6",
+    "title": "Summarizing Data",
+    "section": "",
+    "text": "Some regions have more countries than others.\nWhy does that create an issue for comparing raw bar heights here?"
+  },
+  {
+    "objectID": "slides/week-2.2.html#show-proportions-instead",
+    "href": "slides/week-2.2.html#show-proportions-instead",
+    "title": "Summarizing Data",
+    "section": "Show Proportions Instead",
+    "text": "Show Proportions Instead"
+  },
+  {
+    "objectID": "slides/week-2.2.html#show-proportions-instead-1",
+    "href": "slides/week-2.2.html#show-proportions-instead-1",
+    "title": "Summarizing Data",
+    "section": "Show Proportions Instead",
+    "text": "Show Proportions Instead\n\n\nvdem2022_regime |&gt;\n  ggplot(aes(x = region, fill = regime)) +\n  geom_bar(position = \"fill\") +\n  theme_minimal() +\n  labs(\n    x = \"Region\",\n    y = \"Proportion\",\n    title = \"Regimes of the World by Region in 2022\",\n    caption = \"Source: V-Dem Institute\",\n    fill = \"Regime\"\n  ) +\n  scale_fill_viridis_d(option = \"inferno\", end = .8)"
+  },
+  {
+    "objectID": "slides/week-2.2.html#section-7",
+    "href": "slides/week-2.2.html#section-7",
+    "title": "Summarizing Data",
+    "section": "",
+    "text": "We use position = \"fill\" to normalize each bar to 100%\nThat makes it easier to compare regions with different numbers of countries\nThis is usually the better choice when the group sizes are unequal"
+  },
+  {
+    "objectID": "slides/week-2.2.html#your-turn-1",
+    "href": "slides/week-2.2.html#your-turn-1",
+    "title": "Summarizing Data",
+    "section": "Your Turn!",
+    "text": "Your Turn!\n\nChange the year to a different one\nRepeat the region comparison with fill = regime\nUse position = \"fill\" to compare proportions\nBonus: try position = \"dodge\" and compare what it emphasizes"
+  },
+  {
+    "objectID": "slides/week-2.2.html#messages-warnings-and-errors",
+    "href": "slides/week-2.2.html#messages-warnings-and-errors",
+    "title": "Summarizing Data",
+    "section": "Messages, Warnings and Errors",
+    "text": "Messages, Warnings and Errors\n\n\nMessages tell you what R is doing\nWarnings tell you that something might be wrong\nErrors tell you that something is definitely wrong\n\nLocate the error line number in the console and check your code\nError line tells you about where the error occurred, not exact\nErrors are normal, don’t freak out!\nIn fact, you should practice making errors to learn how to fix them"
+  },
+  {
+    "objectID": "slides/week-2.2.html#section-8",
+    "href": "slides/week-2.2.html#section-8",
+    "title": "Summarizing Data",
+    "section": "",
+    "text": "You work at a think tank and your boss wants you to…\n\n\nVisualize trends in liberal democracy since the end of WWII for countries in South Asia\nSee how regions compare in terms of levels of corruption in 2015\nView the relationship between GDP per capita and electoral democracy in 2020\nHow would you do it?"
   },
   {
     "objectID": "slides/week-2.2.html#homework-1",
@@ -4727,20 +4562,6 @@
     "title": "Summarizing Data",
     "section": "Homework 1",
     "text": "Homework 1\n\n\nFind Homework 1 on the course website\nGet started today!"
-  },
-  {
-    "objectID": "slides/week-2.2.html#publish-html-to-quarto-pub",
-    "href": "slides/week-2.2.html#publish-html-to-quarto-pub",
-    "title": "Summarizing Data",
-    "section": "Publish HTML to Quarto Pub",
-    "text": "Publish HTML to Quarto Pub\n\nGo to quartopub.com\nSet up Quarto pub account\nLook at guide for pubishing on Quarto pub\nWith your Quarto pub account open:\n\nGo to terminal in RStudio\nType quarto publish quarto pub"
-  },
-  {
-    "objectID": "slides/week-2.2.html#making-pdfs",
-    "href": "slides/week-2.2.html#making-pdfs",
-    "title": "Summarizing Data",
-    "section": "Making PDFs",
-    "text": "Making PDFs\n\nInstall tinytex Type quarto install tinytex in terminal\nChange document type in YAML header to pdf\nLook at Quarto Reference and play with options"
   },
   {
     "objectID": "slides/week-6.2.html#the-model-equation",
@@ -5791,371 +5612,5 @@
       "Course Modules",
       "Module 5.1"
     ]
-  },
-  {
-    "objectID": "labs/lab-1/lab1.html#part-2-line-chart-50-pts",
-    "href": "labs/lab-1/lab1.html#part-2-line-chart-50-pts",
-    "title": "Lab 1",
-    "section": "Part 2: Line Chart (50 pts)",
-    "text": "Part 2: Line Chart (50 pts)\n\nStep 1: Load and Explore the Data (10 pts)\nLoad the full Gapminder dataset and use glimpse() to explore it.\n\ngapminder &lt;- read_csv(\"gapminder_full.csv\")\n\nRows: 1704 Columns: 6\n── Column specification ────────────────────────────────────────────────────────\nDelimiter: \",\"\nchr (2): country, continent\ndbl (4): year, population, life_exp, gdp_cap\n\nℹ Use `spec()` to retrieve the full column specification for this data.\nℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.\n\n\n\n# Use glimpse() to explore the data\n\nQuestion: What variables are in this dataset? What years are covered? What does each row represent?\nYOUR ANSWER HERE\n\n\nStep 2: Filter the Data (10 pts)\nChoose three countries you’re interested in and filter the data to include only those countries. Replace the ___ placeholders with real country names — spelling must match exactly what you saw in glimpse().\n\ngapminder_ctrs &lt;- gapminder |&gt;\n  filter(country %in% c(\"___\", \"___\", \"___\"))\n\n\n\nStep 3: Create a Line Chart (20 pts)\nUsing the line chart code from Lesson 1.2 as a template, create a line chart showing how life expectancy (life_exp) has changed over time for your three countries. Use year on the x-axis and life_exp on the y-axis.\n\n# Write your line chart code here\n\n\n\nStep 4: Interpret Your Chart (10 pts)\nWrite 2-3 sentences describing what you see. How has life expectancy changed over time in your chosen countries? Are there differences across them?\nYOUR INTERPRETATION HERE\n\n\n\n\n\n\nRender as PDF and Submit Your Work (20 pts)\n\n\n\n\nReplace “YOUR NAME HERE” at the top with your actual name\nMake sure all your code chunks run without errors\nChange format: html to format: pdf in the YAML header\nClick “Render” to create your PDF\nSubmit the PDF to Blackboard",
-    "crumbs": [
-      "Labs",
-      "Lab 1"
-    ]
-  },
-  {
-    "objectID": "slides/week-2.1.html#chaining-steps-with",
-    "href": "slides/week-2.1.html#chaining-steps-with",
-    "title": "Wrangling Data",
-    "section": "Chaining Steps with |>",
-    "text": "Chaining Steps with |&gt;\n\nWe often need to do more than one thing to the same dataset\nThe pipe operator |&gt; lets us chain those steps together\nRead it from top to bottom: take the result from one step and pass it to the next\nThis makes code easier to read because each line does one job\n\n\n\nNext example: filter rows, select columns, then create or recode variables"
-  },
-  {
-    "objectID": "slides/week-2.1.html#from-wrangling-to-visualization",
-    "href": "slides/week-2.1.html#from-wrangling-to-visualization",
-    "title": "Wrangling Data",
-    "section": "From Wrangling to Visualization",
-    "text": "From Wrangling to Visualization\n\n\nfilter(), select(), and mutate() helped us build the dataset we want\nNow we pass that cleaned dataset to ggplot2\nSame grammar of graphics idea as before: data + aesthetics + geom + labels\nFor a scatter plot, we usually map one variable to the x-axis and one to the y-axis"
-  },
-  {
-    "objectID": "slides/week-2.1.html#build-the-scatter-plot",
-    "href": "slides/week-2.1.html#build-the-scatter-plot",
-    "title": "Wrangling Data",
-    "section": "Build the Scatter Plot",
-    "text": "Build the Scatter Plot\n\n\nStart with the data and the aesthetics\nPut gdp_pc on the x-axis\nPut polyarchy on the y-axis\nThis sets up the plot before we add any points\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy))"
-  },
-  {
-    "objectID": "slides/week-2.1.html#build-the-scatter-plot-1",
-    "href": "slides/week-2.1.html#build-the-scatter-plot-1",
-    "title": "Wrangling Data",
-    "section": "Build the Scatter Plot",
-    "text": "Build the Scatter Plot\nThis gives us the axes and plotting space:"
-  },
-  {
-    "objectID": "slides/week-2.1.html#add-the-points",
-    "href": "slides/week-2.1.html#add-the-points",
-    "title": "Wrangling Data",
-    "section": "Add the Points",
-    "text": "Add the Points\n\n\nA scatter plot uses geom_point()\nWe can also map region to color to add one more dimension\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region))"
-  },
-  {
-    "objectID": "slides/week-2.1.html#add-the-points-1",
-    "href": "slides/week-2.1.html#add-the-points-1",
-    "title": "Wrangling Data",
-    "section": "Add the Points",
-    "text": "Add the Points"
-  },
-  {
-    "objectID": "slides/week-2.1.html#finish-the-plot",
-    "href": "slides/week-2.1.html#finish-the-plot",
-    "title": "Working with V-Dem Data",
-    "section": "Finish the Plot",
-    "text": "Finish the Plot\n\n\nThen we can improve readability\nAdd a trend line with geom_smooth()\nRescale the x-axis and clean up labels\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x= \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy in 2015\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n    ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-2.1.html#finished-scatter-plot",
-    "href": "slides/week-2.1.html#finished-scatter-plot",
-    "title": "Wrangling Data",
-    "section": "Finished Scatter Plot",
-    "text": "Finished Scatter Plot"
-  },
-  {
-    "objectID": "slides/week-2.1.html#add-a-trend-line",
-    "href": "slides/week-2.1.html#add-a-trend-line",
-    "title": "Wrangling Data",
-    "section": "Add a Trend Line",
-    "text": "Add a Trend Line\n\n\nThen we can improve readability step by step\nAdd a trend line with geom_smooth()\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1)"
-  },
-  {
-    "objectID": "slides/week-2.1.html#add-a-trend-line-1",
-    "href": "slides/week-2.1.html#add-a-trend-line-1",
-    "title": "Wrangling Data",
-    "section": "Add a Trend Line",
-    "text": "Add a Trend Line"
-  },
-  {
-    "objectID": "slides/week-2.1.html#stretch-the-x-axis",
-    "href": "slides/week-2.1.html#stretch-the-x-axis",
-    "title": "Wrangling Data",
-    "section": "Stretch the X-Axis",
-    "text": "Stretch the X-Axis\n\n\nGDP values are very spread out\nA log scale makes the x-axis easier to read\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\"))"
-  },
-  {
-    "objectID": "slides/week-2.1.html#stretch-the-x-axis-1",
-    "href": "slides/week-2.1.html#stretch-the-x-axis-1",
-    "title": "Wrangling Data",
-    "section": "Stretch the X-Axis",
-    "text": "Stretch the X-Axis"
-  },
-  {
-    "objectID": "slides/week-2.1.html#add-labels",
-    "href": "slides/week-2.1.html#add-labels",
-    "title": "Wrangling Data",
-    "section": "Add Labels",
-    "text": "Add Labels\n\n\nThen give the plot clearer axis labels, a title, and a legend label\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x = \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy in 2015\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n  )"
-  },
-  {
-    "objectID": "slides/week-2.1.html#add-labels-1",
-    "href": "slides/week-2.1.html#add-labels-1",
-    "title": "Wrangling Data",
-    "section": "Add Labels",
-    "text": "Add Labels"
-  },
-  {
-    "objectID": "slides/week-2.1.html#improve-the-color-palette",
-    "href": "slides/week-2.1.html#improve-the-color-palette",
-    "title": "Wrangling Data",
-    "section": "Improve the Color Palette",
-    "text": "Improve the Color Palette\n\n\nNow swap in a more readable color palette\n\n\nlibrary(ggplot2)\n\nggplot(democracy, aes(x = gdp_pc, y = polyarchy)) + \n  geom_point(aes(color = region)) + \n  geom_smooth(method = \"lm\", linewidth = 1) + \n  scale_x_log10(labels = scales::label_number(prefix = \"$\", suffix = \"k\")) +\n  labs(\n    x = \"GDP per Capita\", \n    y = \"Polyarchy Score\",\n    title = \"Wealth and democracy in 2015\", \n    caption = \"Source: V-Dem Institute\", \n    color = \"Region\"\n  ) +\n  scale_color_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-2.1.html#improve-the-color-palette-1",
-    "href": "slides/week-2.1.html#improve-the-color-palette-1",
-    "title": "Wrangling Data",
-    "section": "Improve the Color Palette",
-    "text": "Improve the Color Palette"
-  },
-  {
-    "objectID": "slides/week-2.1.html#your-turn",
-    "href": "slides/week-2.1.html#your-turn",
-    "title": "Wrangling Data",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\n\nKeep only observations from 2010\nSelect country_name, year, and v2x_polyarchy\nRename them to country, year, and polyarchy\nUse mutate() to create polyarchy_triple and polyarchy_sq\nRun glimpse() to check your work"
-  },
-  {
-    "objectID": "slides/week-2.2.html#thinking-about-data",
-    "href": "slides/week-2.2.html#thinking-about-data",
-    "title": "Summarizing Data",
-    "section": "Thinking About Data",
-    "text": "Thinking About Data\n\nWhat are some ways we can classify data? 😎 💭\n\n\ncategorical vs. numerical\ndiscrete vs. continuous\ncross-sectional vs. panel\nnominal vs. ordinal"
-  },
-  {
-    "objectID": "slides/week-2.2.html#variable-types",
-    "href": "slides/week-2.2.html#variable-types",
-    "title": "Summarizing Data",
-    "section": "Variable Types",
-    "text": "Variable Types\n\n\nCategorical\n\nBinary: two categories\nNominal: multiple unordered categories\nOrdinal: multiple ordered categories\n\nNumerical\n\nContinuous: fractional values\nDiscrete: whole-number counts"
-  },
-  {
-    "objectID": "slides/week-2.2.html#categorical-data",
-    "href": "slides/week-2.2.html#categorical-data",
-    "title": "Summarizing Data",
-    "section": "Categorical Data",
-    "text": "Categorical Data\n\n\nNow let’s focus on categorical data\nThese variables place observations into groups\nToday we will use V-Dem’s v2x_regime variable\nIt classifies each country into a regime type"
-  },
-  {
-    "objectID": "slides/week-2.2.html#v-dem-regimes-of-the-world",
-    "href": "slides/week-2.2.html#v-dem-regimes-of-the-world",
-    "title": "Summarizing Data",
-    "section": "V-Dem Regimes of the World",
-    "text": "V-Dem Regimes of the World\n\n\nClosed Autocracy\nElectoral Autocracy\nElectoral Democracy\nLiberal Democracy"
-  },
-  {
-    "objectID": "slides/week-2.2.html#data-setup",
-    "href": "slides/week-2.2.html#data-setup",
-    "title": "Summarizing Data",
-    "section": "Data Setup",
-    "text": "Data Setup\n\nlibrary(tidyverse)\nlibrary(vdemdata)\n\nvdem2022_regime &lt;- vdem |&gt;\n  filter(year == 2022) |&gt;\n  select(\n    country = country_name,\n    regime = v2x_regime,\n    region = e_regionpol_6C\n  ) |&gt;\n  mutate(\n    region = case_match(region,\n      1 ~ \"Eastern Europe\",\n      2 ~ \"Latin America\",\n      3 ~ \"Middle East\",\n      4 ~ \"Africa\",\n      5 ~ \"The West\",\n      6 ~ \"Asia\"),\n    regime = case_match(regime,\n      0 ~ \"Closed Autocracy\",\n      1 ~ \"Electoral Autocracy\",\n      2 ~ \"Electoral Democracy\",\n      3 ~ \"Liberal Democracy\")\n  )"
-  },
-  {
-    "objectID": "slides/week-2.2.html#examine-the-data",
-    "href": "slides/week-2.2.html#examine-the-data",
-    "title": "Summarizing Data",
-    "section": "Examine the Data",
-    "text": "Examine the Data\n\n\nglimpse(vdem2022_regime)\n\nRows: 179\nColumns: 3\n$ country &lt;chr&gt; \"Mexico\", \"Suriname\", \"Sweden\", \"Switzerland\", \"Ghana\", \"South…\n$ regime  &lt;chr&gt; \"Electoral Democracy\", \"Electoral Democracy\", \"Liberal Democra…\n$ region  &lt;chr&gt; \"Latin America\", \"Latin America\", \"The West\", \"The West\", \"Afr…"
-  },
-  {
-    "objectID": "slides/week-2.2.html#section-5",
-    "href": "slides/week-2.2.html#section-5",
-    "title": "Summarizing Data",
-    "section": "",
-    "text": "Let’s count the number of regimes by type…\n\n\nvdem2022_regime |&gt;\n  count(regime)\n\n               regime  n\n1    Closed Autocracy 33\n2 Electoral Autocracy 55\n3 Electoral Democracy 54\n4   Liberal Democracy 37"
-  },
-  {
-    "objectID": "slides/week-2.2.html#distribution-of-regime-types",
-    "href": "slides/week-2.2.html#distribution-of-regime-types",
-    "title": "Summarizing Data",
-    "section": "Distribution of Regime Types",
-    "text": "Distribution of Regime Types"
-  },
-  {
-    "objectID": "slides/week-2.2.html#distribution-of-regime-types-1",
-    "href": "slides/week-2.2.html#distribution-of-regime-types-1",
-    "title": "Summarizing Data",
-    "section": "Distribution of Regime Types",
-    "text": "Distribution of Regime Types\n\n\nvdem2022_regime |&gt;\n  ggplot(aes(x = regime)) +\n  geom_bar(fill = \"steelblue\") +\n  labs(\n    x = \"Regime Type\",\n    y = \"Frequency\",\n    title = \"Regimes of the World in 2022\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "slides/week-2.2.html#more-about-geom_bar",
-    "href": "slides/week-2.2.html#more-about-geom_bar",
-    "title": "Summarizing Data",
-    "section": "More about geom_bar()",
-    "text": "More about geom_bar()\n\n\ngeom_bar() is different from geom_col()\ngeom_bar() counts observations automatically\nYou only need to specify the x aesthetic\ngeom_col() is for pre-computed values like the regional means we graphed earlier"
-  },
-  {
-    "objectID": "slides/week-2.2.html#your-turn",
-    "href": "slides/week-2.2.html#your-turn",
-    "title": "Summarizing Data",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\nChange the year and re-run the setup\nVisualize the distribution of regime types with geom_bar()\nUpdate the plot title to match your year\nWhat is different about your year relative to 2022?"
-  },
-  {
-    "objectID": "slides/week-2.2.html#regime-variation-by-region",
-    "href": "slides/week-2.2.html#regime-variation-by-region",
-    "title": "Summarizing Data",
-    "section": "Regime Variation by Region",
-    "text": "Regime Variation by Region"
-  },
-  {
-    "objectID": "slides/week-2.2.html#regime-variation-by-region-1",
-    "href": "slides/week-2.2.html#regime-variation-by-region-1",
-    "title": "Summarizing Data",
-    "section": "Regime Variation by Region",
-    "text": "Regime Variation by Region\n\n\nvdem2022_regime |&gt;\n  ggplot(aes(x = region, fill = regime)) +\n  geom_bar() +\n  theme_minimal() +\n  labs(\n    x = \"Region\",\n    y = \"Frequency\",\n    title = \"Regimes of the World by Region in 2022\",\n    caption = \"Source: V-Dem Institute\",\n    fill = \"Regime\"\n  ) +\n  scale_fill_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-2.2.html#what-did-we-just-do",
-    "href": "slides/week-2.2.html#what-did-we-just-do",
-    "title": "Summarizing Data",
-    "section": "What Did We Just Do?",
-    "text": "What Did We Just Do?\n\n\nWe used geom_bar() with two categorical variables\nregime is an ordinal categorical variable\nregion is a nominal categorical variable\nThe plot shows counts, not proportions"
-  },
-  {
-    "objectID": "slides/week-2.2.html#section-6",
-    "href": "slides/week-2.2.html#section-6",
-    "title": "Summarizing Data",
-    "section": "",
-    "text": "Some regions have more countries than others.\nWhy does that create an issue for comparing raw bar heights here?"
-  },
-  {
-    "objectID": "slides/week-2.2.html#show-proportions-instead",
-    "href": "slides/week-2.2.html#show-proportions-instead",
-    "title": "Summarizing Data",
-    "section": "Show Proportions Instead",
-    "text": "Show Proportions Instead"
-  },
-  {
-    "objectID": "slides/week-2.2.html#show-proportions-instead-1",
-    "href": "slides/week-2.2.html#show-proportions-instead-1",
-    "title": "Summarizing Data",
-    "section": "Show Proportions Instead",
-    "text": "Show Proportions Instead\n\n\nvdem2022_regime |&gt;\n  ggplot(aes(x = region, fill = regime)) +\n  geom_bar(position = \"fill\") +\n  theme_minimal() +\n  labs(\n    x = \"Region\",\n    y = \"Proportion\",\n    title = \"Regimes of the World by Region in 2022\",\n    caption = \"Source: V-Dem Institute\",\n    fill = \"Regime\"\n  ) +\n  scale_fill_viridis_d(option = \"inferno\", end = .8)"
-  },
-  {
-    "objectID": "slides/week-2.2.html#section-7",
-    "href": "slides/week-2.2.html#section-7",
-    "title": "Summarizing Data",
-    "section": "",
-    "text": "We use position = \"fill\" to normalize each bar to 100%\nThat makes it easier to compare regions with different numbers of countries\nThis is usually the better choice when the group sizes are unequal"
-  },
-  {
-    "objectID": "slides/week-2.2.html#your-turn-1",
-    "href": "slides/week-2.2.html#your-turn-1",
-    "title": "Summarizing Data",
-    "section": "Your Turn!",
-    "text": "Your Turn!\n\nChange the year to a different one\nRepeat the region comparison with fill = regime\nUse position = \"fill\" to compare proportions\nBonus: try position = \"dodge\" and compare what it emphasizes"
-  },
-  {
-    "objectID": "slides/week-2.2.html#section-8",
-    "href": "slides/week-2.2.html#section-8",
-    "title": "Summarizing Data",
-    "section": "",
-    "text": "You work at a think tank and your boss wants you to…\n\n\nVisualize trends in liberal democracy since the end of WWII for countries in South Asia\nSee how regions compare in terms of levels of corruption in 2015\nView the relationship between GDP per capita and electoral democracy in 2020\nHow would you do it?"
-  },
-  {
-    "objectID": "labs/lab-2/lab2.html#part-1-wrangle-democracy-data-30-points",
-    "href": "labs/lab-2/lab2.html#part-1-wrangle-democracy-data-30-points",
-    "title": "Lab 2",
-    "section": "Part 1: Wrangle Democracy Data (30 points)",
-    "text": "Part 1: Wrangle Democracy Data (30 points)\nIn this part, you will build a clean dataset from V-Dem using filter(), select(), and mutate().\n\nStep 1: Create a Wrangled Dataset (20 pts)\nFilter the data to one year, select the variables you need, and recode the region variable into readable labels.\n\ndemocracy &lt;- vdem |&gt;\n  ???(year == ???) |&gt;\n  ???(\n    country = ???,\n    year,\n    polyarchy = ???,\n    libdem = ???,\n    gdp_pc = ???,\n    region = ???\n  ) |&gt;\n  ???(\n    region = case_match(region,\n      1 ~ \"Eastern Europe\",\n      2 ~ \"Latin America\",\n      3 ~ \"Middle East\",\n      4 ~ \"Africa\",\n      5 ~ \"The West\",\n      6 ~ \"Asia\")\n  )\n\n\n\nStep 2: Examine the Data (5 pts)\nRun glimpse() on your new data frame.\n\nglimpse(???)\n\n\n\nStep 3: Brief Response (5 pts)\nWrite 2-3 sentences answering these questions:\n\nWhat year did you choose?\nHow many rows and columns does your wrangled dataset have?\nWhy is it useful to recode region before plotting?\n\nYOUR RESPONSE HERE",
-    "crumbs": [
-      "Labs",
-      "Lab 2"
-    ]
-  },
-  {
-    "objectID": "labs/lab-2/lab2.html#part-2-summarize-and-visualize-by-region-35-points",
-    "href": "labs/lab-2/lab2.html#part-2-summarize-and-visualize-by-region-35-points",
-    "title": "Lab 2",
-    "section": "Part 2: Summarize and Visualize by Region (35 points)",
-    "text": "Part 2: Summarize and Visualize by Region (35 points)\nIn this part, you will practice group_by(), summarize(), arrange(), and geom_col().\n\nStep 1: Summarize the Data (15 pts)\nCreate a regional summary dataset. Use mean() for polyarchy and gdp_pc, and sort from highest to lowest polyarchy.\n\ndem_summary &lt;- democracy |&gt;\n  ???(region) |&gt;\n  ???(\n    polyarchy = ???(polyarchy, na.rm = TRUE),\n    gdp_pc = ???(gdp_pc, na.rm = TRUE)\n  ) |&gt;\n  ???(desc(polyarchy))\n\n\n\nStep 2: Print the Summary (5 pts)\nPrint your summarized data frame.\n\n???\n\n\n\nStep 3: Create a Column Chart (10 pts)\nCreate a column chart of average polyarchy by region. Reorder the bars from highest to lowest.\n\n# Write your code here\n\n\n\nStep 4: Brief Interpretation (5 pts)\nWrite 2-3 sentences describing what you see.\n\nWhich region has the highest average polyarchy score?\nWhich region has the lowest?\nDoes the ranking make sense to you?\n\nYOUR RESPONSE HERE",
-    "crumbs": [
-      "Labs",
-      "Lab 2"
-    ]
-  },
-  {
-    "objectID": "labs/lab-2/lab2.html#part-3-explore-categorical-regime-data-35-points",
-    "href": "labs/lab-2/lab2.html#part-3-explore-categorical-regime-data-35-points",
-    "title": "Lab 2",
-    "section": "Part 3: Explore Categorical Regime Data (35 points)",
-    "text": "Part 3: Explore Categorical Regime Data (35 points)\nIn this part, you will work with V-Dem’s v2x_regime variable and use count() and geom_bar().\n\nStep 1: Build a Regime Dataset (15 pts)\nFilter the data to 2022, select country, regime, and region, and recode both region and regime.\n\nvdem2022_regime &lt;- vdem |&gt;\n  ???(year == ???) |&gt;\n  ???(\n    country = ???,\n    regime = ???,\n    region = ???\n  ) |&gt;\n  ???(\n    region = case_match(region,\n      1 ~ \"Eastern Europe\",\n      2 ~ \"Latin America\",\n      3 ~ \"Middle East\",\n      4 ~ \"Africa\",\n      5 ~ \"The West\",\n      6 ~ \"Asia\"),\n    regime = case_match(regime,\n      0 ~ \"Closed Autocracy\",\n      1 ~ \"Electoral Autocracy\",\n      2 ~ \"Electoral Democracy\",\n      3 ~ \"Liberal Democracy\")\n  )\n\n\n\nStep 2: Count Regime Types (5 pts)\nCreate a frequency table of regime types.\n\nvdem2022_regime |&gt;\n  ???(regime)\n\n\n\nStep 3: Create a Bar Chart of Regime Types (5 pts)\nUse geom_bar() to plot the distribution of regime types.\n\n# Write your code here\n\n\n\nStep 4: Compare Regions with Proportions (5 pts)\nNow create a second bar chart comparing regime types across regions using position = \"fill\".\n\n# Write your code here\n\n\n\nStep 5: Brief Interpretation (5 pts)\nWrite 2-3 sentences describing what you see.\n\nWhich regime type is most common overall?\nWhich region appears to have the largest share of liberal democracies?\nWhy is position = \"fill\" useful here?\n\nYOUR RESPONSE HERE\n\n\n\n\n\n\nSubmission\n\n\n\n\nReplace “YOUR NAME HERE” at the top with your actual name\nMake sure all code chunks run without errors\nChange completed: false to completed: true\nRender to HTML to check your work\nChange format: html to format: pdf\nSubmit the PDF to Blackboard",
-    "crumbs": [
-      "Labs",
-      "Lab 2"
-    ]
-  },
-  {
-    "objectID": "slides/week-3.1.html#what-is-a-continuous-variable",
-    "href": "slides/week-3.1.html#what-is-a-continuous-variable",
-    "title": "Continuous Distributions",
-    "section": "What is a Continuous Variable?",
-    "text": "What is a Continuous Variable?\n\n\nA continuous variable can take any value within a range\nExamples: V-Dem Polyarchy (0–1), GDP per capita, income, temperature\nContrast with discrete (whole-number counts) and categorical (named groups)\nNeed tools to describe the distribution of the variable"
-  },
-  {
-    "objectID": "slides/week-3.1.html#describing-a-distribution",
-    "href": "slides/week-3.1.html#describing-a-distribution",
-    "title": "Continuous Distributions",
-    "section": "Describing a Distribution",
-    "text": "Describing a Distribution\n\nWe characterize distributions along three dimensions:\n\nCenter — where values tend to cluster: mean, median\nShape — the overall pattern: symmetric, skewed, bimodal\nSpread — how much values vary: range, IQR, standard deviation\n\n\nAlways visualize your data — summary statistics alone can hide the full story!"
-  },
-  {
-    "objectID": "slides/week-3.1.html#high-level-v-dem-measures",
-    "href": "slides/week-3.1.html#high-level-v-dem-measures",
-    "title": "Continuous Distributions",
-    "section": "High-Level V-Dem Measures",
-    "text": "High-Level V-Dem Measures\n\n\nElectoral Democracy (Polyarchy)\nLiberal Democracy\nEgalitarian Democracy\nParticipatory Democracy\nDeliberative Democracy\n\nAll continuous measures, ranging from 0 to 1. Let’s take a look at how to summarize data like this!"
-  },
-  {
-    "objectID": "slides/week-3.2.html#virtual-mm-bag-sampler",
-    "href": "slides/week-3.2.html#virtual-mm-bag-sampler",
-    "title": "Sampling and Uncertainty",
-    "section": "Virtual M&M Bag Sampler",
-    "text": "Virtual M&M Bag Sampler\n#| '!! shinylive warning !!': |\n#|   shinylive does not work in self-contained HTML documents.\n#|   Please set `embed-resources: false` in your metadata.\n#| standalone: true\n#| viewerHeight: 540\n\nlibrary(shiny)\n\ntrue_prop_blue &lt;- 0.24\nmm_probs &lt;- c(blue = 0.24, orange = 0.20, green = 0.16,\n              yellow = 0.14, red = 0.13, brown = 0.13)\nbag_size &lt;- 56\n\nui &lt;- fluidPage(\n  fluidRow(\n    column(4,\n      wellPanel(\n        actionButton(\"open_bag\", \"Open a New Bag\",\n                     class = \"btn-primary btn-lg\",\n                     style = \"width:100%; margin-bottom:12px;\"),\n        conditionalPanel(\"input.open_bag &gt; 0\",\n          h4(\"Your Estimates\"),\n          tableOutput(\"estimates_table\"),\n          hr(),\n          strong(textOutput(\"running_mean\"))\n        )\n      )\n    ),\n    column(8,\n      plotOutput(\"bag_plot\", height = \"270px\"),\n      conditionalPanel(\"input.open_bag &gt; 1\",\n        plotOutput(\"hist_plot\", height = \"190px\")\n      )\n    )\n  )\n)\n\nserver &lt;- function(input, output, session) {\n\n  estimates   &lt;- reactiveVal(numeric(0))\n  current_bag &lt;- reactiveVal(NULL)\n\n  observeEvent(input$open_bag, {\n    bag &lt;- sample(names(mm_probs), size = bag_size, replace = TRUE,\n                  prob = mm_probs)\n    current_bag(bag)\n    estimates(c(estimates(), mean(bag == \"blue\")))\n  })\n\n  output$bag_plot &lt;- renderPlot({\n    req(current_bag())\n    colors  &lt;- current_bag()\n    n       &lt;- length(colors)\n    ncols   &lt;- 8\n    nrows   &lt;- ceiling(n / ncols)\n    x &lt;- rep(1:ncols, length.out = n)\n    y &lt;- rep(nrows:1, each = ncols)[1:n]\n    prop_blue &lt;- mean(colors == \"blue\")\n\n    par(mar = c(1, 1, 3, 1))\n    plot(x, y,\n         xlim = c(0.5, ncols + 0.5), ylim = c(0.5, nrows + 0.5),\n         type = \"n\", axes = FALSE, xlab = \"\", ylab = \"\",\n         main = sprintf(\"Bag #%d  —  Proportion Blue: %.3f  (%d / %d)\",\n                        input$open_bag, prop_blue,\n                        sum(colors == \"blue\"), n))\n    for (i in seq_along(colors)) {\n      symbols(x[i], y[i], circles = 0.35,\n              fg = if (colors[i] == \"blue\") \"navy\" else \"gray60\",\n              bg = colors[i],\n              add = TRUE, inches = FALSE,\n              lwd = if (colors[i] == \"blue\") 2.5 else 1)\n    }\n  })\n\n  output$estimates_table &lt;- renderTable({\n    req(length(estimates()) &gt; 0)\n    e &lt;- estimates()\n    data.frame(Bag = paste0(\"#\", seq_along(e)),\n               `Prop. Blue` = round(e, 3), check.names = FALSE)\n  }, striped = TRUE, bordered = TRUE, spacing = \"s\")\n\n  output$running_mean &lt;- renderText({\n    e &lt;- estimates()\n    req(length(e) &gt; 0)\n    sprintf(\"Mean of %d bags: %.3f\", length(e), mean(e))\n  })\n\n  output$hist_plot &lt;- renderPlot({\n    req(length(estimates()) &gt; 1)\n    e &lt;- estimates()\n    par(mar = c(4, 4, 3, 1))\n    hist(e,\n         breaks = seq(0, 0.65, by = 0.05),\n         col = \"steelblue3\", border = \"white\",\n         xlim = c(0, 0.6),\n         xlab = \"Proportion Blue\", ylab = \"Count\",\n         main = \"Your sampling distribution so far\",\n         xaxt = \"n\")\n    axis(1, at = seq(0, 0.6, by = 0.1),\n         labels = paste0(seq(0, 60, by = 10), \"%\"))\n    abline(v = true_prop_blue, col = \"red\", lty = 2, lwd = 2)\n    text(true_prop_blue + 0.02, par(\"usr\")[4] * 0.85,\n         \"True: 24%\", col = \"red\", adj = 0, cex = 0.9)\n  })\n}\n\nshinyApp(ui, server)"
-  },
-  {
-    "objectID": "slides/week-3.2.html#discussion",
-    "href": "slides/week-3.2.html#discussion",
-    "title": "Sampling and Uncertainty",
-    "section": "Discussion",
-    "text": "Discussion\n\n\nWhat is the histogram/distribution showing?\nWhy do some bag of M&Ms have proportions of blues that are higher and lower than the number you gave above?\nHow do our estimates relate to the actual percentage of blue M&Ms manufactured?\nWhat do you think would happen if we kept adding more samples to the distribution?"
-  },
-  {
-    "objectID": "slides/week-3.2.html#confidence-interval-with-infer",
-    "href": "slides/week-3.2.html#confidence-interval-with-infer",
-    "title": "Sampling and Uncertainty",
-    "section": "Confidence Interval with infer",
-    "text": "Confidence Interval with infer\n\n\nci &lt;- boot_dist |&gt; get_ci(level = 0.95)\n\nci\n\n# A tibble: 1 × 2\n  lower_ci upper_ci\n     &lt;dbl&gt;    &lt;dbl&gt;\n1    0.119    0.182"
-  },
-  {
-    "objectID": "slides/week-3.2.html#visualize-with-infer",
-    "href": "slides/week-3.2.html#visualize-with-infer",
-    "title": "Sampling and Uncertainty",
-    "section": "Visualize with infer",
-    "text": "Visualize with infer\n\n\nboot_dist |&gt;\n  visualize() +\n  shade_ci(ci, color = \"red\", fill = NULL) +\n  labs(\n    title = \"Bootstrap Distribution with 95% CI\",\n    x = \"Mean\",\n    y = \"Count\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "slides/week-3.2.html#visualize-with-infer-1",
-    "href": "slides/week-3.2.html#visualize-with-infer-1",
-    "title": "Sampling and Uncertainty",
-    "section": "Visualize with infer",
-    "text": "Visualize with infer"
-  },
-  {
-    "objectID": "slides/week-3.1.html#density-plots-1",
-    "href": "slides/week-3.1.html#density-plots-1",
-    "title": "Continuous Distributions",
-    "section": "Density Plots",
-    "text": "Density Plots\n\n\nCode\nggplot(vdem2019, aes(x = polyarchy)) +\n  geom_density(fill = \"steelblue\", alpha = 0.5) +\n  labs(\n    x = \"Electoral Democracy\",\n    y = \"Density\",\n    title = \"Distribution of Electoral Democracy in 2019\",\n    caption = \"Source: V-Dem Institute\"\n  ) +\n  theme_minimal()"
   }
 ]

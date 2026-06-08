@@ -631,13 +631,14 @@ window.Quarto = {
   <li><a href="#bootstrap-distribution-20-pts" id="toc-bootstrap-distribution-20-pts" class="nav-link" data-scroll-target="#bootstrap-distribution-20-pts">Bootstrap distribution (20 pts)</a></li>
   <li><a href="#ci-estimate-and-plot-15-pts" id="toc-ci-estimate-and-plot-15-pts" class="nav-link" data-scroll-target="#ci-estimate-and-plot-15-pts">CI estimate and plot (15 pts)</a></li>
   <li><a href="#ci-interpretation-10-pts" id="toc-ci-interpretation-10-pts" class="nav-link" data-scroll-target="#ci-interpretation-10-pts">CI interpretation (10 pts)</a></li>
+  <li><a href="#confidence-level-comparison-10-pts" id="toc-confidence-level-comparison-10-pts" class="nav-link" data-scroll-target="#confidence-level-comparison-10-pts">Confidence level comparison (10 pts)</a></li>
   </ul></li>
   <li><a href="#part-3-single-proportion-hypothesis-test-50-points" id="toc-part-3-single-proportion-hypothesis-test-50-points" class="nav-link" data-scroll-target="#part-3-single-proportion-hypothesis-test-50-points">Part 3: Single-Proportion Hypothesis Test (50 points)</a>
   <ul class="collapse">
   <li><a href="#hypotheses-10-pts" id="toc-hypotheses-10-pts" class="nav-link" data-scroll-target="#hypotheses-10-pts">Hypotheses (10 pts)</a></li>
   <li><a href="#simulate-the-null-distribution-20-pts" id="toc-simulate-the-null-distribution-20-pts" class="nav-link" data-scroll-target="#simulate-the-null-distribution-20-pts">Simulate the null distribution (20 pts)</a></li>
   <li><a href="#null-distribution-plot-5-pts" id="toc-null-distribution-plot-5-pts" class="nav-link" data-scroll-target="#null-distribution-plot-5-pts">Null distribution plot (5 pts)</a></li>
-  <li><a href="#one-sided-p-value-10-pts" id="toc-one-sided-p-value-10-pts" class="nav-link" data-scroll-target="#one-sided-p-value-10-pts">One-sided p-value (10 pts)</a></li>
+  <li><a href="#calculate-the-p-value-10-pts" id="toc-calculate-the-p-value-10-pts" class="nav-link" data-scroll-target="#calculate-the-p-value-10-pts">Calculate the p-value (10 pts)</a></li>
   <li><a href="#conclusion-5-pts" id="toc-conclusion-5-pts" class="nav-link" data-scroll-target="#conclusion-5-pts">Conclusion (5 pts)</a></li>
   </ul></li>
   <li><a href="#hints-short-version" id="toc-hints-short-version" class="nav-link" data-scroll-target="#hints-short-version">Hints (Short Version)</a></li>
@@ -793,6 +794,25 @@ Note
 <p>Write 2-3 sentences interpreting the 95% confidence interval in context.</p>
 <p>YOUR INTERPRETATION HERE</p>
 </section>
+<section id="confidence-level-comparison-10-pts" class="level3">
+<h3 class="anchored" data-anchor-id="confidence-level-comparison-10-pts">Confidence level comparison (10 pts)</h3>
+<p>Change the confidence level in <code>get_ci()</code> to <code>0.90</code> and re-run the visualization.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>ci_90 <span class="ot">&lt;-</span> boot_df <span class="sc">|&gt;</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_ci</span>(<span class="at">level =</span> <span class="fl">0.90</span>)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>boot_df <span class="sc">|&gt;</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shade_ci</span>(ci_90, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">fill =</span> <span class="cn">NULL</span>) <span class="sc">+</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"Bootstrap Distribution with 90% CI"</span>,</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    <span class="at">x =</span> <span class="st">"Sample proportion asked for unofficial payment"</span>,</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="at">y =</span> <span class="st">"Count"</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<p><strong>Question:</strong> Is the 90% CI wider or narrower than the 95% CI? Explain in 1-2 sentences why that makes sense.</p>
+</section>
 </section>
 <section id="part-3-single-proportion-hypothesis-test-50-points" class="level2">
 <h2 class="anchored" data-anchor-id="part-3-single-proportion-hypothesis-test-50-points">Part 3: Single-Proportion Hypothesis Test (50 points)</h2>
@@ -810,31 +830,32 @@ Note
 <h3 class="anchored" data-anchor-id="simulate-the-null-distribution-20-pts">Simulate the null distribution (20 pts)</h3>
 <p>Fill in the blanks for a simulation under <span class="math inline">\(H_0: p = 0.20\)</span>.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">71</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> permit_office <span class="sc">|&gt;</span></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">response =</span> ???, <span class="at">success =</span> ???) <span class="sc">|&gt;</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">p =</span> <span class="fu">c</span>(<span class="st">"asked_payment"</span> <span class="ot">=</span> ???, <span class="st">"not_asked"</span> <span class="ot">=</span> ???)) <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">2000</span>, <span class="at">type =</span> ???) <span class="sc">|&gt;</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> ???)</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>null_dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">71</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>null_dist <span class="ot">&lt;-</span> permit_office <span class="sc">|&gt;</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">specify</span>(<span class="at">response =</span> ???, <span class="at">success =</span> ???) <span class="sc">|&gt;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">hypothesize</span>(<span class="at">null =</span> <span class="st">"point"</span>, <span class="at">p =</span> <span class="fu">c</span>(<span class="st">"asked_payment"</span> <span class="ot">=</span> ???, <span class="st">"not_asked"</span> <span class="ot">=</span> ???)) <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">generate</span>(<span class="at">reps =</span> <span class="dv">2000</span>, <span class="at">type =</span> ???) <span class="sc">|&gt;</span></span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">calculate</span>(<span class="at">stat =</span> ???)</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>null_dist</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="null-distribution-plot-5-pts" class="level3">
 <h3 class="anchored" data-anchor-id="null-distribution-plot-5-pts">Null distribution plot (5 pts)</h3>
-<p>Create a histogram of <code>null_dist</code> and add a vertical line at the observed sample proportion.</p>
-<div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Write your plot code here</span></span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-</section>
-<section id="one-sided-p-value-10-pts" class="level3">
-<h3 class="anchored" data-anchor-id="one-sided-p-value-10-pts">One-sided p-value (10 pts)</h3>
-<p>Because <span class="math inline">\(H_A\)</span> is “lower than 0.20,” calculate the proportion of simulated values less than or equal to the observed sample proportion.</p>
+<p>Visualize the null distribution and shade the p-value region.</p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(stat <span class="sc">&lt;=</span> ???) <span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">p_value =</span> ???)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">visualize</span>() <span class="sc">+</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">shade_p_value</span>(<span class="at">obs_stat =</span> ???, <span class="at">direction =</span> ???)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+</section>
+<section id="calculate-the-p-value-10-pts" class="level3">
+<h3 class="anchored" data-anchor-id="calculate-the-p-value-10-pts">Calculate the p-value (10 pts)</h3>
+<p>Use <code>get_p_value()</code> to calculate the p-value.</p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>null_dist <span class="sc">|&gt;</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">get_p_value</span>(<span class="at">obs_stat =</span> ???, <span class="at">direction =</span> ???)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 </section>
 <section id="conclusion-5-pts" class="level3">
@@ -877,10 +898,13 @@ Submission (20 points)
   hypothesize(null = "point", p = c("asked_payment" = 0.20, "not_asked" = 0.80)) |&gt;
   generate(reps = 2000, type = "draw") |&gt;
   calculate(stat = "prop")</code></pre>
+<p><strong>Null distribution visualization</strong></p>
+<pre><code>null_dist |&gt;
+  visualize() +
+  shade_p_value(obs_stat = 0.12, direction = "less")</code></pre>
 <p><strong>Simulation p-value</strong></p>
 <pre><code>null_dist |&gt;
-  filter(stat &lt;= 0.12) |&gt;
-  summarize(p_value = n() / nrow(null_dist))</code></pre>
+  get_p_value(obs_stat = 0.12, direction = "less")</code></pre>
 
 
 </section>

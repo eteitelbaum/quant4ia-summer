@@ -111,15 +111,36 @@ First, let's make the CIs for the white applicants.
 ```{r}
 library(tidymodels)
 boot_df_white <- myDat |>
-  filter(race == "white") |> 
-  specify(response = received_callback) |>  
-  generate(reps = 15000, type = "bootstrap") |> 
+  filter(race == "white") |>
+  specify(response = received_callback) |>
+  generate(reps = 15000, type = "bootstrap") |>
   calculate(stat = "mean")
-lower_bound_white <- boot_df_white |> summarize(lower_bound_white = quantile(stat, 0.025)) |> pull() 
-upper_bound_white <- boot_df_white |> summarize(upper_bound_white = quantile(stat, 0.975)) |> pull() 
+ci_white <- boot_df_white |> get_ci(level = 0.95)
+ci_white
 ```
 
-## 
+##
+
+<br>
+
+Visualize the bootstrap distribution and CI for white applicants.
+
+<br>
+
+```{r}
+#| code-fold: true
+boot_df_white |>
+  visualize() +
+  shade_ci(ci_white, color = "red", fill = "red") +
+  labs(
+    title = "Distribution of the Means of the Bootstrap Samples",
+    x = "Mean",
+    y = "Count"
+  ) +
+  theme_minimal()
+```
+
+##
 
 <br>
 
@@ -129,12 +150,33 @@ Now, let's create the CIs for black applicants.
 
 ```{r}
 boot_df_black <- myDat |>
-  filter(race == "black") |> 
-  specify(response = received_callback) |>  
-  generate(reps = 15000, type = "bootstrap") |> 
+  filter(race == "black") |>
+  specify(response = received_callback) |>
+  generate(reps = 15000, type = "bootstrap") |>
   calculate(stat = "mean")
-lower_bound_black <- boot_df_black |> summarize(lower_bound_black = quantile(stat, 0.025)) |> pull() 
-upper_bound_black <- boot_df_black |> summarize(upper_bound_black = quantile(stat, 0.975)) |> pull() 
+ci_black <- boot_df_black |> get_ci(level = 0.95)
+ci_black
+```
+
+##
+
+<br>
+
+Visualize the bootstrap distribution and CI for black applicants.
+
+<br>
+
+```{r}
+#| code-fold: true
+boot_df_black |>
+  visualize() +
+  shade_ci(ci_black, color = "red", fill = "red") +
+  labs(
+    title = "Distribution of the Means of the Bootstrap Samples",
+    x = "Mean",
+    y = "Count"
+  ) +
+  theme_minimal()
 ```
 
 ## 
@@ -149,8 +191,8 @@ Now, let's tidy the data for plotting.
 plotData <- tibble(
   race = c("Black", "White"),
   meanCalls = c(mean_black, mean_white),
-  lower95 = c(lower_bound_black, lower_bound_white),
-  upper95 = c(upper_bound_black, upper_bound_white)
+  lower95 = c(ci_black$lower_ci, ci_white$lower_ci),
+  upper95 = c(ci_black$upper_ci, ci_white$upper_ci)
 )
 plotData
 ```
@@ -284,12 +326,13 @@ null_dist <- myDat |>
 
 <br>
 
-Let's get the p-value with `get_pvalue` from the `infer` package.
+Let's get the p-value with `get_p_value` from the `infer` package.
 
 <br>
 
 ```{r}
-get_p_value(null_dist, obs_stat = teffect, direction = "greater")
+null_dist |>
+  get_p_value(obs_stat = teffect, direction = "greater")
 ```
 
 ## Visualize the Null Distribution
@@ -297,12 +340,14 @@ get_p_value(null_dist, obs_stat = teffect, direction = "greater")
 <br>
 
 ```{r}
-visualize(null_dist) +
+#| code-fold: true
+null_dist |>
+  visualize() +
   shade_p_value(obs_stat = teffect, direction = "greater") +
   labs(
     x = "Estimated Difference under the Null",
     y = "Count"
-  ) + 
+  ) +
   theme_bw()
 ```
 

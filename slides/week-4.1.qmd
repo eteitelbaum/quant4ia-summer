@@ -28,7 +28,7 @@ execute:
 
 ## Today's Code
 
-<https://www.dropbox.com/scl/fo/k6q8n5lbwbff6j0h5vvs1/AK9Ibhnd8t3rxV5FneYf8AU?rlkey=zo2rejko587tfvoq8tterd44r&dl=0>
+Open the Week 4 project in the [course space on Posit Cloud](https://posit.cloud/spaces/787651)
 
 ## 
 
@@ -327,55 +327,29 @@ ggplot(data = null_dist, mapping = aes(x = stat)) +
 
 ## Calculate the p-value
 
-<br> 
+<br>
+
 *p-value*--in what % of the simulations was the simulated sample proportion at least as extreme as the observed sample proportion?
 
 ```{r}
 #| echo: true
 
-null_dist |>
-  # select out the value in the null distribution that are less that 0.25
-  filter(stat <= (15/60)) |>
-  # calculate the proportion - (number less divided by all values in null_dist)
-  summarise(p_value = n()/nrow(null_dist))
-```
-
-## Visualizing the p-value
-
-```{r}
-#| echo: false
-#| out-width: "50%"
-ggplot(data = null_dist, mapping = aes(x = stat)) +
-  geom_histogram(binwidth = 0.05, fill = "steelblue4") +
-  labs(title = "Null distribution") +
-  geom_vline(xintercept = .25, linetype = "dotted",
-                color = "black", linewidth = 1) + theme_bw()
-```
-
-## p-value using `infer`
-
-<br>
-
-```{r}
-#| echo: true
-
-library(infer)
-
-# calculate the p-value from null distribution
 p_value <- null_dist |>
   get_p_value(obs_stat = 15/60, direction = "less")
 
 p_value
 ```
 
-## Visualing the p-value using `infer`
+## Visualize the p-value
 
 <br>
 
 ```{r}
 #| echo: true
+#| code-fold: true
 
-visualize(null_dist) +
+null_dist |>
+  visualize() +
   shade_p_value(obs_stat = 15/60, direction = "less")
 ```
 

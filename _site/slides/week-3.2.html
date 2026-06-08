@@ -15,7 +15,7 @@
 <link href="../site_libs/quarto-contrib/shinylive-quarto-css/shinylive-quarto.css" rel="stylesheet"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-06-03">
+  <meta name="dcterms.date" content="2026-06-08">
   <title>IAFF 6501 -- Summer 2026 – Sampling and Uncertainty</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">June 3, 2026</p>
+  <p class="date">June 8, 2026</p>
 </section>
 <section id="sampling" class="slide level2">
 <h2>Sampling</h2>
@@ -807,8 +807,10 @@ $ stat      &lt;dbl&gt; 0.1146245, 0.1442688, 0.1343874, 0.1877470, 0.1521739, 0
 <h2>Your Turn!</h2>
 <p><br></p>
 <ul>
-<li>Change the <code>reps</code> argument in the <code>generate()</code> function to something way smaller, like 100. What happens to your estimates?</li>
-<li>Try progressively higher numbers. What happens to your estimates as the number of reps increases?</li>
+<li>Change the confidence level with <code>get_ci()</code> to <code>.90</code>. What happens to the width of the confidence interval?</li>
+<li>Visualize the new confidence interval</li>
+<li>How would you interpret this CI?</li>
+<li>Now try changing the confidence level to <code>.99</code>. What happens to the width of the confidence interval and how would you interpret it?</li>
 </ul>
 </section>
 <section id="bias-vs-precision" class="slide level2">
@@ -817,10 +819,10 @@ $ stat      &lt;dbl&gt; 0.1146245, 0.1442688, 0.1343874, 0.1877470, 0.1521739, 0
 <li>A procedure is <em>unbiased</em> if it generates the “right” answer, on average</li>
 <li>Precision refers to variability: procedures with less sampling variability will be more precise
 <ul>
-<li>all else equal, a greater sample size will increase precision</li>
+<li>all else equal, a greater <strong>sample size</strong> (<code>n</code>) will increase precision and produce narrower CIs</li>
 </ul></li>
-<li>When we increase the sample size (number of reps), we increase precision</li>
-<li>As a result our confidence interval will be narrower</li>
+<li>Increasing the number of bootstrap <strong>reps</strong> does <em>not</em> narrow the CI — it only makes the bootstrap distribution smoother and the CI estimate more stable</li>
+<li>To get a genuinely narrower CI, you need more data, not more resamples</li>
 </ul>
 </section>
 <section id="why-did-we-do-these-simulations" class="slide level2">

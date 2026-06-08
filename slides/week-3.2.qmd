@@ -681,16 +681,18 @@ The 95% confidence interval was calculated as (`r round(ci$lower_ci, 3)`, `r rou
 
 <br>
 
-- Change the `reps` argument in the `generate()` function to something way smaller, like 100. What happens to your estimates?
-- Try progressively higher numbers. What happens to your estimates as the number of reps increases?
+- Change the confidence level with `get_ci()` to `.90`. What happens to the width of the confidence interval?
+- Visualize the new confidence interval
+- How would you interpret this CI?
+- Now try changing the confidence level to `.99`. What happens to the width of the confidence interval and how would you interpret it?
 
 ## Bias vs Precision
 
 - A procedure is *unbiased* if it generates the "right" answer, on average
 - Precision refers to variability: procedures with less sampling variability will be more precise
-    - all else equal, a greater sample size will increase precision
-- When we increase the sample size (number of reps), we increase precision
-- As a result our confidence interval will be narrower
+    - all else equal, a greater **sample size** (`n`) will increase precision and produce narrower CIs
+- Increasing the number of bootstrap **reps** does *not* narrow the CI — it only makes the bootstrap distribution smoother and the CI estimate more stable
+- To get a genuinely narrower CI, you need more data, not more resamples
 
 ## Why did we do these simulations?
 
