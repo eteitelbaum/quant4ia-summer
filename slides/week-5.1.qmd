@@ -183,7 +183,7 @@ Before fitting a model, we can quantify the strength of the relationship:
 #| label: correlation
 #| echo: true
 
-cor(modelData$log_wealth, modelData$lib_dem)
+cor(modelData$log_wealth, modelData$lib_dem, use = "complete.obs")
 ```
 
 <br>
@@ -258,7 +258,7 @@ mod_fit <- lm(lib_dem ~ log_wealth, data = modelData)
 fit_aug  <- augment(mod_fit) |>
   mutate(res_cat = ifelse(.resid > 0, TRUE, FALSE))
 
-a <- round(coef(mod_fit)[1], 2)
+a <- round(coef(mod_fit)[1], 3)
 b <- round(coef(mod_fit)[2], 2)
 
 ggplot(data = fit_aug) +
@@ -372,7 +372,7 @@ ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
   geom_point() +
   geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
   labs(x = "GDP per capita", y = "Liberal Democracy Index") +
-  geom_segment(aes(x = 2, xend= 3, y=.37, yend=.37), colour="darkblue", linewidth=1.5, arrow = arrow(length = unit(0.5, "cm"))) +
+  geom_segment(aes(x = 2, xend= 3, y=a+b*2, yend=a+b*2), colour="darkblue", linewidth=1.5, arrow = arrow(length = unit(0.5, "cm"))) +
   theme_bw()
   
 #Ŷ =0.13+0.12×X
@@ -386,9 +386,9 @@ ggplot(modelData, aes(x = log_wealth, y = lib_dem)) +
   geom_point() +
   geom_smooth(method = "lm", color = "#E48957", se = FALSE) +
   labs(x = "GDP per capita", y = "Liberal Democracy Index") +
-  geom_segment(aes(x = 2, xend= 3, y=.37, yend=.37), colour="darkblue", linewidth=1.5) +
-  geom_segment(aes(x = 3, xend= 3, y=.37, yend=.49), colour="darkblue", linewidth=1.5, arrow = arrow(length = unit(0.5, "cm"))) +
-  geom_text(x=3.2, y=.43, label="0.12", color="darkblue", size=4) +
+  geom_segment(aes(x = 2, xend= 3, y=a+b*2, yend=a+b*2), colour="darkblue", linewidth=1.5) +
+  geom_segment(aes(x = 3, xend= 3, y=a+b*2, yend=a+b*3), colour="darkblue", linewidth=1.5, arrow = arrow(length = unit(0.5, "cm"))) +
+  geom_text(x=3.2, y=a+b*2.5, label=b, color="darkblue", size=4) +
   theme_bw()
   
 #Ŷ =0.13+0.12×X
@@ -488,7 +488,7 @@ In equation form... How do we interpret the model?
 
 <br>
 
-$$\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}$$
+$$\widehat{Democracy}_{i} = `r a` + `r b` \times {loggdppc}_{i}$$
 
 ## R-Squared
 
@@ -500,14 +500,15 @@ How well does the model fit? **R²** tells us the proportion of variation in Y e
 #| label: r-squared
 #| echo: true
 
-summary(model1)$r.squared
+r2 <- round(summary(model1)$r.squared, 2)
+r2
 ```
 
 . . .
 
 <br>
 
-An R² of ≈ 0.28 means log GDP per capita explains **28%** of the variation in democracy scores. The remaining 72% is explained by other factors.
+An R² of ≈ `r r2` means log GDP per capita explains **`r round(r2 * 100)`%** of the variation in democracy scores. The remaining `r round((1 - r2) * 100)`% is explained by other factors.
 
 ## Question
 
@@ -580,7 +581,7 @@ mod_fit <- lm(lib_dem ~ log_wealth, data = modelData)
 fit_aug  <- augment(mod_fit) |>
   mutate(res_cat = ifelse(.resid > 0, TRUE, FALSE))
 
-a <- round(coef(mod_fit)[1], 2)
+a <- round(coef(mod_fit)[1], 3)
 b <- round(coef(mod_fit)[2], 2)
 
 ggplot(data = fit_aug) +

@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-06-08">
+  <meta name="dcterms.date" content="2026-06-14">
   <title>IAFF 6501 -- Summer 2026 – Linear Regression</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -207,7 +207,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">June 8, 2026</p>
+  <p class="date">June 14, 2026</p>
 </section>
 <section id="modeling" class="slide level2">
 <h2>Modeling</h2>
@@ -305,9 +305,9 @@ $ log_wealth &lt;dbl&gt; 3.535379, 3.205507, 4.670452, 4.695477, 2.381396, 3.182
 <p><br></p>
 <p>Before fitting a model, we can quantify the strength of the relationship:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">cor</span>(modelData<span class="sc">$</span>log_wealth, modelData<span class="sc">$</span>lib_dem)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">cor</span>(modelData<span class="sc">$</span>log_wealth, modelData<span class="sc">$</span>lib_dem, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] NA</code></pre>
+<pre><code>[1] 0.5635943</code></pre>
 </div>
 </div>
 <p><br></p>
@@ -384,19 +384,19 @@ $ log_wealth &lt;dbl&gt; 3.535379, 3.205507, 4.670452, 4.695477, 2.381396, 3.182
 <section id="linear-model" class="slide level2">
 <h2>Linear Model</h2>
 <p><span class="math inline">\(\hat{Y} = a  + b \times X\)</span></p>
-<p><span class="math inline">\(\hat{Y} = 0.01  + 0.13 \times X\)</span></p>
+<p><span class="math inline">\(\hat{Y} = 0.008  + 0.13 \times X\)</span></p>
 
 <img data-src="week-5.1_files/figure-revealjs/unnamed-chunk-2-1.png" style="width:100.0%" class="r-stretch"></section>
 <section id="linear-model-interpretation" class="slide level2">
 <h2>Linear Model: Interpretation</h2>
 <p><br></p>
 <div class="line-block"><span class="math inline">\(\hat{Y} = a  + b \times X\)</span><br>
-<span class="math inline">\(\hat{Y} = 0.01  + 0.13 \times X\)</span></div>
+<span class="math inline">\(\hat{Y} = 0.008  + 0.13 \times X\)</span></div>
 <p>What is the interpretation of our estimate of <span class="math inline">\(a\)</span>?</p>
 <div class="fragment">
 <p><br></p>
-<div class="line-block"><span class="math inline">\(\hat{Y} = 0.01  + 0.13 \times 0\)</span><br>
-<span class="math inline">\(\hat{Y} = 0.01\)</span></div>
+<div class="line-block"><span class="math inline">\(\hat{Y} = 0.008  + 0.13 \times 0\)</span><br>
+<span class="math inline">\(\hat{Y} = 0.008\)</span></div>
 <p><span class="math inline">\(a\)</span> is our predicted level of democracy when GDP per capita is 0.</p>
 </div>
 </section>
@@ -404,7 +404,7 @@ $ log_wealth &lt;dbl&gt; 3.535379, 3.205507, 4.670452, 4.695477, 2.381396, 3.182
 <h2>Linear Model: Interpretation</h2>
 <p><br></p>
 <div class="line-block"><span class="math inline">\(\hat{Y} = a  + b \times X\)</span><br>
-<span class="math inline">\(\hat{Y} = 0.01  + 0.13 \times X\)</span></div>
+<span class="math inline">\(\hat{Y} = 0.008  + 0.13 \times X\)</span></div>
 <p>What is interpretation of our estimate of <span class="math inline">\(b\)</span>?</p>
 <div class="fragment">
 <p><br></p>
@@ -522,21 +522,22 @@ F-statistic: 80.07 on 1 and 172 DF,  p-value: 5.657e-16</code></pre>
 <h2></h2>
 <p>In equation form… How do we interpret the model?</p>
 <p><br></p>
-<p><span class="math display">\[\widehat{Democracy}_{i} = 0.13 + 0.12 * {loggdppc}_{i}\]</span></p>
+<p><span class="math display">\[\widehat{Democracy}_{i} = 0.008 + 0.13 \times {loggdppc}_{i}\]</span></p>
 </section>
 <section id="r-squared" class="slide level2">
 <h2>R-Squared</h2>
 <p><br></p>
 <p>How well does the model fit? <strong>R²</strong> tells us the proportion of variation in Y explained by X:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a><span class="fu">summary</span>(model1)<span class="sc">$</span>r.squared</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a></a>r2 <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">summary</span>(model1)<span class="sc">$</span>r.squared, <span class="dv">2</span>)</span>
+<span id="cb9-2"><a></a>r2</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.3176385</code></pre>
+<pre><code>[1] 0.32</code></pre>
 </div>
 </div>
 <div class="fragment">
 <p><br></p>
-<p>An R² of ≈ 0.28 means log GDP per capita explains <strong>28%</strong> of the variation in democracy scores. The remaining 72% is explained by other factors.</p>
+<p>An R² of ≈ 0.32 means log GDP per capita explains <strong>32%</strong> of the variation in democracy scores. The remaining 68% is explained by other factors.</p>
 </div>
 </section>
 <section id="question" class="slide level2">
