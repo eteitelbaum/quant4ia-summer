@@ -41,7 +41,7 @@ library(broom)
 #| echo: true
 
 modelData <- vdem |>
-  filter(year == 2006) |> 
+  filter(year == 2006) |>
   select(country_name, 
          libdem = v2x_libdem, 
          wealth = e_gdppc, 
@@ -454,7 +454,7 @@ levels(modelData$regime)
 
 <br>
 
-- Filter data to include only the year 2019 (or run the code to use modelData)
+- Filter data to include only the year 2006 (or run the code to use modelData)
 - Make a plot to visualize the relationship between regime type and level of corruption.
   - Which kind of plot is best in this situation?
 - Fit a linear model
