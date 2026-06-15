@@ -50,7 +50,7 @@ pak::pak("vdeminstitute/vdemdata")
 
 ## The Data
 
-You will work with cross-national data from the V-Dem project for the year 2019. Parts 1 and 2 focus on a simple research question: **Are more democratic countries less corrupt?**
+You will work with cross-national data from the V-Dem project. Parts 1 and 2 use data from **2019** and focus on a simple research question: **Are more democratic countries less corrupt?** Parts 3 and 4 use data from **2006** to match the lecture slides.
 
 The key variables are:
 
@@ -152,7 +152,7 @@ The key variables are:
 
 ### Step 1: Wrangle the data (10 pts)
 
-Fill in the `???` to filter V-Dem to the year 2019 and select the relevant variables.
+Fill in the `???` to filter V-Dem to the year 2006 and select the relevant variables.
 
 ```{r}
 #| label: wrangle-multi
@@ -346,9 +346,9 @@ YOUR ANSWER HERE
 
 **Hint 1 — Filtering to one year:**
 
-```
-filter(year == 2019)
-```
+Parts 1 & 2: `filter(year == 2019)`
+
+Parts 3 & 4: `filter(year == 2006)`
 
 **Hint 2 — Scatter plot with regression line:**
 
