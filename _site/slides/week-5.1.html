@@ -305,14 +305,15 @@ $ log_wealth &lt;dbl&gt; 3.535379, 3.205507, 4.670452, 4.695477, 2.381396, 3.182
 <p><br></p>
 <p>Before fitting a model, we can quantify the strength of the relationship:</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">cor</span>(modelData<span class="sc">$</span>log_wealth, modelData<span class="sc">$</span>lib_dem, <span class="at">use =</span> <span class="st">"complete.obs"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a>r_cor <span class="ot">&lt;-</span> <span class="fu">round</span>(<span class="fu">cor</span>(modelData<span class="sc">$</span>log_wealth, modelData<span class="sc">$</span>lib_dem, <span class="at">use =</span> <span class="st">"complete.obs"</span>), <span class="dv">2</span>)</span>
+<span id="cb5-2"><a></a>r_cor</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.5635943</code></pre>
+<pre><code>[1] 0.56</code></pre>
 </div>
 </div>
 <p><br></p>
 <ul>
-<li class="fragment"><strong>r ≈ 0.53</strong>: moderate positive relationship</li>
+<li class="fragment"><strong>r ≈ 0.56</strong>: moderate positive relationship</li>
 <li class="fragment">r = +1 (perfect positive), 0 (none), −1 (perfect negative)</li>
 <li class="fragment">|r| &gt; 0.7: strong; 0.3–0.7: moderate; &lt; 0.3: weak</li>
 </ul>

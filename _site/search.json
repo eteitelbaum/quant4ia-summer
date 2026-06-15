@@ -4015,7 +4015,7 @@
     "href": "slides/week-5.1.html#correlation",
     "title": "Linear Regression",
     "section": "Correlation",
-    "text": "Correlation\n\nBefore fitting a model, we can quantify the strength of the relationship:\n\ncor(modelData$log_wealth, modelData$lib_dem, use = \"complete.obs\")\n\n[1] 0.5635943\n\n\n\n\nr ≈ 0.53: moderate positive relationship\nr = +1 (perfect positive), 0 (none), −1 (perfect negative)\n|r| &gt; 0.7: strong; 0.3–0.7: moderate; &lt; 0.3: weak"
+    "text": "Correlation\n\nBefore fitting a model, we can quantify the strength of the relationship:\n\nr_cor &lt;- round(cor(modelData$log_wealth, modelData$lib_dem, use = \"complete.obs\"), 2)\nr_cor\n\n[1] 0.56\n\n\n\n\nr ≈ 0.56: moderate positive relationship\nr = +1 (perfect positive), 0 (none), −1 (perfect negative)\n|r| &gt; 0.7: strong; 0.3–0.7: moderate; &lt; 0.3: weak"
   },
   {
     "objectID": "slides/week-5.1.html#models-as-functions",

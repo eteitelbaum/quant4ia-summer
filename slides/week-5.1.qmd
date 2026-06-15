@@ -183,13 +183,14 @@ Before fitting a model, we can quantify the strength of the relationship:
 #| label: correlation
 #| echo: true
 
-cor(modelData$log_wealth, modelData$lib_dem, use = "complete.obs")
+r_cor <- round(cor(modelData$log_wealth, modelData$lib_dem, use = "complete.obs"), 2)
+r_cor
 ```
 
 <br>
 
 ::: {.incremental}
-- **r ≈ 0.53**: moderate positive relationship
+- **r ≈ `r r_cor`**: moderate positive relationship
 - r = +1 (perfect positive), 0 (none), −1 (perfect negative)
 - |r| > 0.7: strong; 0.3–0.7: moderate; < 0.3: weak
 :::
