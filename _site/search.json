@@ -1308,35 +1308,35 @@
     "href": "slides/week-5.2.html#model-with-two-predictors",
     "title": "Multiple Regression",
     "section": "Model with Two Predictors",
-    "text": "Model with Two Predictors\n\n\nmodel2 &lt;- lm(libdem ~ polarization + log_wealth, data = modelData) \n\nsummary(model2)\n\n\nCall:\nlm(formula = libdem ~ polarization + log_wealth, data = modelData)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-0.66770 -0.15112  0.04516  0.17776  0.42283 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   0.09668    0.04423   2.186   0.0302 *  \npolarization -0.05779    0.01372  -4.213 4.08e-05 ***\nlog_wealth    0.09998    0.01495   6.687 3.14e-10 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.216 on 170 degrees of freedom\n  (4 observations deleted due to missingness)\nMultiple R-squared:  0.3656,    Adjusted R-squared:  0.3582 \nF-statistic: 48.99 on 2 and 170 DF,  p-value: &lt; 2.2e-16"
+    "text": "Model with Two Predictors\n\n\nmodel2 &lt;- lm(libdem ~ polarization + log_wealth, data = modelData)\n\nsummary(model2)\n\n\nCall:\nlm(formula = libdem ~ polarization + log_wealth, data = modelData)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-0.66770 -0.15112  0.04516  0.17776  0.42283 \n\nCoefficients:\n             Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   0.09668    0.04423   2.186   0.0302 *  \npolarization -0.05779    0.01372  -4.213 4.08e-05 ***\nlog_wealth    0.09998    0.01495   6.687 3.14e-10 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.216 on 170 degrees of freedom\n  (4 observations deleted due to missingness)\nMultiple R-squared:  0.3656,    Adjusted R-squared:  0.3582 \nF-statistic: 48.99 on 2 and 170 DF,  p-value: &lt; 2.2e-16"
   },
   {
     "objectID": "slides/week-5.2.html#model-with-two-predictors-1",
     "href": "slides/week-5.2.html#model-with-two-predictors-1",
     "title": "Multiple Regression",
     "section": "Model with Two Predictors",
-    "text": "Model with Two Predictors\n\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\\]\n\\[\\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\\]"
+    "text": "Model with Two Predictors\n\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\\]\n\\[\\hat{Y_i} = 0.097 + -0.058*Polarization + 0.1*GDPpc\\]"
   },
   {
     "objectID": "slides/week-5.2.html#model-with-two-predictors-2",
     "href": "slides/week-5.2.html#model-with-two-predictors-2",
     "title": "Multiple Regression",
     "section": "Model with Two Predictors",
-    "text": "Model with Two Predictors\n\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\\]\n\\[\\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\\]\n\\(a\\) is the predicted level of Y when BOTH GDP per capita and polarization are equal to 0"
+    "text": "Model with Two Predictors\n\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\\]\n\\[\\hat{Y_i} = 0.097 + -0.058*Polarization + 0.1*GDPpc\\]\n\\(a\\) is the predicted level of Y when BOTH GDP per capita and polarization are equal to 0"
   },
   {
     "objectID": "slides/week-5.2.html#model-with-two-predictors-3",
     "href": "slides/week-5.2.html#model-with-two-predictors-3",
     "title": "Multiple Regression",
     "section": "Model with Two Predictors",
-    "text": "Model with Two Predictors\n\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\\]\n\\[\\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\\]\n\n\\(b_1\\) is the impact of a 1-unit change in polarization on the predicted level of Y, holding GDP per capita fixed (all else equal)\nThe relationship between polarization and democracy, controlling for wealth"
+    "text": "Model with Two Predictors\n\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\\]\n\\[\\hat{Y_i} = 0.097 + -0.058*Polarization + 0.1*GDPpc\\]\n\n\\(b_1\\) is the impact of a 1-unit change in polarization on the predicted level of Y, holding GDP per capita fixed (all else equal)\nThe relationship between polarization and democracy, controlling for wealth"
   },
   {
     "objectID": "slides/week-5.2.html#model-with-two-predictors-4",
     "href": "slides/week-5.2.html#model-with-two-predictors-4",
     "title": "Multiple Regression",
     "section": "Model with Two Predictors",
-    "text": "Model with Two Predictors\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\\]\n\\[\\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\\]\n\n\\(b_2\\) is the impact of a 1-unit change in GDP per capita on the predicted level of Y, holding polarization fixed (all else equal)\nThe relationship between wealth and democracy, controlling for polarization"
+    "text": "Model with Two Predictors\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\\]\n\\[\\hat{Y_i} = 0.097 + -0.058*Polarization + 0.1*GDPpc\\]\n\n\\(b_2\\) is the impact of a 1-unit change in GDP per capita on the predicted level of Y, holding polarization fixed (all else equal)\nThe relationship between wealth and democracy, controlling for polarization"
   },
   {
     "objectID": "slides/week-5.2.html#model-with-two-predictors-5",
@@ -1357,14 +1357,14 @@
     "href": "slides/week-5.2.html#model-with-three-predictors-1",
     "title": "Multiple Regression",
     "section": "Model with Three Predictors",
-    "text": "Model with Three Predictors\n\n\nmodel3 &lt;- lm(libdem ~ polarization + log_wealth + oil_rents, data = modelData) \n\nsummary(model3)\n\n\nCall:\nlm(formula = libdem ~ polarization + log_wealth + oil_rents, \n    data = modelData)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-0.53085 -0.14849  0.03728  0.12810  0.67727 \n\nCoefficients:\n               Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   2.320e-02  4.151e-02   0.559    0.577    \npolarization -5.660e-02  1.270e-02  -4.458 1.56e-05 ***\nlog_wealth    1.371e-01  1.471e-02   9.315  &lt; 2e-16 ***\noil_rents    -4.169e-05  5.915e-06  -7.048 5.32e-11 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.1922 on 158 degrees of freedom\n  (15 observations deleted due to missingness)\nMultiple R-squared:  0.5099,    Adjusted R-squared:  0.5006 \nF-statistic: 54.79 on 3 and 158 DF,  p-value: &lt; 2.2e-16"
+    "text": "Model with Three Predictors\n\n\nmodel3 &lt;- lm(libdem ~ polarization + log_wealth + oil_rents, data = modelData)\n\nsummary(model3)\n\n\nCall:\nlm(formula = libdem ~ polarization + log_wealth + oil_rents, \n    data = modelData)\n\nResiduals:\n     Min       1Q   Median       3Q      Max \n-0.53085 -0.14849  0.03728  0.12810  0.67727 \n\nCoefficients:\n               Estimate Std. Error t value Pr(&gt;|t|)    \n(Intercept)   2.320e-02  4.151e-02   0.559    0.577    \npolarization -5.660e-02  1.270e-02  -4.458 1.56e-05 ***\nlog_wealth    1.371e-01  1.471e-02   9.315  &lt; 2e-16 ***\noil_rents    -4.169e-05  5.915e-06  -7.048 5.32e-11 ***\n---\nSignif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1\n\nResidual standard error: 0.1922 on 158 degrees of freedom\n  (15 observations deleted due to missingness)\nMultiple R-squared:  0.5099,    Adjusted R-squared:  0.5006 \nF-statistic: 54.79 on 3 and 158 DF,  p-value: &lt; 2.2e-16"
   },
   {
     "objectID": "slides/week-5.2.html#model-with-three-predictors-2",
     "href": "slides/week-5.2.html#model-with-three-predictors-2",
     "title": "Multiple Regression",
     "section": "Model with Three Predictors",
-    "text": "Model with Three Predictors\n\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc + b_3*OilRents\\]\n\\[\\hat{Y_i} = a + -.05*Polarization + .13*GDPpc + .00004*OilRents\\] \n\\(b_3\\) is the impact of a 1-unit change in oil revenues per capita on the predicted level of Y, holding polarization and GDP fixed (all else equal)"
+    "text": "Model with Three Predictors\n\n\\[\\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc + b_3*OilRents\\]\n\\[\\hat{Y_i} = 0.023 + -0.057*Polarization + 0.137*GDPpc + -4\\times 10^{-5}*OilRents\\] \n\\(b_3\\) is the impact of a 1-unit change in oil revenues per capita on the predicted level of Y, holding polarization and GDP fixed (all else equal)"
   },
   {
     "objectID": "slides/week-5.2.html#making-predictions",
@@ -1420,7 +1420,7 @@
     "href": "slides/week-5.2.html#judicial-review-and-democracy-3",
     "title": "Multiple Regression",
     "section": "Judicial Review and Democracy",
-    "text": "Judicial Review and Democracy\n\n\\[\\widehat{Democracy_{i}} = 0.17 + 0.28*JudicialReview(yes)\\]\n\nSlope: countries with judicial review are expected, on average, to be 0.28 units more democratic on the liberal democracy index\n\nCompares baseline level (Judicial Review = 0) to the other level (Judicial Review = 1)\n\nIntercept: average democracy score of countries without judicial review\nAverage democracy score of countries with judicial review is 0.17 + 0.28 = 0.45"
+    "text": "Judicial Review and Democracy\n\n\\[\\widehat{Democracy_{i}} = 0.12 + 0.324*JudicialReview(yes)\\]\n\nSlope: countries with judicial review are expected, on average, to be 0.324 units more democratic on the liberal democracy index\n\nCompares baseline level (Judicial Review = 0) to the other level (Judicial Review = 1)\n\nIntercept: average democracy score of countries without judicial review\nAverage democracy score of countries with judicial review is 0.12 + 0.324 = 0.444"
   },
   {
     "objectID": "slides/week-5.2.html#dummy-variables",

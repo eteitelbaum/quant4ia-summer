@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-06-08">
+  <meta name="dcterms.date" content="2026-06-14">
   <title>IAFF 6501 -- Summer 2026 – Multiple Regression</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -207,7 +207,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">June 8, 2026</p>
+  <p class="date">June 14, 2026</p>
 </section>
 <section id="load-packages" class="slide level2">
 <h2>Load packages</h2>
@@ -313,7 +313,7 @@ Significance?</div>
 <h2>Model with Two Predictors</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(libdem <span class="sc">~</span> polarization <span class="sc">+</span> log_wealth, <span class="at">data =</span> modelData) </span>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a></a>model2 <span class="ot">&lt;-</span> <span class="fu">lm</span>(libdem <span class="sc">~</span> polarization <span class="sc">+</span> log_wealth, <span class="at">data =</span> modelData)</span>
 <span id="cb6-2"><a></a></span>
 <span id="cb6-3"><a></a><span class="fu">summary</span>(model2)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -344,20 +344,20 @@ F-statistic: 48.99 on 2 and 170 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Model with Two Predictors</h2>
 <p><br></p>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\]</span></p>
+<p><span class="math display">\[\hat{Y_i} = 0.097 + -0.058*Polarization + 0.1*GDPpc\]</span></p>
 </section>
 <section id="model-with-two-predictors-2" class="slide level2">
 <h2>Model with Two Predictors</h2>
 <p><br></p>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\]</span></p>
+<p><span class="math display">\[\hat{Y_i} = 0.097 + -0.058*Polarization + 0.1*GDPpc\]</span></p>
 <p><span class="math inline">\(a\)</span> is the predicted level of Y when BOTH GDP per capita and polarization are equal to 0</p>
 </section>
 <section id="model-with-two-predictors-3" class="slide level2">
 <h2>Model with Two Predictors</h2>
 <p><br></p>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\]</span></p>
+<p><span class="math display">\[\hat{Y_i} = 0.097 + -0.058*Polarization + 0.1*GDPpc\]</span></p>
 <ul>
 <li><span class="math inline">\(b_1\)</span> is the impact of a 1-unit change in polarization on the predicted level of Y, <strong>holding GDP per capita fixed</strong> (all else equal)</li>
 <li>The relationship between polarization and democracy, controlling for wealth</li>
@@ -366,7 +366,7 @@ F-statistic: 48.99 on 2 and 170 DF,  p-value: &lt; 2.2e-16</code></pre>
 <section id="model-with-two-predictors-4" class="slide level2">
 <h2>Model with Two Predictors</h2>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = 0.18 + -0.05*Polarization + 0.10*GDPpc\]</span></p>
+<p><span class="math display">\[\hat{Y_i} = 0.097 + -0.058*Polarization + 0.1*GDPpc\]</span></p>
 <ul>
 <li><span class="math inline">\(b_2\)</span> is the impact of a 1-unit change in GDP per capita on the predicted level of Y, <strong>holding polarization fixed</strong> (all else equal)</li>
 <li>The relationship between wealth and democracy, controlling for polarization</li>
@@ -390,7 +390,7 @@ F-statistic: 48.99 on 2 and 170 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Model with Three Predictors</h2>
 <p><br></p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>model3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(libdem <span class="sc">~</span> polarization <span class="sc">+</span> log_wealth <span class="sc">+</span> oil_rents, <span class="at">data =</span> modelData) </span>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a></a>model3 <span class="ot">&lt;-</span> <span class="fu">lm</span>(libdem <span class="sc">~</span> polarization <span class="sc">+</span> log_wealth <span class="sc">+</span> oil_rents, <span class="at">data =</span> modelData)</span>
 <span id="cb8-2"><a></a></span>
 <span id="cb8-3"><a></a><span class="fu">summary</span>(model3)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -423,7 +423,7 @@ F-statistic: 54.79 on 3 and 158 DF,  p-value: &lt; 2.2e-16</code></pre>
 <h2>Model with Three Predictors</h2>
 <p><br></p>
 <p><span class="math display">\[\hat{Y_i} = a + b_1*Polarization + b_2*GDPpc + b_3*OilRents\]</span></p>
-<p><span class="math display">\[\hat{Y_i} = a + -.05*Polarization + .13*GDPpc + .00004*OilRents\]</span> <br></p>
+<p><span class="math display">\[\hat{Y_i} = 0.023 + -0.057*Polarization + 0.137*GDPpc + -4\times 10^{-5}*OilRents\]</span> <br></p>
 <div class="line-block"><span class="math inline">\(b_3\)</span> is the impact of a 1-unit change in oil revenues per capita on the predicted level of Y, <strong>holding polarization and GDP fixed</strong> (all else equal)</div>
 </section>
 <section id="making-predictions" class="slide level2">
@@ -577,14 +577,14 @@ F-statistic: 31.92 on 1 and 175 DF,  p-value: 6.403e-08</code></pre>
 <section id="judicial-review-and-democracy-3" class="slide level2 smaller">
 <h2>Judicial Review and Democracy</h2>
 <p><br></p>
-<p><span class="math display">\[\widehat{Democracy_{i}} = 0.17 + 0.28*JudicialReview(yes)\]</span></p>
+<p><span class="math display">\[\widehat{Democracy_{i}} = 0.12 + 0.324*JudicialReview(yes)\]</span></p>
 <ul>
-<li><strong>Slope:</strong> countries with judicial review are expected, on average, to be 0.28 units more democratic on the liberal democracy index
+<li><strong>Slope:</strong> countries with judicial review are expected, on average, to be 0.324 units more democratic on the liberal democracy index
 <ul>
 <li>Compares baseline level (Judicial Review = 0) to the other level (Judicial Review = 1)</li>
 </ul></li>
 <li><strong>Intercept:</strong> average democracy score of countries without judicial review</li>
-<li>Average democracy score of countries with judicial review is 0.17 + 0.28 = 0.45</li>
+<li>Average democracy score of countries with judicial review is 0.12 + 0.324 = 0.444</li>
 </ul>
 </section>
 <section id="dummy-variables" class="slide level2">
