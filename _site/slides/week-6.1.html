@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-06-08">
+  <meta name="dcterms.date" content="2026-06-22">
   <title>IAFF 6501 -- Summer 2026 – Logistic Regression</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">June 8, 2026</p>
+  <p class="date">June 22, 2026</p>
 </section>
 <section>
 <section id="binary-outcomes" class="title-slide slide level1 center">
@@ -254,21 +254,32 @@
 <p><br></p>
 <p>Each Bernoulli trial can have a separate probability of success</p>
 <p><br></p>
-<p><span class="math display">\[ y_i ∼ Bern(p) \]</span></p>
+<p><span class="math display">\[ y_i ∼ Bern(p_i) \]</span></p>
+<p><br></p>
+<div class="fragment">
+<p>We can then use the predictor variables to model that probability of success, <span class="math inline">\(p_i\)</span></p>
+</div>
+</section>
+<section id="why-not-linear-regression" class="slide level2">
+<h2>Why Not Linear Regression?</h2>
+
+<img data-src="week-6.1_files/figure-revealjs/lpm-problem-1.png" width="960" class="r-stretch"></section>
+<section id="why-not-linear-regression-1" class="slide level2">
+<h2>Why Not Linear Regression?</h2>
+<ul>
+<li class="fragment">With a binary outcome (0/1), OLS can predict values <strong>outside [0, 1]</strong></li>
+<li class="fragment">Predicted probabilities below 0 or above 1 are not meaningful</li>
+<li class="fragment">OLS assumes a linear relationship between predictors and the expected value of (Y)</li>
+<li class="fragment">For binary outcomes, the relationship between predictors and probabilities is usually not linear over the full range</li>
+<li class="fragment">We need a model that lets the mean of (Y) depend on predictors in a way appropriate to the outcome</li>
+</ul>
 </section>
 <section id="modeling-2" class="slide level2">
 <h2>Modeling</h2>
 <p><br></p>
 <ul>
-<li>We can then use the predictor variables to model that probability of success, <span class="math inline">\(p_i\)</span></li>
-<li>We can’t really use a linear model for <span class="math inline">\(p_i\)</span> (since <span class="math inline">\(p_i\)</span> must be between 0 and 1) but we can transform the linear model to have the appropriate range</li>
-</ul>
-</section>
-<section id="generalized-linear-models" class="slide level2">
-<h2>Generalized Linear Models</h2>
-<p><br></p>
-<ul>
-<li>This is a very general way of addressing many problems in regression and the resulting models are called <strong>generalized linear models (GLMs)</strong></li>
+<li>We can’t really use a linear model for <span class="math inline">\(p_i\)</span> (since <span class="math inline">\(p_i\)</span> must be between 0 and 1 and the relationship is not linear) but we can transform the linear model to have the appropriate range</li>
+<li>So instead of OLS, we use a family of models called <strong>generalized linear models (GLMs)</strong></li>
 <li>Logistic regression is a very common example</li>
 </ul>
 </section>
@@ -277,25 +288,11 @@
 <p><br></p>
 <p>All GLMs have the following three characteristics:</p>
 <ul>
-<li class="fragment">A probability distribution describing a generative model for the outcome variable</li>
-<li class="fragment">A linear model: <span class="math display">\[\eta = \beta_0 + \beta_1 X_1 + \cdots + \beta_k X_k\]</span></li>
-<li class="fragment">A link function that relates the linear model to the parameter of the outcome distribution</li>
+<li class="fragment">An outcome distribution describing a generative model for the outcome variable (e.g.&nbsp;Bernoulli, Poisson, normal)</li>
+<li class="fragment">A linear predictor: <span class="math display">\[\eta = \beta_0 + \beta_1 X_1 + \cdots + \beta_k X_k\]</span></li>
+<li class="fragment">A link function that connects the expected value of the outcome to the linear predictor: <span class="math display">\[g(\mu_i) = \eta_i\]</span></li>
 </ul>
 </section>
-<section id="why-not-linear-regression" class="slide level2">
-<h2>Why Not Linear Regression?</h2>
-<p><br></p>
-<ul>
-<li class="fragment">With a binary outcome (0/1), OLS can predict values <strong>outside [0, 1]</strong></li>
-<li class="fragment">Predicted probabilities below 0 or above 1 are meaningless</li>
-<li class="fragment">The relationship between a predictor and a probability is rarely linear across the full range</li>
-<li class="fragment">We need a model that constrains predictions to [0, 1]</li>
-</ul>
-</section>
-<section id="why-not-linear-regression-1" class="slide level2">
-<h2>Why Not Linear Regression?</h2>
-
-<img data-src="week-6.1_files/figure-revealjs/lpm-problem-1.png" width="960" class="r-stretch"></section>
 <section id="the-sigmoid-function" class="slide level2">
 <h2>The Sigmoid Function</h2>
 <p><br></p>
@@ -498,6 +495,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
 </section>
 <section id="using-marginaleffects" class="slide level2">
 <h2>Using <code>marginaleffects</code></h2>
+<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb5"><pre class="sourceCode numberSource r number-lines code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a></a><span class="fu">library</span>(marginaleffects)</span>
 <span id="cb5-2"><a></a></span>

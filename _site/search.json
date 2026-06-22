@@ -4750,14 +4750,14 @@
     "href": "slides/week-6.1.html#modeling-1",
     "title": "Logistic Regression",
     "section": "Modeling",
-    "text": "Modeling\n\nEach Bernoulli trial can have a separate probability of success\n\n\\[ y_i ∼ Bern(p) \\]"
+    "text": "Modeling\n\nEach Bernoulli trial can have a separate probability of success\n\n\\[ y_i ∼ Bern(p_i) \\]\n\n\nWe can then use the predictor variables to model that probability of success, \\(p_i\\)"
   },
   {
     "objectID": "slides/week-6.1.html#modeling-2",
     "href": "slides/week-6.1.html#modeling-2",
     "title": "Logistic Regression",
     "section": "Modeling",
-    "text": "Modeling\n\n\nWe can then use the predictor variables to model that probability of success, \\(p_i\\)\nWe can’t really use a linear model for \\(p_i\\) (since \\(p_i\\) must be between 0 and 1) but we can transform the linear model to have the appropriate range"
+    "text": "Modeling\n\n\nWe can’t really use a linear model for \\(p_i\\) (since \\(p_i\\) must be between 0 and 1 and the relationship is not linear) but we can transform the linear model to have the appropriate range\nSo instead of OLS, we use a family of models called generalized linear models (GLMs)\nLogistic regression is a very common example"
   },
   {
     "objectID": "slides/week-6.1.html#generalized-linear-models",
@@ -4771,21 +4771,21 @@
     "href": "slides/week-6.1.html#glms",
     "title": "Logistic Regression",
     "section": "GLMs",
-    "text": "GLMs\n\nAll GLMs have the following three characteristics:\n\nA probability distribution describing a generative model for the outcome variable\nA linear model: \\[\\eta = \\beta_0 + \\beta_1 X_1 + \\cdots + \\beta_k X_k\\]\nA link function that relates the linear model to the parameter of the outcome distribution"
+    "text": "GLMs\n\nAll GLMs have the following three characteristics:\n\nAn outcome distribution describing a generative model for the outcome variable (e.g. Bernoulli, Poisson, normal)\nA linear predictor: \\[\\eta = \\beta_0 + \\beta_1 X_1 + \\cdots + \\beta_k X_k\\]\nA link function that connects the expected value of the outcome to the linear predictor: \\[g(\\mu_i) = \\eta_i\\]"
   },
   {
     "objectID": "slides/week-6.1.html#why-not-linear-regression",
     "href": "slides/week-6.1.html#why-not-linear-regression",
     "title": "Logistic Regression",
     "section": "Why Not Linear Regression?",
-    "text": "Why Not Linear Regression?\n\n\nWith a binary outcome (0/1), OLS can predict values outside [0, 1]\nPredicted probabilities below 0 or above 1 are meaningless\nThe relationship between a predictor and a probability is rarely linear across the full range\nWe need a model that constrains predictions to [0, 1]"
+    "text": "Why Not Linear Regression?"
   },
   {
     "objectID": "slides/week-6.1.html#why-not-linear-regression-1",
     "href": "slides/week-6.1.html#why-not-linear-regression-1",
     "title": "Logistic Regression",
     "section": "Why Not Linear Regression?",
-    "text": "Why Not Linear Regression?"
+    "text": "Why Not Linear Regression?\n\nWith a binary outcome (0/1), OLS can predict values outside [0, 1]\nPredicted probabilities below 0 or above 1 are not meaningful\nOLS assumes a linear relationship between predictors and the expected value of (Y)\nFor binary outcomes, the relationship between predictors and probabilities is usually not linear over the full range\nWe need a model that lets the mean of (Y) depend on predictors in a way appropriate to the outcome"
   },
   {
     "objectID": "slides/week-6.1.html#the-sigmoid-function",
@@ -4897,7 +4897,7 @@
     "href": "slides/week-6.1.html#using-marginaleffects",
     "title": "Logistic Regression",
     "section": "Using marginaleffects",
-    "text": "Using marginaleffects\n\nlibrary(marginaleffects)\n\n# select some countries for a given year\nselected_countries &lt;- conflict_df |&gt;\n  filter(\n    gw_name %in% c(\"United States of America\", \"Venezuela\", \"Rwanda\"),\n    year == 1999)\n\n# calculate margins for the subset\nmarg_effects &lt;- predictions(conflict_model, newdata = selected_countries)\n\ntidy(marg_effects) |&gt;\n  select(gw_name, estimate, p.value, conf.low, conf.high)"
+    "text": "Using marginaleffects\n\n\nlibrary(marginaleffects)\n\n# select some countries for a given year\nselected_countries &lt;- conflict_df |&gt;\n  filter(\n    gw_name %in% c(\"United States of America\", \"Venezuela\", \"Rwanda\"),\n    year == 1999)\n\n# calculate margins for the subset\nmarg_effects &lt;- predictions(conflict_model, newdata = selected_countries)\n\ntidy(marg_effects) |&gt;\n  select(gw_name, estimate, p.value, conf.low, conf.high)"
   },
   {
     "objectID": "slides/week-6.1.html#using-marginaleffects-1",

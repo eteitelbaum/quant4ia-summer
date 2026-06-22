@@ -69,46 +69,13 @@ Each Bernoulli trial can have a separate probability of success
 
 <br>
 
-$$ y_i ∼ Bern(p) $$
-
-## Modeling
+$$ y_i ∼ Bern(p_i) $$
 
 <br>
 
-- We can then use the predictor variables to model that probability of success, $p_i$
-- We can't really use a linear model for $p_i$ (since $p_i$ must be between 0 and 1) but we can transform the linear model to have the appropriate range
+. . .
 
-
-## Generalized Linear Models
-
-<br>
-
-- This is a very general way of addressing many problems in regression and the resulting models are called **generalized linear models (GLMs)**
-- Logistic regression is a very common example
-
-## GLMs
-
-<br>
-
-All GLMs have the following three characteristics:
-
-::: {.incremental}
-- A probability distribution describing a generative model for the outcome variable
-- A linear model:
-$$\eta = \beta_0 + \beta_1 X_1 + \cdots + \beta_k X_k$$
-- A link function that relates the linear model to the parameter of the outcome distribution
-:::
-  
-## Why Not Linear Regression?
-
-<br>
-
-::: {.incremental}
-- With a binary outcome (0/1), OLS can predict values **outside [0, 1]**
-- Predicted probabilities below 0 or above 1 are meaningless
-- The relationship between a predictor and a probability is rarely linear across the full range
-- We need a model that constrains predictions to [0, 1]
-:::
+We can then use the predictor variables to model that probability of success, $p_i$
 
 ## Why Not Linear Regression?
 
@@ -134,6 +101,37 @@ ggplot(df_lpm, aes(x = x, y = y)) +
        x = "Predictor", y = "Outcome (0/1)") +
   theme_minimal()
 ```
+
+## Why Not Linear Regression?
+
+::: {.incremental}
+- With a binary outcome (0/1), OLS can predict values **outside [0, 1]**
+- Predicted probabilities below 0 or above 1 are not meaningful
+- OLS assumes a linear relationship between predictors and the expected value of (Y)
+- For binary outcomes, the relationship between predictors and probabilities is usually not linear over the full range
+- We need a model that lets the mean of (Y) depend on predictors in a way appropriate to the outcome
+:::
+
+## Modeling
+
+<br>
+
+- We can't really use a linear model for $p_i$ (since $p_i$ must be between 0 and 1 and the relationship is not linear) but we can transform the linear model to have the appropriate range
+- So instead of OLS, we use a family of models called **generalized linear models (GLMs)**
+- Logistic regression is a very common example
+
+## GLMs
+
+<br>
+
+All GLMs have the following three characteristics:
+
+::: {.incremental}
+- An outcome distribution describing a generative model for the outcome variable (e.g. Bernoulli, Poisson, normal)
+- A linear predictor:
+$$\eta = \beta_0 + \beta_1 X_1 + \cdots + \beta_k X_k$$
+- A link function that connects the expected value of the outcome to the linear predictor: $$g(\mu_i) = \eta_i$$
+:::
 
 ## The Sigmoid Function
 
@@ -340,6 +338,8 @@ $$p = 0.016 / 1.016$$
 $$p = 0.0158$$
 
 ## Using `marginaleffects` 
+
+<br>
 
 ```{r}
 #| label: marginal_effects
