@@ -138,21 +138,21 @@ YOUR ANSWER HERE
 
 ### Step 5: Calculate predicted probabilities (10 pts)
 
-Use `predictions()` from the `marginaleffects` package to calculate the predicted probability of conflict onset for three countries in the year 1999.
+Use `predictions()` from the `marginaleffects` package to calculate the predicted probability of conflict onset for three countries of your choice in the year 1999.
 
 ```{r}
 #| label: predicted-probs
 #| eval: !expr run
 
-selected_countries <- conflict_df |>
+??? <- conflict_df |>
   filter(
-    gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
+    gw_name %in% c(???, ???, ???),
     year == 1999
   )
 
-marg_effects <- predictions(conflict_model, newdata = selected_countries)
+marg_effects <- predictions(conflict_model, newdata = ???)
 
-tidy(marg_effects) |>
+tidy(???) |>
   select(estimate, conf.low, conf.high, gw_name)
 ```
 
@@ -208,10 +208,12 @@ An odds ratio below 1 means the predictor is associated with *lower* odds of the
 **Hint 4 — Calculating predicted probabilities:**
 
 ```r
-selected_countries <- conflict_df |>
-  filter(gw_name %in% c("United States of America", "Venezuela", "Rwanda"),
+my_countries <- conflict_df |>
+  filter(gw_name %in% c("Country A", "Country B", "Country C"),
          year == 1999)
 
-tidy(predictions(conflict_model, newdata = selected_countries)) |>
+marg_effects <- predictions(conflict_model, newdata = my_countries)
+
+tidy(marg_effects) |>
   select(estimate, conf.low, conf.high, gw_name)
 ```
