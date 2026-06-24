@@ -260,12 +260,27 @@ conflict_model <- glm(ucdponset ~ wbgdppc2011est,
 summary(conflict_model)
 ```
 
+```{r}
+#| label: helpers
+#| include: false
+
+b0 <- round(coef(conflict_model)[["(Intercept)"]], 2)
+b1 <- round(coef(conflict_model)[["wbgdppc2011est"]], 2)
+b1_fmt <- ifelse(b1 >= 0, paste0("+ ", b1), paste0("- ", abs(b1)))
+or_b1 <- round(exp(b1), 2)
+pct_change_b1 <- round((1 - exp(b1)) * 100, 1)
+logodds_9 <- round(b0 + b1 * 9, 2)
+odds_9 <- round(exp(logodds_9), 3)
+odds_9_plus_1 <- round(1 + odds_9, 3)
+prob_9 <- round(odds_9 / (1 + odds_9), 4)
+```
+
 ## Interpreting the Results
 
 <br>
 
 
-$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}$$
+$$\log\left(\frac{p}{1-p}\right) = `r b0` `r b1_fmt` \times \text{logGDPpc}$$
 
 ## Interpreting the Results
 
@@ -279,15 +294,15 @@ $$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}$$
 
 <br>
 
-$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}$$
+$$\log\left(\frac{p}{1-p}\right) = `r b0` `r b1_fmt` \times \text{logGDPpc}$$
 
 <br>
 
-For each one unit increase in log GDP per capita, the odds of the outcome occurring are multiplied by approximately 0.718, assuming other variables in the model are held constant. 
+For each one unit increase in log GDP per capita, the odds of the outcome occurring are multiplied by approximately `r or_b1`, assuming other variables in the model are held constant.
 
 <br>
 
-This means that an increase in GDP per capita is associated with a **decrease** in the odds of the outcome occurring. The odds of the outcome decrease by about 28.2% for each unit increase in GDP per capita (on average).
+This means that an increase in GDP per capita is associated with a **decrease** in the odds of the outcome occurring. The odds of the outcome decrease by about `r pct_change_b1`% for each unit increase in GDP per capita (on average).
 
 ## Your Turn! {.smaller}
 
@@ -323,19 +338,19 @@ countdown(minutes = 10,
 
 Probability of conflict onset for a country with a log per capita GDP of 9 (about $8,000):
 
-$$\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times 9$$
-$$\log\left(\frac{p}{1-p}\right) = -4.13$$
+$$\log\left(\frac{p}{1-p}\right) = `r b0` `r b1_fmt` \times 9$$
+$$\log\left(\frac{p}{1-p}\right) = `r logodds_9`$$
 
-$$\frac{p}{1-p} = \exp(-4.13)$$
+$$\frac{p}{1-p} = \exp(`r logodds_9`)$$
 
-$$\frac{p}{1-p} = 0.016$$
+$$\frac{p}{1-p} = `r odds_9`$$
 
-$$p = 0.016 \times (1 - p)$$
-$$p = 0.016 - 0.016p$$ 
+$$p = `r odds_9` \times (1 - p)$$
+$$p = `r odds_9` - `r odds_9`p$$
 
-$$1.016p = 0.016$$
-$$p = 0.016 / 1.016$$
-$$p = 0.0158$$
+$$`r odds_9_plus_1`p = `r odds_9`$$
+$$p = `r odds_9` / `r odds_9_plus_1`$$
+$$p = `r prob_9`$$
 
 ## Using `marginaleffects` 
 

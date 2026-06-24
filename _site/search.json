@@ -4568,7 +4568,7 @@
     "href": "slides/week-6.2.html#the-model-equation",
     "title": "Regression Tables",
     "section": "The Model Equation",
-    "text": "The Model Equation\n\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.16 - 0.33 \\times \\text{logGDPpc}\\]"
+    "text": "The Model Equation\n\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.01 - 0.36 \\times \\text{logGDPpc}\\]"
   },
   {
     "objectID": "slides/week-6.2.html#what-are-log-odds",
@@ -4589,7 +4589,7 @@
     "href": "slides/week-6.2.html#interpreting-the-odds-ratio",
     "title": "Regression Tables",
     "section": "Interpreting the Odds Ratio",
-    "text": "Interpreting the Odds Ratio\n\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.16 - 0.33 \\times \\text{logGDPpc}\\]\n\n\\(e^{-0.33} \\approx 0.72\\)\n\nFor each one-unit increase in log GDP per capita, the odds of conflict onset are multiplied by 0.72 — a 28% decrease in the odds of conflict onset."
+    "text": "Interpreting the Odds Ratio\n\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.01 - 0.36 \\times \\text{logGDPpc}\\]\n\n\\(e^{-0.36} \\approx 0.7\\)\n\nFor each one-unit increase in log GDP per capita, the odds of conflict onset are multiplied by 0.7 — a 30.2% decrease in the odds of conflict onset."
   },
   {
     "objectID": "slides/week-6.2.html#calculating-odds-ratios-in-r",
@@ -4603,7 +4603,7 @@
     "href": "slides/week-6.2.html#predicted-probabilities-by-hand",
     "title": "Regression Tables",
     "section": "Predicted Probabilities by Hand",
-    "text": "Predicted Probabilities by Hand\n\nProbability of conflict onset for a country with log GDP per capita of 9 (~$8,000):\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.16 - 0.33 \\times 9 = -4.13\\]\n\\[\\frac{p}{1-p} = e^{-4.13} = 0.016 \\quad \\Rightarrow \\quad p = \\frac{0.016}{1.016} \\approx 0.016\\]"
+    "text": "Predicted Probabilities by Hand\n\nProbability of conflict onset for a country with log GDP per capita of 9 (~$8,000):\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.01 - 0.36 \\times 9 = -4.25\\]\n\\[\\frac{p}{1-p} = e^{-4.25} = 0.014 \\quad \\Rightarrow \\quad p = \\frac{0.014}{1.014} \\approx 0.0138\\]"
   },
   {
     "objectID": "slides/week-6.2.html#predicted-probabilities-with-marginaleffects",
@@ -4862,7 +4862,7 @@
     "href": "slides/week-6.1.html#interpreting-the-results",
     "title": "Logistic Regression",
     "section": "Interpreting the Results",
-    "text": "Interpreting the Results\n\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.16-0.33\\times \\text{logGDPpc}\\]"
+    "text": "Interpreting the Results\n\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.01 - 0.36 \\times \\text{logGDPpc}\\]"
   },
   {
     "objectID": "slides/week-6.1.html#interpreting-the-results-1",
@@ -4876,7 +4876,7 @@
     "href": "slides/week-6.1.html#interpreting-the-results-2",
     "title": "Logistic Regression",
     "section": "Interpreting the Results",
-    "text": "Interpreting the Results\n\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.16-0.33\\times \\text{logGDPpc}\\]\n\nFor each one unit increase in log GDP per capita, the odds of the outcome occurring are multiplied by approximately 0.718, assuming other variables in the model are held constant.\n\nThis means that an increase in GDP per capita is associated with a decrease in the odds of the outcome occurring. The odds of the outcome decrease by about 28.2% for each unit increase in GDP per capita (on average)."
+    "text": "Interpreting the Results\n\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.01 - 0.36 \\times \\text{logGDPpc}\\]\n\nFor each one unit increase in log GDP per capita, the odds of the outcome occurring are multiplied by approximately 0.7, assuming other variables in the model are held constant.\n\nThis means that an increase in GDP per capita is associated with a decrease in the odds of the outcome occurring. The odds of the outcome decrease by about 30.2% for each unit increase in GDP per capita (on average)."
   },
   {
     "objectID": "slides/week-6.1.html#your-turn",
@@ -4890,7 +4890,7 @@
     "href": "slides/week-6.1.html#calculating-predicted-probabilities",
     "title": "Logistic Regression",
     "section": "Calculating Predicted Probabilities",
-    "text": "Calculating Predicted Probabilities\n\nProbability of conflict onset for a country with a log per capita GDP of 9 (about $8,000):\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.16-0.33\\times 9\\] \\[\\log\\left(\\frac{p}{1-p}\\right) = -4.13\\]\n\\[\\frac{p}{1-p} = \\exp(-4.13)\\]\n\\[\\frac{p}{1-p} = 0.016\\]\n\\[p = 0.016 \\times (1 - p)\\] \\[p = 0.016 - 0.016p\\]\n\\[1.016p = 0.016\\] \\[p = 0.016 / 1.016\\] \\[p = 0.0158\\]"
+    "text": "Calculating Predicted Probabilities\n\nProbability of conflict onset for a country with a log per capita GDP of 9 (about $8,000):\n\\[\\log\\left(\\frac{p}{1-p}\\right) = -1.01 - 0.36 \\times 9\\] \\[\\log\\left(\\frac{p}{1-p}\\right) = -4.25\\]\n\\[\\frac{p}{1-p} = \\exp(-4.25)\\]\n\\[\\frac{p}{1-p} = 0.014\\]\n\\[p = 0.014 \\times (1 - p)\\] \\[p = 0.014 - 0.014p\\]\n\\[1.014p = 0.014\\] \\[p = 0.014 / 1.014\\] \\[p = 0.0138\\]"
   },
   {
     "objectID": "slides/week-6.1.html#using-marginaleffects",

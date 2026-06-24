@@ -10,7 +10,7 @@
 <link href="../site_libs/quarto-html/quarto-syntax-highlighting-dark-8ef56b68f8fa1e9d2ba328e99e439f80.css" rel="stylesheet" id="quarto-text-highlighting-styles"><meta charset="utf-8">
   <meta name="generator" content="quarto-1.7.31">
 
-  <meta name="dcterms.date" content="2026-06-22">
+  <meta name="dcterms.date" content="2026-06-24">
   <title>IAFF 6501 -- Summer 2026 – Logistic Regression</title>
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -210,7 +210,7 @@
 <div class="quarto-title-authors">
 </div>
 
-  <p class="date">June 22, 2026</p>
+  <p class="date">June 24, 2026</p>
 </section>
 <section>
 <section id="binary-outcomes" class="title-slide slide level1 center">
@@ -444,7 +444,7 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <section id="interpreting-the-results" class="slide level2">
 <h2>Interpreting the Results</h2>
 <p><br></p>
-<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}\]</span></p>
+<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.01 - 0.36 \times \text{logGDPpc}\]</span></p>
 </section>
 <section id="interpreting-the-results-1" class="slide level2">
 <h2>Interpreting the Results</h2>
@@ -458,11 +458,11 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <section id="interpreting-the-results-2" class="slide level2 smaller">
 <h2>Interpreting the Results</h2>
 <p><br></p>
-<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times \text{logGDPpc}\]</span></p>
+<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.01 - 0.36 \times \text{logGDPpc}\]</span></p>
 <p><br></p>
-<p>For each one unit increase in log GDP per capita, the odds of the outcome occurring are multiplied by approximately 0.718, assuming other variables in the model are held constant.</p>
+<p>For each one unit increase in log GDP per capita, the odds of the outcome occurring are multiplied by approximately 0.7, assuming other variables in the model are held constant.</p>
 <p><br></p>
-<p>This means that an increase in GDP per capita is associated with a <strong>decrease</strong> in the odds of the outcome occurring. The odds of the outcome decrease by about 28.2% for each unit increase in GDP per capita (on average).</p>
+<p>This means that an increase in GDP per capita is associated with a <strong>decrease</strong> in the odds of the outcome occurring. The odds of the outcome decrease by about 30.2% for each unit increase in GDP per capita (on average).</p>
 </section>
 <section id="your-turn" class="slide level2 smaller">
 <h2>Your Turn!</h2>
@@ -487,11 +487,11 @@ Number of Fisher Scoring iterations: 7</code></pre>
 <h2>Calculating Predicted Probabilities</h2>
 <p><br></p>
 <p>Probability of conflict onset for a country with a log per capita GDP of 9 (about $8,000):</p>
-<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.16-0.33\times 9\]</span> <span class="math display">\[\log\left(\frac{p}{1-p}\right) = -4.13\]</span></p>
-<p><span class="math display">\[\frac{p}{1-p} = \exp(-4.13)\]</span></p>
-<p><span class="math display">\[\frac{p}{1-p} = 0.016\]</span></p>
-<p><span class="math display">\[p = 0.016 \times (1 - p)\]</span> <span class="math display">\[p = 0.016 - 0.016p\]</span></p>
-<p><span class="math display">\[1.016p = 0.016\]</span> <span class="math display">\[p = 0.016 / 1.016\]</span> <span class="math display">\[p = 0.0158\]</span></p>
+<p><span class="math display">\[\log\left(\frac{p}{1-p}\right) = -1.01 - 0.36 \times 9\]</span> <span class="math display">\[\log\left(\frac{p}{1-p}\right) = -4.25\]</span></p>
+<p><span class="math display">\[\frac{p}{1-p} = \exp(-4.25)\]</span></p>
+<p><span class="math display">\[\frac{p}{1-p} = 0.014\]</span></p>
+<p><span class="math display">\[p = 0.014 \times (1 - p)\]</span> <span class="math display">\[p = 0.014 - 0.014p\]</span></p>
+<p><span class="math display">\[1.014p = 0.014\]</span> <span class="math display">\[p = 0.014 / 1.014\]</span> <span class="math display">\[p = 0.0138\]</span></p>
 </section>
 <section id="using-marginaleffects" class="slide level2">
 <h2>Using <code>marginaleffects</code></h2>

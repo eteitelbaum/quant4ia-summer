@@ -38,6 +38,16 @@ conflict_df <- create_stateyears(system = 'gw') |>
 
 bivariate_model <- glm(ucdponset ~ wbgdppc2011est,
                        data = conflict_df, family = "binomial")
+
+b0 <- round(coef(bivariate_model)[["(Intercept)"]], 2)
+b1 <- round(coef(bivariate_model)[["wbgdppc2011est"]], 2)
+b1_fmt <- ifelse(b1 >= 0, paste0("+ ", b1), paste0("- ", abs(b1)))
+or_b1 <- round(exp(b1), 2)
+pct_change_b1 <- round((1 - exp(b1)) * 100, 1)
+logodds_9 <- round(b0 + b1 * 9, 2)
+odds_9 <- round(exp(logodds_9), 3)
+odds_9_plus_1 <- round(1 + odds_9, 3)
+prob_9 <- round(odds_9 / (1 + odds_9), 4)
 ```
 
 # Interpreting Logistic Regression
@@ -46,7 +56,7 @@ bivariate_model <- glm(ucdponset ~ wbgdppc2011est,
 
 <br>
 
-$$\log\left(\frac{p}{1-p}\right) = -1.16 - 0.33 \times \text{logGDPpc}$$
+$$\log\left(\frac{p}{1-p}\right) = `r b0` `r b1_fmt` \times \text{logGDPpc}$$
 
 ## What Are Log-Odds?
 
@@ -72,15 +82,15 @@ $$OR = e^b$$
 
 <br>
 
-$$\log\left(\frac{p}{1-p}\right) = -1.16 - 0.33 \times \text{logGDPpc}$$
+$$\log\left(\frac{p}{1-p}\right) = `r b0` `r b1_fmt` \times \text{logGDPpc}$$
 
 <br>
 
-$e^{-0.33} \approx 0.72$
+$e^{`r b1`} \approx `r or_b1`$
 
 <br>
 
-For each one-unit increase in log GDP per capita, the odds of conflict onset are **multiplied by 0.72** — a **28% decrease** in the odds of conflict onset.
+For each one-unit increase in log GDP per capita, the odds of conflict onset are **multiplied by `r or_b1`** — a **`r pct_change_b1`% decrease** in the odds of conflict onset.
 
 ## Calculating Odds Ratios in R {.smaller}
 
@@ -100,9 +110,9 @@ tidy(bivariate_model, exponentiate = TRUE) |>
 
 Probability of conflict onset for a country with log GDP per capita of 9 (~$8,000):
 
-$$\log\left(\frac{p}{1-p}\right) = -1.16 - 0.33 \times 9 = -4.13$$
+$$\log\left(\frac{p}{1-p}\right) = `r b0` `r b1_fmt` \times 9 = `r logodds_9`$$
 
-$$\frac{p}{1-p} = e^{-4.13} = 0.016 \quad \Rightarrow \quad p = \frac{0.016}{1.016} \approx 0.016$$
+$$\frac{p}{1-p} = e^{`r logodds_9`} = `r odds_9` \quad \Rightarrow \quad p = \frac{`r odds_9`}{`r odds_9_plus_1`} \approx `r prob_9`$$
 
 ## Predicted Probabilities with `marginaleffects`
 
